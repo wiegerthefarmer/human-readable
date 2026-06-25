@@ -48,7 +48,7 @@ function showEmpty() {
   document.getElementById('comic-title').textContent = '';
   document.getElementById('comic-img').hidden = true;
   document.getElementById('comic-empty').hidden = false;
-  ['btn-first', 'btn-prev', 'btn-next', 'btn-last'].forEach(id => {
+  ['btn-first', 'btn-prev', 'btn-random', 'btn-next', 'btn-last'].forEach(id => {
     document.getElementById(id).disabled = true;
   });
 }
