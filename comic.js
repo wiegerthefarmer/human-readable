@@ -15,6 +15,8 @@ async function init() {
     return;
   }
 
+  comics.forEach(c => { const img = new Image(); img.src = c.image; });
+
   const hash = window.location.hash.slice(1);
   const idx = hash ? comics.findIndex(c => c.id === hash) : -1;
   current = idx >= 0 ? idx : comics.length - 1;
