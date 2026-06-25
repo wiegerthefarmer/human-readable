@@ -17,7 +17,7 @@
     {
       "id": "0003",
       "slug": "0003-uuid-art-hash",
-      "title": "UUID Art Hash",
+      "title": "The Alphanumeric Shishkebab",
       "image": "comics/0003-uuid-art-hash/comic.png",
       "alt": "UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji \u2014 deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it."
     }
