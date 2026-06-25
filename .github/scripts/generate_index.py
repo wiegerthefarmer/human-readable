@@ -9,6 +9,17 @@ def title_from_slug(slug):
     return ' '.join(word.capitalize() for word in slug.split('-'))
 
 
+def title_from_script(script_path, fallback):
+    if not os.path.exists(script_path):
+        return fallback
+    with open(script_path, encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith('# '):
+                return line[2:]
+    return fallback
+
+
 def alt_from_notes(notes_path):
     if not os.path.exists(notes_path):
         return ''
@@ -36,7 +47,8 @@ for folder in sorted(os.listdir(comics_dir)):
     parts = folder.split('-', 1)
     comic_id = parts[0]
     name_slug = parts[1] if len(parts) > 1 else folder
-    title = title_from_slug(name_slug)
+    slug_title = title_from_slug(name_slug)
+    title = title_from_script(os.path.join(path, 'script.md'), slug_title)
     alt = alt_from_notes(os.path.join(path, 'notes.md'))
 
     comics.append({
