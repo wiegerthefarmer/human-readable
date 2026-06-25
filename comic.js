@@ -54,6 +54,14 @@ function showEmpty() {
 }
 
 document.getElementById('btn-first').onclick = () => { current = 0; render(); };
+document.getElementById('btn-random').onclick = () => {
+  if (comics.length > 1) {
+    let next;
+    do { next = Math.floor(Math.random() * comics.length); } while (next === current);
+    current = next;
+    render();
+  }
+};
 document.getElementById('btn-prev').onclick = () => { if (current > 0) { current--; render(); } };
 document.getElementById('btn-next').onclick = () => { if (current < comics.length - 1) { current++; render(); } };
 document.getElementById('btn-last').onclick = () => { current = comics.length - 1; render(); };
