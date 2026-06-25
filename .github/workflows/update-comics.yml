@@ -1,0 +1,29 @@
+name: Update comics index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'comics/**'
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate comics.json
+        run: python3 .github/scripts/generate_index.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add comics.json
+          git diff --cached --quiet || git commit -m "chore: update comics index"
+          git push

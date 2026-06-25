@@ -1,0 +1,25 @@
+{
+  "comics": [
+    {
+      "id": "0001",
+      "slug": "0001-dhcp-friday",
+      "title": "DHCP Friday",
+      "image": "comics/0001-dhcp-friday/comic.png",
+      "alt": "A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin \u2014 now in sunglasses, watching 192.168.1.1 go DOWN \u2014 remains unbothered. He has simply moved beyond fear."
+    },
+    {
+      "id": "0002",
+      "slug": "0002-bring-your-own-jar",
+      "title": "Bring Your Own Jar",
+      "image": "comics/0002-bring-your-own-jar/comic.png",
+      "alt": "A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right."
+    },
+    {
+      "id": "0003",
+      "slug": "0003-uuid-art-hash",
+      "title": "UUID Art Hash",
+      "image": "comics/0003-uuid-art-hash/comic.png",
+      "alt": "UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji \u2014 deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it."
+    }
+  ]
+}
