@@ -1,4 +1,4 @@
-# UUID Art Hash
+# The Alphanumeric Shishkebab
 
 **Format:** 9-panel page
 
