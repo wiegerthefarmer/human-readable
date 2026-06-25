@@ -34,9 +34,6 @@ function render() {
   img.hidden = false;
   document.getElementById('comic-empty').hidden = true;
 
-  const altEl = document.getElementById('comic-alt');
-  altEl.textContent = comic.alt || '';
-
   document.getElementById('btn-first').disabled = current === 0;
   document.getElementById('btn-prev').disabled = current === 0;
   document.getElementById('btn-next').disabled = current === comics.length - 1;
@@ -51,7 +48,6 @@ function showEmpty() {
   document.getElementById('comic-title').textContent = '';
   document.getElementById('comic-img').hidden = true;
   document.getElementById('comic-empty').hidden = false;
-  document.getElementById('comic-alt').textContent = '';
   ['btn-first', 'btn-prev', 'btn-next', 'btn-last'].forEach(id => {
     document.getElementById(id).disabled = true;
   });

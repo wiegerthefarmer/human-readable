@@ -98,14 +98,6 @@ main {
   font-style: italic;
 }
 
-.comic-alt {
-  font-size: 0.78rem;
-  color: var(--faint);
-  font-style: italic;
-  margin-bottom: 1.5rem;
-  min-height: 1.1em;
-}
-
 .comic-nav {
   display: flex;
   gap: 0.4rem;
