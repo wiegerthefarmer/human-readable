@@ -47,7 +47,6 @@ a {
 }
 
 header {
-  position: relative;
   text-align: center;
   max-width: 900px;
   margin: 0 auto 2rem;
@@ -56,22 +55,24 @@ header {
 }
 
 #btn-theme {
-  position: absolute;
-  top: 0;
-  right: 0;
   font-family: var(--font);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   background: none;
-  border: 1px solid var(--border);
+  border: none;
   color: var(--faint);
-  padding: 0.15rem 0.5rem;
+  padding: 0;
   cursor: pointer;
-  letter-spacing: 0.05em;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 #btn-theme:hover {
   color: var(--ink);
-  border-color: var(--ink);
+}
+
+.footer-sep {
+  color: var(--faint);
+  margin: 0 0.4rem;
 }
 
 .site-title {
