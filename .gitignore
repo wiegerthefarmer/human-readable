@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Generated exports
+exports/
+dist/
+
+# Local notes
+.local/
