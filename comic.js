@@ -78,3 +78,19 @@ window.addEventListener('hashchange', () => {
 });
 
 init();
+
+const THEMES = ['', 'green', 'amber'];
+
+function applyTheme(t) {
+  document.documentElement.className = t;
+  document.getElementById('btn-theme').textContent = t || 'light';
+  t ? localStorage.setItem('theme', t) : localStorage.removeItem('theme');
+}
+
+document.getElementById('btn-theme').onclick = () => {
+  const idx = THEMES.indexOf(document.documentElement.className);
+  applyTheme(THEMES[(idx + 1) % THEMES.length]);
+};
+
+const saved = localStorage.getItem('theme');
+if (saved && THEMES.includes(saved)) applyTheme(saved);
