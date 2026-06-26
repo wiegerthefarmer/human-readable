@@ -1,0 +1,13 @@
+name = "human-readable-comics"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Public, non-secret config. Edit ALLOWED_ORIGIN if your site is served
+# from a custom domain instead of the default github.io address.
+[vars]
+REPO = "wiegerthefarmer/human-readable"
+ALLOWED_ORIGIN = "https://wiegerthefarmer.github.io"
+
+# Secrets are NOT stored here. Set them once with:
+#   wrangler secret put OPENAI_API_KEY
+#   wrangler secret put GITHUB_TOKEN
