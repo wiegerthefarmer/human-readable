@@ -1,6 +1,8 @@
 name = "human-readable-comics"
 main = "src/index.js"
 compatibility_date = "2025-01-01"
+account_id = "b80c9f1a27f37676f0adb993f7a4fb68"
+workers_dev = true
 
 # Public, non-secret config. Edit ALLOWED_ORIGIN if your site is served
 # from a custom domain instead of the default github.io address.
