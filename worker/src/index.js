@@ -307,17 +307,28 @@ async function submit(req, env) {
       `All previews are saved in \`variants/\` with prompt provenance in \`variants.json\`.\n\n` +
       `Review the image and tidy \`script.md\` / \`notes.md\` before merging.`;
 
-  const pr = await gh(env, "/pulls", "POST", {
-    title: `Comic submission #${nid}: ${title.trim()}`,
-    head: branch,
-    base: "main",
-    draft: true,
-    body: prBody,
-  });
-  if (!pr.ok) return json({ error: "Could not open pull request.", detail: await pr.text() }, env, 502);
+  let prUrl;
+  try {
+    const pr = await gh(env, "/pulls", "POST", {
+      title: `Comic submission #${nid}: ${title.trim()}`,
+      head: branch,
+      base: "main",
+      draft: true,
+      body: prBody,
+    });
+    if (!pr.ok) {
+      const detail = await pr.text();
+      return json({ error: "Could not open pull request.", detail }, env, 502);
+    }
+    const prData = await pr.json();
+    prUrl = prData.html_url;
+  } catch (e) {
+    // Files are safely on the branch — return a compare URL so the submitter
+    // can still track their work even if PR creation threw.
+    prUrl = `https://github.com/${env.REPO}/compare/${branch}`;
+  }
 
-  const prData = await pr.json();
-  return json({ ok: true, url: prData.html_url, number: nid }, env);
+  return json({ ok: true, url: prUrl, number: nid }, env);
 }
 
 // ---- Router -------------------------------------------------------------
