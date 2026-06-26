@@ -191,26 +191,32 @@ async function ghPut(env, path, b64content, branch, message) {
 
 async function submit(req, env) {
   const body = await req.json();
-  const { image, prompt, title, seed, format, generations = [] } = body;
+  const { image, prompt, title, seed, format, generations = [], mode = "generated" } = body;
 
   if (!image || !title?.trim()) {
-    return json({ error: "A title and a generated image are required." }, env, 400);
+    return json({ error: "A title and an image are required." }, env, 400);
   }
 
   const fmt = FORMATS[format] ? format : "3-panel";
   const fmtLabel = FORMATS[fmt].label;
-  const chosenB64 = image.replace(/^data:image\/png;base64,/, "");
+  const isUpload = mode === "upload";
+  const chosenB64 = image.replace(/^data:image\/[^;]+;base64,/, "");
 
-  // Re-render the chosen preview at high quality, keeping composition.
+  // Uploaded art is committed exactly as supplied — never sent through the
+  // model. Generated picks are re-rendered at high quality, composition kept.
   let hqB64;
-  try {
-    hqB64 = await openaiEditRaw(env, chosenB64, prompt, fmt);
-  } catch (e) {
-    // Fall back to a fresh high-quality generation if the edit endpoint fails.
+  if (isUpload) {
+    hqB64 = chosenB64;
+  } else {
     try {
-      hqB64 = await openaiGenerateRaw(env, prompt, fmt, "high");
-    } catch (e2) {
-      return json({ error: `Re-render failed: ${e2.message}` }, env, 502);
+      hqB64 = await openaiEditRaw(env, chosenB64, prompt, fmt);
+    } catch (e) {
+      // Fall back to a fresh high-quality generation if the edit endpoint fails.
+      try {
+        hqB64 = await openaiGenerateRaw(env, prompt, fmt, "high");
+      } catch (e2) {
+        return json({ error: `Re-render failed: ${e2.message}` }, env, 502);
+      }
     }
   }
 
@@ -230,74 +236,83 @@ async function submit(req, env) {
     return json({ error: "Could not create branch.", detail: await mk.text() }, env, 502);
   }
 
+  let variantCount = 0;
   try {
-    // comic.png — the high-quality re-render.
+    // comic.png — high-quality re-render (generated) or the uploaded art as-is.
     await ghPut(env, `${dir}/comic.png`, hqB64, branch, `Add ${dir}/comic.png`);
 
-    // Variant previews — every generation the user saw, named v01.png…
-    const allGens = [...generations];
-    // Make sure the submitted pick is in the list (it might already be).
-    const pickedB64Stripped = image.replace(/^data:image\/[^;]+;base64,/, "");
-    const alreadyIncluded = allGens.some(g =>
-      (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === pickedB64Stripped
-    );
-    if (!alreadyIncluded) allGens.push({ image, prompt });
+    // Variant previews are only saved for AI-generated submissions.
+    if (!isUpload) {
+      const allGens = [...generations];
+      const pickedB64 = image.replace(/^data:image\/[^;]+;base64,/, "");
+      const alreadyIncluded = allGens.some(g =>
+        (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === pickedB64
+      );
+      if (!alreadyIncluded) allGens.push({ image, prompt });
 
-    // Track which variant index was submitted.
-    const selectedIdx = allGens.findIndex(g =>
-      (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === pickedB64Stripped
-    );
+      const selectedIdx = allGens.findIndex(g =>
+        (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === pickedB64
+      );
 
-    const variantMeta = [];
-    for (let i = 0; i < allGens.length; i++) {
-      const g = allGens[i];
-      const vB64 = (g.image || "").replace(/^data:image\/[^;]+;base64,/, "");
-      if (!vB64) continue;
-      const fname = `v${String(i + 1).padStart(2, "0")}.png`;
-      await ghPut(env, `${dir}/variants/${fname}`, vB64, branch, `Add ${dir}/variants/${fname}`);
-      variantMeta.push({
-        file: fname,
-        prompt: g.prompt || prompt,
-        seed: seed || "",
-        selected: i === selectedIdx,
-      });
+      const variantMeta = [];
+      for (let i = 0; i < allGens.length; i++) {
+        const vB64 = (allGens[i].image || "").replace(/^data:image\/[^;]+;base64,/, "");
+        if (!vB64) continue;
+        const fname = `v${String(i + 1).padStart(2, "0")}.png`;
+        await ghPut(env, `${dir}/variants/${fname}`, vB64, branch, `Add ${dir}/variants/${fname}`);
+        variantMeta.push({
+          file: fname,
+          prompt: allGens[i].prompt || prompt,
+          seed: seed || "",
+          selected: i === selectedIdx,
+        });
+      }
+      variantCount = variantMeta.length;
+
+      await ghPut(env,
+        `${dir}/variants.json`,
+        b64utf8(JSON.stringify({ variants: variantMeta }, null, 2)),
+        branch,
+        `Add ${dir}/variants.json`
+      );
     }
-
-    // variants.json
-    await ghPut(env,
-      `${dir}/variants.json`,
-      b64utf8(JSON.stringify({ variants: variantMeta }, null, 2)),
-      branch,
-      `Add ${dir}/variants.json`
-    );
 
     // script.md
     const scriptMd = `# ${title.trim()}\n\n**Format:** ${fmtLabel}\n\n---\n\n_Script pending review._\n`;
     await ghPut(env, `${dir}/script.md`, b64utf8(scriptMd), branch, `Add ${dir}/script.md`);
 
-    // notes.md — includes seed and prompt provenance.
-    const notesMd =
-      `${seed ? seed.trim() : "_Notes pending review._"}\n\n` +
-      `---\n\n_Generated image. Prompt used:_\n\n` +
-      `> ${(prompt || "").replace(/\n/g, "\n> ")}\n`;
+    // notes.md — description plus, for generated comics, prompt provenance.
+    let notesMd = `${seed ? seed.trim() : "_Notes pending review._"}\n`;
+    if (!isUpload) {
+      notesMd += `\n---\n\n_Generated image. Prompt used:_\n\n` +
+        `> ${(prompt || "").replace(/\n/g, "\n> ")}\n`;
+    } else {
+      notesMd += `\n---\n\n_Uploaded artwork._\n`;
+    }
     await ghPut(env, `${dir}/notes.md`, b64utf8(notesMd), branch, `Add ${dir}/notes.md`);
 
   } catch (e) {
     return json({ error: e.message }, env, 502);
   }
 
+  const prBody = isUpload
+    ? `Uploaded via the create page.\n\n` +
+      `**Description:** ${seed ? seed.trim() : "(none)"}\n\n` +
+      `comic.png is the contributor's uploaded artwork, committed unchanged.\n\n` +
+      `Review the image and tidy \`script.md\` / \`notes.md\` before merging.`
+    : `Generated via the create page.\n\n` +
+      `**Idea:** ${seed ? seed.trim() : "(none)"}\n` +
+      `**Variants generated:** ${variantCount}\n\n` +
+      `comic.png is a high-quality re-render of the chosen preview.\n` +
+      `All previews are saved in \`variants/\` with prompt provenance in \`variants.json\`.\n\n` +
+      `Review the image and tidy \`script.md\` / \`notes.md\` before merging.`;
+
   const pr = await gh(env, "/pulls", "POST", {
     title: `Comic submission #${nid}: ${title.trim()}`,
     head: branch,
     base: "main",
     draft: true,
-    body:
-      `Generated via the create page.\n\n` +
-      `**Idea:** ${seed ? seed.trim() : "(none)"}\n` +
-      `**Variants generated:** ${allGens.length}\n\n` +
-      `comic.png is a high-quality re-render of the chosen preview.\n` +
-      `All previews are saved in \`variants/\` with prompt provenance in \`variants.json\`.\n\n` +
-      `Review the image and tidy \`script.md\` / \`notes.md\` before merging.`,
+    body: prBody,
   });
   if (!pr.ok) return json({ error: "Could not open pull request.", detail: await pr.text() }, env, 502);
 
