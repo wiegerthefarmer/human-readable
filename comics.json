@@ -5,28 +5,61 @@
       "slug": "0001-dhcp-friday",
       "title": "DHCP Friday",
       "image": "comics/0001-dhcp-friday/comic.png",
-      "alt": "A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin \u2014 now in sunglasses, watching 192.168.1.1 go DOWN \u2014 remains unbothered. He has simply moved beyond fear."
+      "alt": "A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin \u2014 now in sunglasses, watching 192.168.1.1 go DOWN \u2014 remains unbothered. He has simply moved beyond fear.",
+      "variants": [],
+      "printfulProducts": {}
     },
     {
       "id": "0002",
       "slug": "0002-bring-your-own-jar",
       "title": "Bring Your Own Jar",
       "image": "comics/0002-bring-your-own-jar/comic.png",
-      "alt": "A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right."
+      "alt": "A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right.",
+      "variants": [],
+      "printfulProducts": {}
     },
     {
       "id": "0003",
       "slug": "0003-uuid-art-hash",
       "title": "The Alphanumeric Shishkebab",
       "image": "comics/0003-uuid-art-hash/comic.png",
-      "alt": "UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji \u2014 deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it."
+      "alt": "UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji \u2014 deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it.",
+      "variants": [],
+      "printfulProducts": {}
     },
     {
       "id": "0004",
       "slug": "0004-613-get-help",
       "title": "613-GET-HELP",
       "image": "comics/0004-613-get-help/comic.png",
-      "alt": "An emergency runbook for the server room: don't panic, just call Aaron. A flowchart determines whether Aaron is on vacation or already fixing it. Either way, you don't need to do anything. The Cool Sysadmin is already in the server room, feet up, unbothered."
+      "alt": "An emergency runbook for the server room: don't panic, just call Aaron. A flowchart determines whether Aaron is on vacation or already fixing it. Either way, you don't need to do anything. The Cool Sysadmin is already in the server room, feet up, unbothered.",
+      "variants": [],
+      "printfulProducts": {}
+    },
+    {
+      "id": "0005",
+      "slug": "0005-floomp",
+      "title": "FLOOMP",
+      "image": "comics/0005-floomp/comic.png",
+      "alt": "A stick figure goes to see Epic Space Saga, buys a large popcorn, then encounters a giant overstuffed recliner seat in the theater. They sit down with a FLOOMP and sink progressively deeper into the cushions until nearly swallowed. The film plays while the character is barely visible above the upholstery. Afterwards, standing outside, they reflect that it was fine but they're not a fan of the oversized seats. A lobby poster advertises the next upgrade: Even More Cushion \u2014 MAX.",
+      "variants": [],
+      "printfulProducts": {}
+    },
+    {
+      "id": "0006",
+      "slug": "0006-it-was-fine",
+      "title": "It was fine",
+      "image": "comics/0006-it-was-fine/comic.png",
+      "alt": "\"It was fine, I'm not a huge fan of the giant cushioned seats, which they had put on.\"",
+      "variants": [
+        {
+          "image": "comics/0006-it-was-fine/variants/v01.png",
+          "prompt": "",
+          "seed": "\"It was fine, I'm not a huge fan of the giant cushioned seats, which they had put on.\"",
+          "selected": true
+        }
+      ],
+      "printfulProducts": {}
     }
   ]
 }
