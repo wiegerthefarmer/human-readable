@@ -22,7 +22,7 @@ let generations = [];
 let selected = -1;
 let busy = false;
 
-const MAX_DIM = 3000; // cap uploaded image dimensions to keep requests reasonable
+const MAX_DIM = 1500; // cap uploaded image dimensions — 1500px is plenty for a webcomic
 
 function setStatus(msg, isError = false, spinner = false) {
   els.status.className = 'create-status' + (isError ? ' error' : '');
@@ -143,6 +143,37 @@ async function generate() {
   }
 }
 
+function submitXhr(payload) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `${WORKER_URL}/submit`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.timeout = 120000;
+
+    xhr.upload.onprogress = e => {
+      if (e.lengthComputable) {
+        const pct = Math.round((e.loaded / e.total) * 100);
+        setStatus(`Uploading… ${pct}%`);
+      }
+    };
+    xhr.upload.onload = () => setStatus('Processing…', false, true);
+
+    xhr.onload = () => {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300) resolve(data);
+        else reject(new Error(data.error || `Request failed (${xhr.status})`));
+      } catch {
+        reject(new Error(`Invalid response (${xhr.status})`));
+      }
+    };
+    xhr.onerror  = () => reject(new Error('Upload failed — check your connection.'));
+    xhr.ontimeout = () => reject(new Error('Upload timed out.'));
+
+    xhr.send(JSON.stringify(payload));
+  });
+}
+
 async function submit() {
   if (busy || selected < 0) return;
   const title = els.title.value.trim();
@@ -154,34 +185,25 @@ async function submit() {
 
   busy = true;
   updateButtons();
-  setStatus('Submitting…', false, true);
 
   try {
     const g = generations[selected];
     const isUpload = !!g.uploaded;
-    setStatus(isUpload ? 'Submitting your image…' : 'Re-rendering at high quality…', false, true);
+    setStatus(isUpload ? 'Uploading your image… 0%' : 'Re-rendering at high quality…', false, !isUpload);
 
-    // Only send AI-generated variants for provenance; uploads have none.
     const aiVariants = generations.filter(x => !x.uploaded);
-
-    const resp = await fetch(`${WORKER_URL}/submit`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        image: g.image,
-        prompt: g.prompt,
-        title,
-        seed: els.seed.value.trim(),
-        format: els.format.value,
-        mode: isUpload ? 'upload' : 'generated',
-        generations: isUpload ? [] : aiVariants,
-      }),
+    const data = await submitXhr({
+      image: g.image,
+      prompt: g.prompt,
+      title,
+      seed: els.seed.value.trim(),
+      format: els.format.value,
+      mode: isUpload ? 'upload' : 'generated',
+      generations: isUpload ? [] : aiVariants,
     });
-    const data = await resp.json();
-    if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
 
-    const tail = isUpload ? 'your image was queued for review.' : 'high-quality re-render saved.';
-    setStatus(`Submitted! It's queued for review. <a href="${data.url}" target="_blank" rel="noopener">Track it ›</a> — ${tail}`);
+    const tail = isUpload ? 'queued for review.' : 'high-quality re-render saved.';
+    setStatus(`Submitted! <a href="${data.url}" target="_blank" rel="noopener">Track it ›</a> — ${tail}`);
   } catch (err) {
     setStatus(err.message || 'Submission failed.', true);
   } finally {
