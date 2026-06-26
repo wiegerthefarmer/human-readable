@@ -1,0 +1,10 @@
+{
+  "variants": [
+    {
+      "file": "v01.png",
+      "prompt": "",
+      "seed": "\"It was fine, I'm not a huge fan of the giant cushioned seats, which they had put on.\"",
+      "selected": true
+    }
+  ]
+}
