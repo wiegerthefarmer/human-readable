@@ -9,3 +9,7 @@ dist/
 
 # Local notes
 .local/
+
+# Python
+__pycache__/
+*.pyc
