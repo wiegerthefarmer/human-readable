@@ -37,3 +37,9 @@ Theme: machine uniqueness versus human recognition.
 ## New Ideas
 
 Add future fragments below.
+
+### Hmmm Essence of Donut
+
+> Hmmm essence of donut
+
+Theme: vague product language, snack-driven architecture, and the mystery of requirements.
