@@ -31,7 +31,27 @@
       <button id="btn-next" title="Next comic">next &gt;</button>
       <button id="btn-last" title="Latest comic">&gt;|</button>
     </nav>
+
+    <div id="variants-strip" class="variants-strip" hidden></div>
   </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" hidden aria-modal="true" role="dialog" aria-label="Comic viewer">
+    <div class="lightbox-backdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lb-close" title="Close">&times;</button>
+      <img id="lb-img" src="" alt="" class="lightbox-img" />
+      <div class="lightbox-bar">
+        <a id="lb-download" class="lb-btn" download="comic.png">download</a>
+        <span class="footer-sep">·</span>
+        <span class="lb-label">order on</span>
+        <a class="lb-btn lb-order" data-product="poster"   href="#" target="_blank" rel="noopener">poster</a>
+        <a class="lb-btn lb-order" data-product="mug"      href="#" target="_blank" rel="noopener">mug</a>
+        <a class="lb-btn lb-order" data-product="tshirt"   href="#" target="_blank" rel="noopener">t-shirt</a>
+        <a class="lb-btn lb-order" data-product="mousepad" href="#" target="_blank" rel="noopener">mousepad</a>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <a href="create.html">create a comic</a>

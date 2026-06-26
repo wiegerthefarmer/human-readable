@@ -51,12 +51,32 @@ for folder in sorted(os.listdir(comics_dir)):
     title = title_from_script(os.path.join(path, 'script.md'), slug_title)
     alt = alt_from_notes(os.path.join(path, 'notes.md'))
 
+    # Load variants.json if present.
+    variants = []
+    variants_path = os.path.join(path, 'variants.json')
+    if os.path.exists(variants_path):
+        try:
+            with open(variants_path, encoding='utf-8') as vf:
+                vdata = json.load(vf)
+            for v in vdata.get('variants', []):
+                vfile = v.get('file', '')
+                if vfile and os.path.exists(os.path.join(path, 'variants', vfile)):
+                    variants.append({
+                        'image': f'{path}/variants/{vfile}',
+                        'prompt': v.get('prompt', ''),
+                        'seed': v.get('seed', ''),
+                        'selected': v.get('selected', False),
+                    })
+        except (json.JSONDecodeError, OSError):
+            pass
+
     comics.append({
         'id': comic_id,
         'slug': folder,
         'title': title,
         'image': f'{path}/comic.png',
         'alt': alt,
+        'variants': variants,
     })
 
 with open('comics.json', 'w', encoding='utf-8') as f:

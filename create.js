@@ -114,6 +114,7 @@ async function submit() {
 
   try {
     const g = generations[selected];
+    setStatus('Re-rendering at high quality…', false, true);
     const resp = await fetch(`${WORKER_URL}/submit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -123,12 +124,13 @@ async function submit() {
         title,
         seed: els.seed.value.trim(),
         format: els.format.value,
+        generations,  // send all variants for provenance
       }),
     });
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
 
-    setStatus(`Submitted! Draft pull request opened: <a href="${data.url}" target="_blank" rel="noopener">#${data.number}</a>`);
+    setStatus(`Submitted! Draft PR opened: <a href="${data.url}" target="_blank" rel="noopener">#${data.number}</a> — high-quality re-render saved.`);
   } catch (err) {
     setStatus(err.message || 'Submission failed.', true);
   } finally {

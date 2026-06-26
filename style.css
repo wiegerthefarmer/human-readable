@@ -183,6 +183,119 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* ---- Variants strip ---- */
+
+.variants-strip {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.variant-thumb {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.12s, border-color 0.12s;
+  position: relative;
+}
+
+.variant-thumb:hover {
+  opacity: 0.9;
+}
+
+.variant-thumb.active {
+  opacity: 1;
+  border-color: var(--ink);
+  border-width: 2px;
+}
+
+/* ---- Lightbox ---- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox[hidden] { display: none; }
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  cursor: pointer;
+}
+
+.lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: min(92vw, 960px);
+  max-height: 92vh;
+  z-index: 1;
+}
+
+.lightbox-img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(92vh - 3.5rem);
+  object-fit: contain;
+  background: #fff;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -2rem;
+  right: 0;
+  font-family: var(--font);
+  font-size: 1.4rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.1rem 0.4rem;
+  opacity: 0.7;
+}
+
+.lightbox-close:hover { opacity: 1; }
+
+.lightbox-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  color: #ccc;
+}
+
+.lb-btn {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  padding: 0;
+}
+
+.lb-btn:hover { opacity: 0.75; }
+
+.lb-label { color: #888; }
+
 /* ---- Create page ---- */
 
 .create-intro {
