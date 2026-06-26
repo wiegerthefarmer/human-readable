@@ -1,0 +1,55 @@
+name: Comic submission
+description: Submit a comic for Human-Readable
+title: "[Comic] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for submitting a comic to **Human-Readable**!
+
+        Fill in the details below and attach your comic image. When you submit,
+        a draft pull request is opened automatically for a maintainer to review.
+        You'll need a (free) GitHub account.
+  - type: input
+    id: title
+    attributes:
+      label: Comic Title
+      placeholder: e.g. Even More Cushion
+    validations:
+      required: true
+  - type: textarea
+    id: premise
+    attributes:
+      label: Premise / Description (used for accessibility alt text)
+      description: >
+        A short description of what happens. This becomes the image alt text
+        for screen readers, so describe the comic rather than explaining the joke.
+      placeholder: Describe the comic in a sentence or two.
+    validations:
+      required: true
+  - type: dropdown
+    id: format
+    attributes:
+      label: Format
+      options:
+        - 3-panel strip
+        - 9-panel page
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: image
+    attributes:
+      label: Comic Image
+      description: >
+        Drag and drop your comic image here (PNG or JPG). GitHub will upload it
+        and insert a link automatically.
+    validations:
+      required: true
+  - type: textarea
+    id: script
+    attributes:
+      label: Script (optional)
+      description: Panel-by-panel dialogue, if you'd like to include it.
+    validations:
+      required: false

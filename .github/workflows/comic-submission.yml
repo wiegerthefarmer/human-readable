@@ -1,0 +1,82 @@
+name: Comic submission
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: comic-submission-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  scaffold:
+    # Only run on issues created from the comic submission form, which always
+    # renders a "### Comic Image" heading in the body.
+    if: contains(github.event.issue.body, '### Comic Image')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Pillow
+        run: pip install --quiet pillow
+
+      - name: Scaffold comic from issue
+        id: scaffold
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: python3 .github/scripts/process_submission.py
+
+      - name: Regenerate comics index
+        run: python3 .github/scripts/generate_index.py
+
+      - name: Open draft pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.scaffold.outputs.branch }}
+          NUMBER: ${{ steps.scaffold.outputs.number }}
+          PR_TITLE: ${{ steps.scaffold.outputs.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add comics/ comics.json
+          git commit -m "Add comic #${NUMBER}: ${PR_TITLE} (from #${ISSUE_NUMBER})"
+          git push -u origin "$BRANCH"
+          gh pr create --draft --base main --head "$BRANCH" \
+            --title "Comic submission #${NUMBER}: ${PR_TITLE}" \
+            --body "Submitted via #${ISSUE_NUMBER}.
+
+          Review the image and tidy up \`script.md\` / \`notes.md\` before merging.
+
+          Closes #${ISSUE_NUMBER}"
+
+      - name: Acknowledge on the issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "Thanks! A draft pull request has been opened for a maintainer to review."
+
+      - name: Report failure on the issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" \
+            --body "Sorry — this submission couldn't be processed automatically. Please make sure you attached a PNG or JPG image and filled in the title, then open a new submission. A maintainer can also re-run the failed job from the Actions tab."
