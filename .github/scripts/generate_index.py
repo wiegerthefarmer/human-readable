@@ -70,6 +70,19 @@ for folder in sorted(os.listdir(comics_dir)):
         except (json.JSONDecodeError, OSError):
             pass
 
+    # Load printful.json if present (written by printful_push.py).
+    printful_products = {}
+    printful_path = os.path.join(path, 'printful.json')
+    if os.path.exists(printful_path):
+        try:
+            with open(printful_path, encoding='utf-8') as pf:
+                pdata = json.load(pf)
+            for key, val in pdata.get('products', {}).items():
+                if val.get('url'):
+                    printful_products[key] = val['url']
+        except (json.JSONDecodeError, OSError):
+            pass
+
     comics.append({
         'id': comic_id,
         'slug': folder,
@@ -77,6 +90,7 @@ for folder in sorted(os.listdir(comics_dir)):
         'image': f'{path}/comic.png',
         'alt': alt,
         'variants': variants,
+        'printfulProducts': printful_products,
     })
 
 with open('comics.json', 'w', encoding='utf-8') as f:

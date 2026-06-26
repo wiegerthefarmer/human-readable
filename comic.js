@@ -201,11 +201,11 @@ function closeLightbox() {
 }
 
 function printfulOrderUrl(product, imageUrl, title) {
-  // Placeholder until Printful integration is wired up.
-  // Returns a URL to the Printful store; replace with real product links or
-  // a Worker endpoint once the Printful API key is added.
-  const base = 'https://www.printful.com';
-  return `${base}`; // TODO: replace per product once store is configured
+  const comic = comics[current];
+  const stored = comic?.printfulProducts?.[product];
+  if (stored) return stored;
+  // Printful store not yet configured for this comic — link to the store root.
+  return 'https://www.printful.com';
 }
 
 els.img.style.cursor = 'zoom-in';
