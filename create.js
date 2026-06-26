@@ -150,13 +150,15 @@ function submitXhr(payload) {
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.timeout = 120000;
 
+    let uploadSent = false;
+
     xhr.upload.onprogress = e => {
       if (e.lengthComputable) {
         const pct = Math.round((e.loaded / e.total) * 100);
         setStatus(`Uploading… ${pct}%`);
       }
     };
-    xhr.upload.onload = () => setStatus('Processing…', false, true);
+    xhr.upload.onload = () => { uploadSent = true; setStatus('Processing…', false, true); };
 
     xhr.onload = () => {
       try {
@@ -167,7 +169,11 @@ function submitXhr(payload) {
         reject(new Error(`Invalid response (${xhr.status})`));
       }
     };
-    xhr.onerror  = () => reject(new Error('Upload failed — check your connection.'));
+    xhr.onerror = () => reject(new Error(
+      uploadSent
+        ? 'Connection dropped while the server was processing — your submission may have gone through. Check the repo\'s pull requests before retrying.'
+        : 'Upload failed — check your connection.'
+    ));
     xhr.ontimeout = () => reject(new Error('Upload timed out.'));
 
     xhr.send(JSON.stringify(payload));
