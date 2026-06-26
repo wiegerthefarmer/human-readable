@@ -7,6 +7,8 @@ const els = {
   format: document.getElementById('format'),
   generate: document.getElementById('btn-generate'),
   refresh: document.getElementById('btn-refresh'),
+  upload: document.getElementById('btn-upload'),
+  fileInput: document.getElementById('file-input'),
   submit: document.getElementById('btn-submit'),
   status: document.getElementById('status'),
   preview: document.getElementById('preview'),
@@ -15,10 +17,12 @@ const els = {
   theme: document.getElementById('btn-theme'),
 };
 
-// Each generation: { image: dataURL, prompt: string }
+// Each entry: { image: dataURL, prompt: string, uploaded: boolean }
 let generations = [];
 let selected = -1;
 let busy = false;
+
+const MAX_DIM = 3000; // cap uploaded image dimensions to keep requests reasonable
 
 function setStatus(msg, isError = false, spinner = false) {
   els.status.className = 'create-status' + (isError ? ' error' : '');
@@ -57,7 +61,48 @@ function renderGallery() {
 function updateButtons() {
   els.generate.disabled = busy;
   els.refresh.disabled = busy || generations.length === 0;
+  els.upload.disabled = busy;
   els.submit.disabled = busy || selected < 0;
+}
+
+// Read a chosen file, normalise it to a PNG data URL via canvas (handles
+// JPG -> PNG and caps dimensions), and add it as a selectable entry.
+function handleFile(file) {
+  if (!file) return;
+  if (!/^image\/(png|jpeg)$/.test(file.type)) {
+    setStatus('Please choose a PNG or JPG image.', true);
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      const scale = Math.min(1, MAX_DIM / Math.max(width, height));
+      width = Math.round(width * scale);
+      height = Math.round(height * scale);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+
+      const dataUrl = canvas.toDataURL('image/png');
+      generations.push({ image: dataUrl, prompt: '', uploaded: true });
+      selected = generations.length - 1;
+      showSelected();
+      renderGallery();
+      updateButtons();
+      setStatus('Image ready. Add a title, then submit.');
+    };
+    img.onerror = () => setStatus('Could not read that image.', true);
+    img.src = reader.result;
+  };
+  reader.onerror = () => setStatus('Could not read that file.', true);
+  reader.readAsDataURL(file);
 }
 
 async function generate() {
@@ -113,7 +158,12 @@ async function submit() {
 
   try {
     const g = generations[selected];
-    setStatus('Re-rendering at high quality…', false, true);
+    const isUpload = !!g.uploaded;
+    setStatus(isUpload ? 'Submitting your image…' : 'Re-rendering at high quality…', false, true);
+
+    // Only send AI-generated variants for provenance; uploads have none.
+    const aiVariants = generations.filter(x => !x.uploaded);
+
     const resp = await fetch(`${WORKER_URL}/submit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -123,13 +173,15 @@ async function submit() {
         title,
         seed: els.seed.value.trim(),
         format: els.format.value,
-        generations,  // send all variants for provenance
+        mode: isUpload ? 'upload' : 'generated',
+        generations: isUpload ? [] : aiVariants,
       }),
     });
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
 
-    setStatus(`Submitted! Draft PR opened: <a href="${data.url}" target="_blank" rel="noopener">#${data.number}</a> — high-quality re-render saved.`);
+    const tail = isUpload ? 'your image was queued for review.' : 'high-quality re-render saved.';
+    setStatus(`Submitted! It's queued for review. <a href="${data.url}" target="_blank" rel="noopener">Track it ›</a> — ${tail}`);
   } catch (err) {
     setStatus(err.message || 'Submission failed.', true);
   } finally {
@@ -141,6 +193,11 @@ async function submit() {
 els.generate.onclick = generate;
 els.refresh.onclick = generate;
 els.submit.onclick = submit;
+els.upload.onclick = () => els.fileInput.click();
+els.fileInput.onchange = e => {
+  handleFile(e.target.files[0]);
+  e.target.value = ''; // allow re-selecting the same file
+};
 
 // Theme toggle — identical to the reader page.
 const THEMES = ['', 'green', 'amber'];

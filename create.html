@@ -19,14 +19,14 @@
     </div>
 
     <p class="create-intro">
-      Type an idea — a sentence is enough — and a draft comic is drawn in the
-      house style. Regenerate until you like one, pick it, and submit. Your pick
-      opens a draft pull request for a maintainer to review; nothing publishes
-      automatically.
+      Type an idea and a draft comic is drawn in the house style — regenerate
+      until you like one. Or upload your own finished art. Either way, pick an
+      image and submit; it's queued for a maintainer to review before it
+      appears. Nothing publishes automatically.
     </p>
 
     <div class="field">
-      <label for="seed">Idea</label>
+      <label for="seed">Idea / description</label>
       <textarea id="seed" placeholder="e.g. a sysadmin explains to a cat why the server room is not a bed"></textarea>
     </div>
 
@@ -47,6 +47,8 @@
     <div class="create-actions">
       <button id="btn-generate" class="btn-primary">Generate</button>
       <button id="btn-refresh" disabled>Refresh</button>
+      <button id="btn-upload">Upload image</button>
+      <input id="file-input" type="file" accept="image/png,image/jpeg" hidden>
       <button id="btn-submit" disabled>Submit pick</button>
     </div>
 
@@ -62,10 +64,6 @@
 
   <footer>
     <a href="/">read comics</a>
-    <span class="footer-sep">·</span>
-    <a href="https://github.com/wiegerthefarmer/human-readable/issues/new?template=comic-submission.yml">upload finished art</a>
-    <span class="footer-sep">·</span>
-    <a href="https://github.com/wiegerthefarmer/human-readable">source</a>
     <span class="footer-sep">·</span>
     <button id="btn-theme" title="Switch theme">light</button>
   </footer>
