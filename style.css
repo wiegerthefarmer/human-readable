@@ -183,6 +183,135 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* ---- Create page ---- */
+
+.create-intro {
+  font-size: 0.82rem;
+  color: var(--faint);
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.field {
+  margin-bottom: 0.9rem;
+}
+
+.field label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--faint);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.04em;
+}
+
+.field textarea,
+.field input,
+.field select {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  background: var(--white);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.6rem;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 3.2rem;
+}
+
+.create-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.create-actions button {
+  font-family: var(--font);
+  font-size: 0.85rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.create-actions button:hover:not(:disabled) {
+  background: var(--border);
+}
+
+.create-actions button:disabled {
+  color: var(--faint);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.btn-primary {
+  font-weight: bold;
+}
+
+.create-status {
+  font-size: 0.8rem;
+  color: var(--faint);
+  min-height: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.create-status.error {
+  color: #b00;
+}
+
+html.green .create-status.error,
+html.amber .create-status.error {
+  color: var(--ink);
+}
+
+.gallery {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.gallery img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.1s;
+}
+
+.gallery img:hover {
+  opacity: 0.85;
+}
+
+.gallery img.selected {
+  opacity: 1;
+  border-color: var(--ink);
+  border-width: 2px;
+}
+
+.spinner {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--border);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @media (max-width: 600px) {
   body {
     padding: 1.5rem 0.75rem 1rem;

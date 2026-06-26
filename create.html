@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create · Human-Readable</title>
+  <link rel="stylesheet" href="style.css">
+  <script>(function(){var t=localStorage.getItem('theme');if(t==='green'||t==='amber')document.documentElement.className=t;}());</script>
+</head>
+<body>
+  <header>
+    <div class="site-title"><a href="/">HUMAN-READABLE</a></div>
+    <div class="site-tagline">notes from the interface between people and computers</div>
+  </header>
+
+  <main id="main">
+    <div class="comic-header">
+      <h1 class="comic-title">Create a comic</h1>
+    </div>
+
+    <p class="create-intro">
+      Type an idea — a sentence is enough — and a draft comic is drawn in the
+      house style. Regenerate until you like one, pick it, and submit. Your pick
+      opens a draft pull request for a maintainer to review; nothing publishes
+      automatically.
+    </p>
+
+    <div class="field">
+      <label for="seed">Idea</label>
+      <textarea id="seed" placeholder="e.g. a sysadmin explains to a cat why the server room is not a bed"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="title">Title</label>
+      <input id="title" type="text" placeholder="Short title for the comic">
+    </div>
+
+    <div class="field">
+      <label for="format">Format</label>
+      <select id="format">
+        <option value="3-panel">3-panel strip</option>
+        <option value="9-panel">9-panel page</option>
+        <option value="single">Single panel</option>
+      </select>
+    </div>
+
+    <div class="create-actions">
+      <button id="btn-generate" class="btn-primary">Generate</button>
+      <button id="btn-refresh" disabled>Refresh</button>
+      <button id="btn-submit" disabled>Submit pick</button>
+    </div>
+
+    <div id="status" class="create-status"></div>
+
+    <div class="comic-frame">
+      <img id="preview" src="" alt="" hidden />
+      <div id="preview-empty" class="comic-empty">Your generated comic will appear here.</div>
+    </div>
+
+    <div id="gallery" class="gallery"></div>
+  </main>
+
+  <footer>
+    <a href="/">read comics</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/wiegerthefarmer/human-readable/issues/new?template=comic-submission.yml">upload finished art</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/wiegerthefarmer/human-readable">source</a>
+    <span class="footer-sep">·</span>
+    <button id="btn-theme" title="Switch theme">light</button>
+  </footer>
+
+  <script src="create.js"></script>
+</body>
+</html>
