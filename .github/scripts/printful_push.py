@@ -114,10 +114,23 @@ def create_sync_product(title, product_key, image_url):
     return result["result"]["id"]
 
 
-def product_page_url(product_id):
-    """Build a customer-facing product page URL."""
-    base = os.environ.get("PRINTFUL_STORE_BASE_URL", "https://www.printful.com")
-    return f"{base.rstrip('/')}/products/{product_id}"
+def etsy_listing_url(printful_product_id, retries=4, delay=5):
+    """Fetch a Printful sync product and return the Etsy listing URL.
+
+    Printful syncs to Etsy asynchronously, so external_id may not be
+    populated immediately. Retry a few times before giving up.
+    """
+    for attempt in range(retries):
+        try:
+            result = api("GET", f"/store/products/{printful_product_id}")
+            ext_id = result.get("result", {}).get("external_id")
+            if ext_id:
+                return f"https://www.etsy.com/listing/{ext_id}"
+        except RuntimeError:
+            pass
+        if attempt < retries - 1:
+            time.sleep(delay)
+    return None
 
 
 def process_comic(folder, path):
@@ -152,10 +165,15 @@ def process_comic(folder, path):
     for key in PRODUCT_CONFIGS:
         try:
             pid = create_sync_product(title, key, image_url)
-            url = product_page_url(pid)
+            # Printful syncs to Etsy asynchronously; poll for the Etsy listing ID.
+            url = etsy_listing_url(pid)
+            if not url:
+                # Etsy listing ID not yet available — link to shop root as fallback.
+                shop = os.environ.get("ETSY_SHOP_NAME", "")
+                url = f"https://www.etsy.com/shop/{shop}" if shop else "https://www.etsy.com"
             products[key] = {"id": pid, "url": url}
             print(f"    {key}: product #{pid} → {url}")
-            time.sleep(0.5)  # gentle rate-limit
+            time.sleep(1)  # gentle rate-limit between products
         except RuntimeError as e:
             print(f"    {key}: FAILED — {e}", file=sys.stderr)
             products[key] = {"id": None, "url": None, "error": str(e)}

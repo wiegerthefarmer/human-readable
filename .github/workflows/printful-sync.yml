@@ -21,8 +21,8 @@ jobs:
         env:
           PRINTFUL_API_KEY: ${{ secrets.PRINTFUL_API_KEY }}
           PRINTFUL_STORE_ID: ${{ secrets.PRINTFUL_STORE_ID }}
-          PRINTFUL_STORE_BASE_URL: ${{ vars.PRINTFUL_STORE_BASE_URL }}
           SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
+          ETSY_SHOP_NAME: ${{ vars.ETSY_SHOP_NAME }}
         run: python3 .github/scripts/printful_push.py
 
       - name: Commit printful.json files
