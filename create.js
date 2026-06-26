@@ -1,6 +1,5 @@
-// Set this to your deployed Cloudflare Worker URL (no trailing slash),
-// e.g. "https://human-readable-comics.your-subdomain.workers.dev".
-const WORKER_URL = '';
+// Deployed Cloudflare Worker URL (no trailing slash).
+const WORKER_URL = 'https://human-readable-comics.aaron-visser.workers.dev';
 
 const els = {
   seed: document.getElementById('seed'),
