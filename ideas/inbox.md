@@ -42,4 +42,6 @@ Add future fragments below.
 
 > Hmmm essence of donut
 
+![Hmmm Essence of Donut preview](./hmmm-essence-of-donut-preview.svg)
+
 Theme: vague product language, snack-driven architecture, and the mystery of requirements.
