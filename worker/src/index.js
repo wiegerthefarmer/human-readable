@@ -199,7 +199,7 @@ async function submit(req, env) {
 
   const fmt = FORMATS[format] ? format : "3-panel";
   const fmtLabel = FORMATS[fmt].label;
-  const isUpload = mode === "upload";
+  const isUpload = mode === "upload" || !prompt?.trim();
   const chosenB64 = image.replace(/^data:image\/[^;]+;base64,/, "");
 
   // Uploaded art is committed exactly as supplied — never sent through the
