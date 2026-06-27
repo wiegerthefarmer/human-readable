@@ -25,7 +25,7 @@ const STYLE_PREAMBLE = [
   "Black-and-white webcomic in a minimalist hand-drawn style.",
   "Simple stick figures with round heads and small dot eyes, expressive but restrained.",
   "Clean black ink linework on a plain white background. No color. Light hatching only where needed.",
-  "Hand-lettered text in plain speech bubbles and rectangular caption boxes; keep dialogue short and legible.",
+  "Hand-lettered text in plain speech bubbles and rectangular caption boxes. All text must be perfectly legible real English words — no garbled letters, no nonsense strings.",
   "Dry, observational, technically-aware humor; grounded rather than zany.",
   "Sparse backgrounds — props, labels, and small signs carry the context.",
   "Thin black panel borders separating each panel cleanly.",
