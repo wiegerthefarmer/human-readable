@@ -163,6 +163,19 @@ function b64utf8(text) {
   return btoa(unescape(encodeURIComponent(text)));
 }
 
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function ghPagesBase(env) {
+  const [owner, repo] = (env.REPO || '/').split('/');
+  return `https://${owner}.github.io/${repo}`;
+}
+
 async function nextNumber(env) {
   const r = await gh(env, "/contents/comics?ref=main");
   if (!r.ok) return 1;
@@ -285,6 +298,36 @@ async function submit(req, env) {
       notesMd += `\n---\n\n_Uploaded artwork._\n`;
     }
     await ghPut(env, `${dir}/notes.md`, b64utf8(notesMd), branch, `Add ${dir}/notes.md`);
+
+    // Per-comic share page: static HTML with OG tags so social previews work.
+    // Crawlers see the OG image; browsers are instantly redirected to the reader.
+    const siteBase = ghPagesBase(env);
+    const ogTitle = escHtml(title.trim());
+    const ogDesc  = escHtml((seed ? seed.trim() : `A Human-Readable comic.`).slice(0, 300));
+    const ogImage = `${siteBase}/comics/${slug}/comic.png`;
+    const ogUrl   = `${siteBase}/${nid}`;
+    const stubHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${ogTitle} — Human-Readable</title>
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Human-Readable" />
+  <meta property="og:title" content="${ogTitle} — Human-Readable" />
+  <meta property="og:description" content="${ogDesc}" />
+  <meta property="og:image" content="${ogImage}" />
+  <meta property="og:url" content="${ogUrl}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${ogTitle} — Human-Readable" />
+  <meta name="twitter:description" content="${ogDesc}" />
+  <meta name="twitter:image" content="${ogImage}" />
+</head>
+<body>
+  <script>location.replace('../#${nid}');<\/script>
+</body>
+</html>`;
+    await ghPut(env, `${nid}/index.html`, b64utf8(stubHtml), branch, `Add ${nid}/index.html (share page)`);
 
   } catch (e) {
     return json({ error: e.message }, env, 502);

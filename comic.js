@@ -2,6 +2,9 @@ let comics = [];
 let current = 0;
 let variantIndex = -1; // -1 = canonical comic.png
 
+// Base path (e.g. '/human-readable') used to build per-comic share URLs.
+const SITE_BASE = window.location.pathname.replace(/\/\d+\/?$/, '').replace(/\/$/, '');
+
 const els = {
   number:       document.getElementById('comic-number'),
   title:        document.getElementById('comic-title'),
@@ -35,8 +38,10 @@ async function init() {
 
   if (comics.length === 0) { showEmpty(); return; }
 
-  const hash = window.location.hash.slice(1);
-  const idx = hash ? comics.findIndex(c => c.id === hash || c.slug === hash) : -1;
+  // Support both path-based URLs (/0007) and legacy hash URLs (#0007).
+  const pathMatch = window.location.pathname.match(/\/(\d+)\/?$/);
+  const requestedId = pathMatch ? pathMatch[1].padStart(4, '0') : window.location.hash.slice(1);
+  const idx = requestedId ? comics.findIndex(c => c.id === requestedId || c.slug === requestedId) : -1;
   current = idx >= 0 ? idx : comics.length - 1;
 
   render();
@@ -60,7 +65,7 @@ function render() {
   els.next.disabled   = current === comics.length - 1;
   els.last.disabled   = current === comics.length - 1;
 
-  history.replaceState(null, '', `#${comic.id}`);
+  history.replaceState(null, '', `${SITE_BASE}/${comic.id}`);
   document.title = `${comic.title} — Human-Readable`;
 
   renderVariantsStrip(comic);
