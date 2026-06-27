@@ -199,24 +199,19 @@ async function submit(req, env) {
 
   const fmt = FORMATS[format] ? format : "3-panel";
   const fmtLabel = FORMATS[fmt].label;
+  // Treat as upload if mode says so OR if there is no AI prompt to work with.
   const isUpload = mode === "upload" || !prompt?.trim();
   const chosenB64 = image.replace(/^data:image\/[^;]+;base64,/, "");
 
-  // Uploaded art is committed exactly as supplied — never sent through the
-  // model. Generated picks are re-rendered at high quality, composition kept.
   let hqB64;
   if (isUpload) {
+    // Uploaded art goes through unchanged — zero AI involvement.
     hqB64 = chosenB64;
   } else {
     try {
       hqB64 = await openaiEditRaw(env, chosenB64, prompt, fmt);
     } catch (e) {
-      // Fall back to a fresh high-quality generation if the edit endpoint fails.
-      try {
-        hqB64 = await openaiGenerateRaw(env, prompt, fmt, "high");
-      } catch (e2) {
-        return json({ error: `Re-render failed: ${e2.message}` }, env, 502);
-      }
+      return json({ error: `Re-render failed: ${e.message}` }, env, 502);
     }
   }
 
