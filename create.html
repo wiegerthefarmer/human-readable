@@ -18,15 +18,25 @@
       <h1 class="comic-title">Create a comic</h1>
     </div>
 
-    <p class="create-intro">
+    <div class="mode-toggle">
+      <button id="btn-mode-generate" class="mode-btn active">Generate from prompt</button>
+      <button id="btn-mode-upload" class="mode-btn">Upload artwork</button>
+    </div>
+
+    <p class="create-intro" id="intro-generate">
       Type an idea and a draft comic is drawn in the house style — regenerate
-      until you like one. Or upload your own finished art. Either way, pick an
-      image and submit; it's queued for a maintainer to review before it
-      appears. Nothing publishes automatically.
+      until you like one. Pick the best version and submit; it goes through
+      a high-quality re-render before queuing for review. Nothing publishes
+      automatically.
+    </p>
+    <p class="create-intro" id="intro-upload" hidden>
+      Upload your finished artwork as PNG or JPG. Add an optional description
+      and a title, then submit. Your image is committed unchanged — no AI
+      processing. Queued for maintainer review before publishing.
     </p>
 
-    <div class="field">
-      <label for="seed">Idea / description</label>
+    <div class="field" id="seed-field">
+      <label for="seed" id="seed-label">Idea / description</label>
       <textarea id="seed" placeholder="e.g. a sysadmin explains to a cat why the server room is not a bed"></textarea>
     </div>
 
@@ -35,7 +45,7 @@
       <input id="title" type="text" placeholder="Short title for the comic">
     </div>
 
-    <div class="field" hidden>
+    <div class="field" id="format-field">
       <label for="format">Format</label>
       <select id="format">
         <option value="3-panel">3-panel strip</option>
@@ -43,13 +53,13 @@
         <option value="single">Single panel</option>
       </select>
     </div>
-    
+
     <div class="create-actions">
-      <button id="btn-generate" class="btn-primary" hidden>Generate</button>
-      <button id="btn-refresh" hidden>Refresh</button>
-      <button id="btn-upload">Upload image</button>
+      <button id="btn-generate" class="btn-primary">Generate</button>
+      <button id="btn-refresh">Refresh</button>
+      <button id="btn-upload" hidden>Upload image</button>
       <input id="file-input" type="file" accept="image/png,image/jpeg" hidden>
-      <button id="btn-submit" disabled>Submit pick</button>
+      <button id="btn-submit" disabled>Submit</button>
     </div>
 
     <div id="status" class="create-status"></div>

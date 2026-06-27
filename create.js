@@ -3,8 +3,10 @@ const WORKER_URL = 'https://human-readable-comics.aaron-visser.workers.dev';
 
 const els = {
   seed: document.getElementById('seed'),
+  seedLabel: document.getElementById('seed-label'),
   title: document.getElementById('title'),
   format: document.getElementById('format'),
+  formatField: document.getElementById('format-field'),
   generate: document.getElementById('btn-generate'),
   refresh: document.getElementById('btn-refresh'),
   upload: document.getElementById('btn-upload'),
@@ -15,12 +17,43 @@ const els = {
   previewEmpty: document.getElementById('preview-empty'),
   gallery: document.getElementById('gallery'),
   theme: document.getElementById('btn-theme'),
+  modeGenerate: document.getElementById('btn-mode-generate'),
+  modeUpload: document.getElementById('btn-mode-upload'),
+  introGenerate: document.getElementById('intro-generate'),
+  introUpload: document.getElementById('intro-upload'),
 };
 
 // Each entry: { image: dataURL, prompt: string, uploaded: boolean }
 let generations = [];
 let selected = -1;
 let busy = false;
+let mode = 'generate'; // 'generate' | 'upload'
+
+function setMode(m) {
+  mode = m;
+  const gen = m === 'generate';
+  els.modeGenerate.classList.toggle('active', gen);
+  els.modeUpload.classList.toggle('active', !gen);
+  els.introGenerate.hidden = !gen;
+  els.introUpload.hidden = gen;
+  els.generate.hidden = !gen;
+  els.refresh.hidden = !gen;
+  els.upload.hidden = gen;
+  els.formatField.hidden = !gen;
+  els.seedLabel.textContent = gen ? 'Idea / description' : 'Description / notes (optional)';
+  els.seed.placeholder = gen
+    ? 'e.g. a sysadmin explains to a cat why the server room is not a bed'
+    : 'Context or notes for the reviewer';
+  generations = [];
+  selected = -1;
+  showSelected();
+  renderGallery();
+  updateButtons();
+  setStatus('');
+}
+
+els.modeGenerate.onclick = () => setMode('generate');
+els.modeUpload.onclick   = () => setMode('upload');
 
 
 function setStatus(msg, isError = false, spinner = false) {

@@ -300,6 +300,40 @@ footer a:hover {
 
 .lb-label { color: #888; }
 
+/* ---- Mode toggle ---- */
+
+.mode-toggle {
+  display: flex;
+  margin-bottom: 1.2rem;
+}
+
+.mode-btn {
+  font-family: var(--font);
+  font-size: 0.85rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--faint);
+  padding: 0.4rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  flex: 1;
+  text-align: center;
+}
+
+.mode-btn + .mode-btn {
+  border-left: none;
+}
+
+.mode-btn.active {
+  background: var(--border);
+  color: var(--ink);
+  font-weight: bold;
+}
+
+.mode-btn:hover:not(.active) {
+  color: var(--ink);
+}
+
 /* ---- Create page ---- */
 
 .create-intro {
