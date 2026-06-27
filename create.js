@@ -59,8 +59,8 @@ function renderGallery() {
 }
 
 function updateButtons() {
-  //els.generate.disabled = busy;
-  //els.refresh.disabled = busy || generations.length === 0;
+  els.generate.disabled = busy;
+  els.refresh.disabled = busy || generations.length === 0;
   els.upload.disabled = busy;
   els.submit.disabled = busy || selected < 0;
 }
@@ -218,8 +218,8 @@ async function submit() {
   }
 }
 
-// els.generate.onclick = generate;
-// els.refresh.onclick = generate;
+els.generate.onclick = generate;
+els.refresh.onclick = generate;
 els.submit.onclick = submit;
 els.upload.onclick = () => els.fileInput.click();
 els.fileInput.onchange = e => {
