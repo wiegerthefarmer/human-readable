@@ -3,7 +3,7 @@ const WORKER_URL = 'https://human-readable-comics.aaron-visser.workers.dev';
 
 const els = {
   seed: document.getElementById('seed'),
-  seedLabel: document.getElementById('seed-label'),
+  seedField: document.getElementById('seed-field'),
   title: document.getElementById('title'),
   format: document.getElementById('format'),
   formatField: document.getElementById('format-field'),
@@ -40,10 +40,7 @@ function setMode(m) {
   els.refresh.hidden = !gen;
   els.upload.hidden = gen;
   els.formatField.hidden = !gen;
-  els.seedLabel.textContent = gen ? 'Idea / description' : 'Description / notes (optional)';
-  els.seed.placeholder = gen
-    ? 'e.g. a sysadmin explains to a cat why the server room is not a bed'
-    : 'Context or notes for the reviewer';
+  els.seedField.hidden = !gen;
   generations = [];
   selected = -1;
   showSelected();
