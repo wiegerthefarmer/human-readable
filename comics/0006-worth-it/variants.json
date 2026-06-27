@@ -1,0 +1,10 @@
+{
+  "variants": [
+    {
+      "file": "v01.png",
+      "prompt": "",
+      "seed": "\"It is optimal to take a 1 in 3 chance of ending human existence in exchange\nfor a 2/3 chance of dramatically raising living standards by a factor of 55\"",
+      "selected": true
+    }
+  ]
+}
