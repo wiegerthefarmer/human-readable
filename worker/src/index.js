@@ -132,7 +132,7 @@ async function generate(req, env) {
   const fmt = FORMATS[format] ? format : "3-panel";
   const prompt = buildPrompt(seed, fmt);
   try {
-    const b64 = await openaiGenerateRaw(env, prompt, fmt, "medium");
+    const b64 = await openaiGenerateRaw(env, prompt, fmt, "high");
     return json({ image: `data:image/png;base64,${b64}`, prompt }, env);
   } catch (e) {
     return json({ error: e.message }, env, 502);
