@@ -44,22 +44,6 @@
       "alt": "A stick figure goes to see Epic Space Saga, buys a large popcorn, then encounters a giant overstuffed recliner seat in the theater. They sit down with a FLOOMP and sink progressively deeper into the cushions until nearly swallowed. The film plays while the character is barely visible above the upholstery. Afterwards, standing outside, they reflect that it was fine but they're not a fan of the oversized seats. A lobby poster advertises the next upgrade: Even More Cushion \u2014 MAX.",
       "variants": [],
       "printfulProducts": {}
-    },
-    {
-      "id": "0006",
-      "slug": "0006-worth-it",
-      "title": "Worth it",
-      "image": "comics/0006-worth-it/comic.png",
-      "alt": "\"It is optimal to take a 1 in 3 chance of ending human existence in exchange",
-      "variants": [
-        {
-          "image": "comics/0006-worth-it/variants/v01.png",
-          "prompt": "",
-          "seed": "\"It is optimal to take a 1 in 3 chance of ending human existence in exchange\nfor a 2/3 chance of dramatically raising living standards by a factor of 55\"",
-          "selected": true
-        }
-      ],
-      "printfulProducts": {}
     }
   ]
 }
