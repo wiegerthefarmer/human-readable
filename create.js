@@ -22,7 +22,6 @@ let generations = [];
 let selected = -1;
 let busy = false;
 
-const MAX_DIM = 1500; // cap uploaded image dimensions — 1500px is plenty for a webcomic
 
 function setStatus(msg, isError = false, spinner = false) {
   els.status.className = 'create-status' + (isError ? ' error' : '');
@@ -65,8 +64,6 @@ function updateButtons() {
   els.submit.disabled = busy || selected < 0;
 }
 
-// Read a chosen file, normalise it to a PNG data URL via canvas (handles
-// JPG -> PNG and caps dimensions), and add it as a selectable entry.
 function handleFile(file) {
   if (!file) return;
   if (!/^image\/(png|jpeg)$/.test(file.type)) {
@@ -75,31 +72,12 @@ function handleFile(file) {
   }
   const reader = new FileReader();
   reader.onload = () => {
-    const img = new Image();
-    img.onload = () => {
-      let { width, height } = img;
-      const scale = Math.min(1, MAX_DIM / Math.max(width, height));
-      width = Math.round(width * scale);
-      height = Math.round(height * scale);
-
-      const canvas = document.createElement('canvas');
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(0, 0, width, height);
-      ctx.drawImage(img, 0, 0, width, height);
-
-      const dataUrl = canvas.toDataURL('image/png');
-      generations.push({ image: dataUrl, prompt: '', uploaded: true });
-      selected = generations.length - 1;
-      showSelected();
-      renderGallery();
-      updateButtons();
-      setStatus('Image ready. Add a title, then submit.');
-    };
-    img.onerror = () => setStatus('Could not read that image.', true);
-    img.src = reader.result;
+    generations.push({ image: reader.result, prompt: '', uploaded: true });
+    selected = generations.length - 1;
+    showSelected();
+    renderGallery();
+    updateButtons();
+    setStatus('Image ready. Add a title, then submit.');
   };
   reader.onerror = () => setStatus('Could not read that file.', true);
   reader.readAsDataURL(file);
