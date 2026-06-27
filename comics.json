@@ -60,6 +60,15 @@
         }
       ],
       "printfulProducts": {}
+    },
+    {
+      "id": "0007",
+      "slug": "0007-free",
+      "title": "Free!",
+      "image": "comics/0007-free/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {}
     }
   ]
 }
