@@ -21,13 +21,19 @@ const els = {
   modeUpload: document.getElementById('btn-mode-upload'),
   introGenerate: document.getElementById('intro-generate'),
   introUpload: document.getElementById('intro-upload'),
+  scriptPreview: document.getElementById('script-preview'),
+  scriptConcept: document.getElementById('script-concept'),
+  scriptPanels: document.getElementById('script-panels'),
+  btnDraw: document.getElementById('btn-draw'),
+  btnRewrite: document.getElementById('btn-rewrite'),
 };
 
-// Each entry: { image: dataURL, prompt: string, uploaded: boolean }
+// Each entry: { image: dataURL, prompt: string, script: object, uploaded: boolean }
 let generations = [];
 let selected = -1;
 let busy = false;
 let mode = 'generate'; // 'generate' | 'upload'
+let pendingScript = null;
 
 function setMode(m) {
   mode = m;
@@ -43,6 +49,8 @@ function setMode(m) {
   els.seedField.hidden = !gen;
   generations = [];
   selected = -1;
+  pendingScript = null;
+  els.scriptPreview.hidden = true;
   showSelected();
   renderGallery();
   updateButtons();
@@ -89,9 +97,21 @@ function renderGallery() {
 
 function updateButtons() {
   els.generate.disabled = busy;
-  els.refresh.disabled = busy || generations.length === 0;
+  els.refresh.disabled = busy || (generations.length === 0 && !pendingScript);
   els.upload.disabled = busy;
   els.submit.disabled = busy || selected < 0;
+  els.btnDraw.disabled = busy;
+  els.btnRewrite.disabled = busy;
+}
+
+function showScript(script) {
+  pendingScript = script;
+  els.scriptConcept.textContent = script.concept || '';
+  els.scriptPanels.innerHTML = (script.panels || []).map(p => {
+    const txt = p.text ? ` — <em>“${p.text}”</em>` : '';
+    return `<li>${p.visual}${txt}</li>`;
+  }).join('');
+  els.scriptPreview.hidden = false;
 }
 
 function handleFile(file) {
@@ -113,7 +133,7 @@ function handleFile(file) {
   reader.readAsDataURL(file);
 }
 
-async function generate() {
+async function writeScriptStep() {
   if (busy) return;
   const seed = els.seed.value.trim();
   if (!seed) {
@@ -130,10 +150,40 @@ async function generate() {
   setStatus('Writing script…', false, true);
 
   try {
-    const resp = await fetch(`${WORKER_URL}/generate`, {
+    const resp = await fetch(`${WORKER_URL}/write-script`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ seed, format: els.format.value }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
+    showScript(data.script);
+    setStatus('Script ready — draw it or rewrite.');
+  } catch (err) {
+    setStatus(err.message || 'Script generation failed.', true);
+  } finally {
+    busy = false;
+    updateButtons();
+  }
+}
+
+async function drawStep() {
+  if (busy) return;
+  const seed = els.seed.value.trim();
+  if (!WORKER_URL) {
+    setStatus('The generator backend is not configured yet (set WORKER_URL in create.js).', true);
+    return;
+  }
+
+  busy = true;
+  updateButtons();
+  setStatus('Drawing comic…', false, true);
+
+  try {
+    const resp = await fetch(`${WORKER_URL}/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ seed, format: els.format.value, script: pendingScript }),
     });
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
@@ -142,7 +192,7 @@ async function generate() {
     selected = generations.length - 1;
     showSelected();
     renderGallery();
-    setStatus(`Generation ${generations.length} ready. Refresh for another, or submit this one.`);
+    setStatus(`Generation ${generations.length} ready. Refresh to redraw, or submit.`);
   } catch (err) {
     setStatus(err.message || 'Generation failed.', true);
   } finally {
@@ -227,8 +277,10 @@ async function submit() {
   }
 }
 
-els.generate.onclick = generate;
-els.refresh.onclick = generate;
+els.generate.onclick = writeScriptStep;
+els.refresh.onclick  = () => pendingScript ? drawStep() : writeScriptStep();
+els.btnDraw.onclick  = drawStep;
+els.btnRewrite.onclick = writeScriptStep;
 els.submit.onclick = submit;
 els.upload.onclick = () => els.fileInput.click();
 els.fileInput.onchange = e => {

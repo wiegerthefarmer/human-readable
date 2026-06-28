@@ -199,18 +199,36 @@ async function openaiEditRaw(env, b64Image, prompt, fmt) {
   return b64;
 }
 
+// ---- /write-script ------------------------------------------------------
+
+async function writeScriptEndpoint(req, env) {
+  const { seed, format } = await req.json();
+  if (!seed?.trim()) return json({ error: "Please enter an idea first." }, env, 400);
+  const fmt = FORMATS[format] ? format : "3-panel";
+  try {
+    const script = await writeScript(env, seed, fmt);
+    return json({ script }, env);
+  } catch (e) {
+    return json({ error: e.message }, env, 502);
+  }
+}
+
 // ---- /generate ----------------------------------------------------------
 
 async function generate(req, env) {
-  const { seed, format } = await req.json();
+  const { seed, format, script: providedScript } = await req.json();
   if (!seed || !seed.trim()) return json({ error: "Please enter an idea first." }, env, 400);
   const fmt = FORMATS[format] ? format : "3-panel";
 
   let script;
-  try {
-    script = await writeScript(env, seed, fmt);
-  } catch (e) {
-    return json({ error: `Script step failed: ${e.message}` }, env, 502);
+  if (providedScript?.panels?.length) {
+    script = providedScript;
+  } else {
+    try {
+      script = await writeScript(env, seed, fmt);
+    } catch (e) {
+      return json({ error: `Script step failed: ${e.message}` }, env, 502);
+    }
   }
 
   const prompt = buildPromptFromScript(script, fmt);
@@ -473,6 +491,7 @@ export default {
     if (req.method !== "POST") return json({ error: "POST only." }, env, 405);
     const { pathname } = new URL(req.url);
     try {
+      if (pathname === "/write-script") return await writeScriptEndpoint(req, env);
       if (pathname === "/generate") return await generate(req, env);
       if (pathname === "/submit")   return await submit(req, env);
       return json({ error: "Not found." }, env, 404);
