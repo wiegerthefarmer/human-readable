@@ -61,8 +61,32 @@ Respond with valid JSON only — no markdown, no commentary:
   ]
 }`;
 
+async function getSeriesContext(env) {
+  try {
+    const base = ghPagesBase(env);
+    const r = await fetch(`${base}/comics.json`, { cf: { cacheTtl: 60 } });
+    if (!r.ok) return "";
+    const data = await r.json();
+    const comics = data.comics || [];
+    if (comics.length === 0) return "";
+    const lines = comics.map(c =>
+      `- #${c.id} "${c.title}"${c.alt ? `: ${c.alt.slice(0, 120)}` : ""}`
+    );
+    return `Previously published comics (avoid repeating themes; build on the voice and recurring elements):\n${lines.join("\n")}`;
+  } catch {
+    return "";
+  }
+}
+
 async function writeScript(env, seed, fmt) {
   const f = FORMATS[fmt] || FORMATS["3-panel"];
+  const [context] = await Promise.all([getSeriesContext(env)]);
+  const userMsg = [
+    context,
+    `Format: ${f.label} (${f.panels} panels).`,
+    `Source text: "${seed.trim()}"`,
+  ].filter(Boolean).join("\n\n");
+
   const r = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -74,7 +98,7 @@ async function writeScript(env, seed, fmt) {
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: WRITER_SYSTEM },
-        { role: "user", content: `Format: ${f.label} (${f.panels} panels).\n\nSource text: "${seed.trim()}"` },
+        { role: "user", content: userMsg },
       ],
       max_tokens: 800,
     }),
@@ -263,7 +287,7 @@ async function ghPut(env, path, b64content, branch, message) {
 
 async function submit(req, env) {
   const body = await req.json();
-  const { image, prompt, title, seed, format, generations = [], mode = "generated" } = body;
+  const { image, prompt, title, seed, format, generations = [], mode = "generated", script } = body;
 
   if (!image || !title?.trim()) {
     return json({ error: "A title and an image are required." }, env, 400);
@@ -344,8 +368,21 @@ async function submit(req, env) {
       );
     }
 
-    // script.md
-    const scriptMd = `# ${title.trim()}\n\n**Format:** ${fmtLabel}\n\n---\n\n_Script pending review._\n`;
+    // script.md — use the GPT-4o script if available, otherwise placeholder.
+    let scriptMd = `# ${title.trim()}\n\n**Format:** ${fmtLabel}\n\n`;
+    if (!isUpload && script?.concept) {
+      scriptMd += `**Concept:** ${script.concept}\n\n`;
+      if (script.panels?.length) {
+        scriptMd += `## Panels\n\n`;
+        script.panels.forEach((p, i) => {
+          scriptMd += `**Panel ${i + 1}:** ${p.visual}`;
+          if (p.text) scriptMd += `\n> "${p.text}"`;
+          scriptMd += `\n\n`;
+        });
+      }
+    } else {
+      scriptMd += `---\n\n_Script pending review._\n`;
+    }
     await ghPut(env, `${dir}/script.md`, b64utf8(scriptMd), branch, `Add ${dir}/script.md`);
 
     // notes.md — description plus, for generated comics, prompt provenance.

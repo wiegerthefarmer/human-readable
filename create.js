@@ -127,7 +127,7 @@ async function generate() {
 
   busy = true;
   updateButtons();
-  setStatus('Drawing…', false, true);
+  setStatus('Writing script…', false, true);
 
   try {
     const resp = await fetch(`${WORKER_URL}/generate`, {
@@ -138,7 +138,7 @@ async function generate() {
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
 
-    generations.push({ image: data.image, prompt: data.prompt });
+    generations.push({ image: data.image, prompt: data.prompt, script: data.script });
     selected = generations.length - 1;
     showSelected();
     renderGallery();
@@ -209,6 +209,7 @@ async function submit() {
     const data = await submitXhr({
       image: g.image,
       prompt: g.prompt,
+      script: g.script || null,
       title,
       seed: els.seed.value.trim(),
       format: els.format.value,
