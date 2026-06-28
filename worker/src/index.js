@@ -4,7 +4,8 @@
  * Endpoints (all POST + JSON unless noted):
  *
  *   /generate   { seed, format }
- *     Low-quality preview. Fast and cheap. Returns { image, prompt }.
+ *     GPT-4o writes a panel-by-panel script, then gpt-image-1 renders it.
+ *     Returns { image, prompt, script }.
  *
  *   /submit     { image, prompt, title, seed, format, generations[] }
  *     Re-renders the chosen preview at high quality (same prompt + edits
@@ -32,20 +33,70 @@ const STYLE_PREAMBLE = [
 ].join(" ");
 
 const FORMATS = {
-  "3-panel": { label: "3-panel strip",  size: "1536x1024", layout: "Arrange as a single horizontal row of 3 equal panels." },
-  "9-panel": { label: "9-panel page",   size: "1024x1536", layout: "Arrange as a 3×3 grid of 9 equal panels read left-to-right, top-to-bottom." },
-  "single":  { label: "single panel",   size: "1024x1024", layout: "A single panel." },
+  "3-panel": { label: "3-panel strip",  size: "1536x1024", panels: 3, layout: "Arrange as a single horizontal row of 3 equal panels." },
+  "9-panel": { label: "9-panel page",   size: "1024x1536", panels: 9, layout: "Arrange as a 3×3 grid of 9 equal panels read left-to-right, top-to-bottom." },
+  "single":  { label: "single panel",   size: "1024x1024", panels: 1, layout: "A single panel." },
 };
 
-function buildPrompt(seed, format) {
+const WRITER_SYSTEM = `\
+You write scripts for Human-Readable, a minimalist black-and-white webcomic about the interface between people and computers — and the funny, tender, absurd edges of everyday life.
+
+Voice: dry, observational, technically-aware. Grounded rather than zany. Understatement beats punchlines.
+
+Visual style: stick figures with round heads and dot eyes. Sparse backgrounds. Props carry context — whiteboards, coffee mugs, labels, signs, sticky notes, cats.
+
+Rules:
+- Find the hidden social or technical tension in the source text.
+- Design escalation visually — each panel shifts the situation one step.
+- Land the ending softly: a quiet realization, an ironic label, or an understated callback to panel 1. Never a joke that explains itself.
+- Write exact, minimal dialogue. Every word will be rendered literally by an image model.
+- Dialogue belongs in speech bubbles or caption boxes. Keep it short — one to two short sentences per panel maximum.
+- Never explain the joke in dialogue.
+
+Respond with valid JSON only — no markdown, no commentary:
+{
+  "concept": "one-sentence premise",
+  "panels": [
+    { "visual": "what is drawn — specific, concrete", "text": "exact speech bubble or caption, or null" }
+  ]
+}`;
+
+async function writeScript(env, seed, fmt) {
+  const f = FORMATS[fmt] || FORMATS["3-panel"];
+  const r = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "gpt-4o",
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: WRITER_SYSTEM },
+        { role: "user", content: `Format: ${f.label} (${f.panels} panels).\n\nSource text: "${seed.trim()}"` },
+      ],
+      max_tokens: 800,
+    }),
+  });
+  if (!r.ok) throw new Error(`Script generation failed (${r.status}): ${await r.text()}`);
+  const data = await r.json();
+  const raw = data?.choices?.[0]?.message?.content;
+  if (!raw) throw new Error("No script returned.");
+  return JSON.parse(raw);
+}
+
+function buildPromptFromScript(script, format) {
   const f = FORMATS[format] || FORMATS["3-panel"];
+  const panels = (script.panels || []).map((p, i) => {
+    const txt = p.text ? ` Text: "${p.text}"` : "";
+    return `Panel ${i + 1}: ${p.visual}${txt}`;
+  }).join("\n");
   return [
     STYLE_PREAMBLE,
     f.layout,
-    "Tell this idea as a short comic, inventing the beats and any dialogue:",
-    `"${seed.trim()}"`,
-    "Land the ending softly with a realization, a label, or an understated escalation.",
-    "Do not explain the joke in text.",
+    "Draw each panel exactly as described below. All text must be perfectly legible.",
+    panels,
   ].join("\n\n");
 }
 
@@ -130,10 +181,18 @@ async function generate(req, env) {
   const { seed, format } = await req.json();
   if (!seed || !seed.trim()) return json({ error: "Please enter an idea first." }, env, 400);
   const fmt = FORMATS[format] ? format : "3-panel";
-  const prompt = buildPrompt(seed, fmt);
+
+  let script;
+  try {
+    script = await writeScript(env, seed, fmt);
+  } catch (e) {
+    return json({ error: `Script step failed: ${e.message}` }, env, 502);
+  }
+
+  const prompt = buildPromptFromScript(script, fmt);
   try {
     const b64 = await openaiGenerateRaw(env, prompt, fmt, "high");
-    return json({ image: `data:image/png;base64,${b64}`, prompt }, env);
+    return json({ image: `data:image/png;base64,${b64}`, prompt, script }, env);
   } catch (e) {
     return json({ error: e.message }, env, 502);
   }
