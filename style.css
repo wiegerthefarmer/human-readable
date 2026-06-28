@@ -124,9 +124,8 @@ main {
 
 .comic-frame img {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
-  margin: 0 auto;
 }
 
 /* Create page preview — cap height so the full strip is visible without scrolling */
