@@ -30,12 +30,17 @@ html.amber {
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
   min-height: 100vh;
   padding: 2rem 1rem 1rem;
+  overflow-x: hidden;
 }
 
 a {
@@ -470,6 +475,8 @@ html.amber .create-status.error {
   padding: 0.8rem 1rem;
   margin-bottom: 0.9rem;
   font-size: 0.85rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .script-concept {
