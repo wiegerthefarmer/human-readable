@@ -30,6 +30,7 @@ const STYLE_PREAMBLE = [
   "Dry, observational, technically-aware humor; grounded rather than zany.",
   "Sparse backgrounds — props, labels, and small signs carry the context.",
   "Thin black panel borders separating each panel cleanly.",
+  "CRITICAL LAYOUT RULE: all content (figures, speech bubbles, text, props) must be centered within each panel with generous interior margins — at least 12% clear space from every panel edge. Nothing should touch or overlap a panel border.",
 ].join(" ");
 
 const FORMATS = {
