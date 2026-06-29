@@ -24,13 +24,13 @@
 
 const STYLE_PREAMBLE = [
   "Black-and-white webcomic in a minimalist hand-drawn style.",
-  "Simple stick figures with round heads and small dot eyes, expressive but restrained.",
-  "Clean black ink linework on a plain white background. No color. Light hatching only where needed.",
+  "Simple stick figures with round heads and small dot eyes, expressive but restrained. Bold, consistent ink line weight throughout — lines should be clearly visible, not faint.",
+  "Bold black ink linework on a plain white background. No color. Use hatching and cross-hatching to convey shadows, depth, and material texture.",
   "Hand-lettered text in plain speech bubbles and rectangular caption boxes. All text must be perfectly legible real English words — no garbled letters, no nonsense strings.",
   "Dry, observational, technically-aware humor; grounded rather than zany.",
-  "Sparse backgrounds — props, labels, and small signs carry the context.",
-  "Thin black panel borders separating each panel cleanly.",
-  "CRITICAL LAYOUT RULE: all content (figures, speech bubbles, text, props) must be centered within each panel with generous interior margins — at least 12% clear space from every panel edge. Nothing should touch or overlap a panel border.",
+  "Sparse backgrounds — props, labels, and small signs carry the context. Draw key props (whiteboards, mugs, labels) with enough detail to be recognizable.",
+  "Thick black panel borders separating each panel cleanly.",
+  "CRITICAL LAYOUT RULE: all content (figures, speech bubbles, text, props) must be centered within each panel with generous interior margins — at least 15% clear space from every panel edge. Nothing should touch or overlap a panel border.",
 ].join(" ");
 
 const FORMATS = {

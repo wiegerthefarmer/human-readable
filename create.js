@@ -206,7 +206,7 @@ function submitXhr(payload) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `${WORKER_URL}/submit`);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.timeout = 120000;
+    xhr.timeout = 240000;
 
     let uploadSent = false;
 
@@ -232,7 +232,9 @@ function submitXhr(payload) {
         ? 'Connection dropped while the server was processing — your submission may have gone through. Check the repo\'s pull requests before retrying.'
         : 'Upload failed — check your connection.'
     ));
-    xhr.ontimeout = () => reject(new Error('Upload timed out.'));
+    xhr.ontimeout = () => reject(new Error(
+      'Upload timed out — the server may still be processing. Check the repo\'s pull requests before retrying.'
+    ));
 
     xhr.send(JSON.stringify(payload));
   });
