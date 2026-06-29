@@ -249,14 +249,13 @@ async function generate(req, env) {
       return json({ image: `data:image/png;base64,${b64}`, prompt, script }, env);
     }
 
-    const panelPrompts = [];
-    const panelImages = [];
-    for (let i = 0; i < f.panels; i++) {
-      const panelPrompt = buildPanelPrompt(script, fmt, i);
-      panelPrompts.push(panelPrompt);
-      const b64 = await openaiGenerateRaw(env, panelPrompt, fmt, "high", f.size);
-      panelImages.push(`data:image/png;base64,${b64}`);
-    }
+    const panelPrompts = Array.from({ length: f.panels }, (_, i) =>
+      buildPanelPrompt(script, fmt, i)
+    );
+    const b64s = await Promise.all(
+      panelPrompts.map(p => openaiGenerateRaw(env, p, fmt, "high", f.size))
+    );
+    const panelImages = b64s.map(b64 => `data:image/png;base64,${b64}`);
 
     return json({ image: null, panelImages, prompt, panelPrompts, script, stitch: f.stitch }, env);
   } catch (e) {

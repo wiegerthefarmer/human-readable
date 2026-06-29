@@ -137,7 +137,7 @@ async function stitchPanelImages(panelImages, stitch) {
     ctx.stroke();
   }
 
-  return canvas.toDataURL('image/png');
+  return canvas.toDataURL('image/jpeg', 0.92);
 }
 
 function showSelected() {
