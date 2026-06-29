@@ -8,7 +8,8 @@ const els = {
   format: document.getElementById('format'),
   formatField: document.getElementById('format-field'),
   generate: document.getElementById('btn-generate'),
-  refresh: document.getElementById('btn-refresh'),
+  draw: document.getElementById('btn-draw'),
+  rewrite: document.getElementById('btn-rewrite'),
   upload: document.getElementById('btn-upload'),
   fileInput: document.getElementById('file-input'),
   submit: document.getElementById('btn-submit'),
@@ -24,8 +25,6 @@ const els = {
   scriptPreview: document.getElementById('script-preview'),
   scriptConcept: document.getElementById('script-concept'),
   scriptPanels: document.getElementById('script-panels'),
-  btnDraw: document.getElementById('btn-draw'),
-  btnRewrite: document.getElementById('btn-rewrite'),
 };
 
 // Enforce preview width after load and on rotation — CSS width:100% can be
@@ -53,7 +52,8 @@ function setMode(m) {
   els.introGenerate.hidden = !gen;
   els.introUpload.hidden = gen;
   els.generate.hidden = !gen;
-  els.refresh.hidden = !gen;
+  els.draw.hidden = true;
+  els.rewrite.hidden = true;
   els.upload.hidden = gen;
   els.formatField.hidden = !gen;
   els.seedField.hidden = !gen;
@@ -183,21 +183,24 @@ function renderGallery() {
 
 function updateButtons() {
   els.generate.disabled = busy;
-  els.refresh.disabled = busy || (generations.length === 0 && !pendingScript);
+  els.draw.disabled = busy;
+  els.rewrite.disabled = busy;
   els.upload.disabled = busy;
   els.submit.disabled = busy || selected < 0;
-  els.btnDraw.disabled = busy;
-  els.btnRewrite.disabled = busy;
 }
 
 function showScript(script) {
   pendingScript = script;
   els.scriptConcept.textContent = script.concept || '';
   els.scriptPanels.innerHTML = (script.panels || []).map(p => {
-    const txt = p.text ? ` — <em>“${p.text}”</em>` : '';
+    const txt = p.text ? ` — <em>”${p.text}”</em>` : '';
     return `<li>${p.visual}${txt}</li>`;
   }).join('');
   els.scriptPreview.hidden = false;
+  // Swap buttons: hide “Write script”, reveal “Draw” + “New script”
+  els.generate.hidden = true;
+  els.draw.hidden = false;
+  els.rewrite.hidden = false;
 }
 
 function handleFile(file) {
@@ -415,10 +418,9 @@ async function submit() {
 }
 
 els.generate.onclick = writeScriptStep;
-els.refresh.onclick  = () => pendingScript ? drawStep() : writeScriptStep();
-els.btnDraw.onclick  = drawStep;
-els.btnRewrite.onclick = writeScriptStep;
-els.submit.onclick = submit;
+els.draw.onclick     = drawStep;
+els.rewrite.onclick  = writeScriptStep;
+els.submit.onclick   = submit;
 els.upload.onclick = () => els.fileInput.click();
 els.fileInput.onchange = e => {
   handleFile(e.target.files[0]);

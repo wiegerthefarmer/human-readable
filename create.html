@@ -24,9 +24,8 @@
     </div>
 
     <p class="create-intro" id="intro-generate">
-      Type an idea and a draft comic is drawn in the house style — regenerate
-      until you like one. Pick the best version and submit; it goes through
-      a high-quality re-render before queuing for review. Nothing publishes
+      Type an idea, write a script, then draw it. Rewrite or redraw until
+      you like one. Pick the best version and submit — nothing publishes
       automatically.
     </p>
     <p class="create-intro" id="intro-upload" hidden>
@@ -55,8 +54,9 @@
     </div>
 
     <div class="create-actions">
-      <button id="btn-generate" class="btn-primary">Generate</button>
-      <button id="btn-refresh">Refresh</button>
+      <button id="btn-generate" class="btn-primary">Write script</button>
+      <button id="btn-draw" class="btn-primary" hidden>Draw</button>
+      <button id="btn-rewrite" hidden>New script</button>
       <button id="btn-upload" hidden>Upload image</button>
       <input id="file-input" type="file" accept="image/png,image/jpeg" hidden>
       <button id="btn-submit" disabled>Submit</button>
@@ -65,10 +65,6 @@
     <div id="script-preview" class="script-preview" hidden>
       <div id="script-concept" class="script-concept"></div>
       <ol id="script-panels" class="script-panels"></ol>
-      <div class="script-actions">
-        <button id="btn-draw" class="btn-primary">Draw</button>
-        <button id="btn-rewrite">Rewrite script</button>
-      </div>
     </div>
 
     <div id="status" class="create-status"></div>
