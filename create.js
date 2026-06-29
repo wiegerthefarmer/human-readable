@@ -28,6 +28,15 @@ const els = {
   btnRewrite: document.getElementById('btn-rewrite'),
 };
 
+// Enforce preview width after load and on rotation — CSS width:100% can be
+// ignored by Safari for large data-URL images, so we reinforce it inline.
+function constrainPreview() {
+  if (els.preview.hidden) return;
+  els.preview.style.width = '100%';
+  els.preview.style.height = 'auto';
+}
+window.addEventListener('resize', constrainPreview);
+
 // Each entry: { image: dataURL, prompt: string, script: object, uploaded: boolean }
 let generations = [];
 let selected = -1;
@@ -72,10 +81,12 @@ function showSelected() {
     els.previewEmpty.hidden = false;
     return;
   }
+  els.preview.onload = constrainPreview;
   els.preview.src = generations[selected].image;
   els.preview.alt = els.seed.value.trim() || 'Generated comic preview';
   els.preview.hidden = false;
   els.previewEmpty.hidden = true;
+  constrainPreview();
 }
 
 function renderGallery() {
