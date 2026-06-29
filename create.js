@@ -1,6 +1,9 @@
 // Deployed Cloudflare Worker URL (no trailing slash).
 const WORKER_URL = 'https://human-readable-comics.aaron-visser.workers.dev';
 
+// Set to true to re-enable the AI generation mode.
+const GENERATE_ENABLED = false;
+
 const els = {
   seed: document.getElementById('seed'),
   seedField: document.getElementById('seed-field'),
@@ -449,4 +452,10 @@ els.theme.onclick = () => {
 const saved = localStorage.getItem('theme');
 if (saved && THEMES.includes(saved)) applyTheme(saved);
 
-updateButtons();
+if (!GENERATE_ENABLED) {
+  document.querySelector('.mode-toggle').hidden = true;
+  document.getElementById('intro-generate').hidden = true;
+  setMode('upload');
+} else {
+  updateButtons();
+}
