@@ -151,18 +151,20 @@ function buildPromptFromScript(script, format) {
   ].join("\n\n");
 }
 
-function buildPanelPrompt(script, format, index) {
+function buildPanelPrompt(script, format, index, tweaks) {
   const f = FORMATS[format] || FORMATS["3-panel"];
   const panel = script.panels?.[index] || {};
   const txt = panel.text ? `Text to render exactly: "${panel.text}"` : "No text unless it is required by the visual description.";
-  return [
+  const parts = [
     STYLE_PREAMBLE,
     `This is panel ${index + 1} of a ${f.label}. Render ONLY this one panel as a complete square comic panel. Do not draw neighboring panels. Do not crop the scene.`,
     "The browser will add the final strip/page borders later, so leave safe white margins around the art and text.",
     `Visual: ${panel.visual || "simple stick-figure scene"}`,
     txt,
     "REMINDER: every prop in this panel (mug, whiteboard, screen, sign, badge) MUST have a legible witty label. Do not leave any object blank.",
-  ].join("\n\n");
+  ];
+  if (tweaks) parts.push(`Artist's adjustments: ${tweaks}`);
+  return parts.join("\n\n");
 }
 
 // ---- CORS ---------------------------------------------------------------
@@ -231,7 +233,7 @@ async function writeScriptEndpoint(req, env) {
 // ---- /quick-preview -----------------------------------------------------
 
 async function quickPreview(req, env) {
-  const { seed, format, script: providedScript } = await req.json();
+  const { seed, format, script: providedScript, tweaks } = await req.json();
   if (!seed?.trim()) return json({ error: "Please enter an idea first." }, env, 400);
   const fmt = FORMATS[format] ? format : "3-panel";
 
@@ -245,7 +247,8 @@ async function quickPreview(req, env) {
   }
 
   try {
-    const prompt = buildPromptFromScript(script, fmt);
+    let prompt = buildPromptFromScript(script, fmt);
+    if (tweaks) prompt += `\n\nArtist's adjustments: ${tweaks}`;
     const b64 = await openaiGenerateRaw(env, prompt, fmt, "low");
     return json({ image: `data:image/png;base64,${b64}`, script }, env);
   } catch (e) {
@@ -256,7 +259,7 @@ async function quickPreview(req, env) {
 // ---- /generate ----------------------------------------------------------
 
 async function generate(req, env) {
-  const { seed, format, script: providedScript } = await req.json();
+  const { seed, format, script: providedScript, tweaks } = await req.json();
   if (!seed || !seed.trim()) return json({ error: "Please enter an idea first." }, env, 400);
   const fmt = FORMATS[format] ? format : "3-panel";
   const f = FORMATS[fmt];
@@ -280,7 +283,7 @@ async function generate(req, env) {
     }
 
     const panelPrompts = Array.from({ length: f.panels }, (_, i) =>
-      buildPanelPrompt(script, fmt, i)
+      buildPanelPrompt(script, fmt, i, tweaks)
     );
     const b64s = await Promise.all(
       panelPrompts.map(p => openaiGenerateRaw(env, p, fmt, "high", f.size))

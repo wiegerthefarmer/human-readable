@@ -25,6 +25,8 @@ const els = {
   scriptPreview: document.getElementById('script-preview'),
   scriptConcept: document.getElementById('script-concept'),
   scriptPanels: document.getElementById('script-panels'),
+  tweaks: document.getElementById('tweaks'),
+  tweaksField: document.getElementById('tweaks-field'),
 };
 
 // Enforce preview width after load and on rotation — CSS width:100% can be
@@ -61,6 +63,8 @@ function setMode(m) {
   selected = -1;
   pendingScript = null;
   els.scriptPreview.hidden = true;
+  els.tweaksField.hidden = true;
+  els.tweaks.value = '';
   showSelected();
   renderGallery();
   updateButtons();
@@ -197,6 +201,7 @@ function showScript(script) {
     return `<li>${p.visual}${txt}</li>`;
   }).join('');
   els.scriptPreview.hidden = false;
+  els.tweaksField.hidden = false;
   // Swap buttons: hide “Write script”, reveal “Draw” + “New script”
   els.generate.hidden = true;
   els.draw.hidden = false;
@@ -268,7 +273,7 @@ async function drawStep() {
   updateButtons();
   setStatus('Drawing…', false, true);
 
-  const body = JSON.stringify({ seed, format: els.format.value, script: pendingScript });
+  const body = JSON.stringify({ seed, format: els.format.value, script: pendingScript, tweaks: els.tweaks.value.trim() || null });
   const fetchOpts = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body };
 
   // Fire quick preview and full panel generation in parallel.
