@@ -33,6 +33,7 @@ const els = {
 function constrainPreview() {
   if (els.preview.hidden) return;
   els.preview.style.width = '100%';
+  els.preview.style.maxWidth = '100%';
   els.preview.style.height = 'auto';
 }
 window.addEventListener('resize', constrainPreview);
@@ -69,10 +70,74 @@ function setMode(m) {
 els.modeGenerate.onclick = () => setMode('generate');
 els.modeUpload.onclick   = () => setMode('upload');
 
-
 function setStatus(msg, isError = false, spinner = false) {
   els.status.className = 'create-status' + (isError ? ' error' : '');
   els.status.innerHTML = (spinner ? '<span class="spinner"></span>' : '') + msg;
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Could not load a generated panel.'));
+    img.src = src;
+  });
+}
+
+async function stitchPanelImages(panelImages, stitch) {
+  if (!panelImages?.length || !stitch) {
+    throw new Error('No panel images returned to stitch.');
+  }
+
+  const cols = stitch.cols || 1;
+  const rows = stitch.rows || Math.ceil(panelImages.length / cols);
+  const panelSize = stitch.panelSize || 1024;
+  const gutter = stitch.gutter || 0;
+  const border = stitch.border || 8;
+  const width = cols * panelSize + (cols - 1) * gutter;
+  const height = rows * panelSize + (rows - 1) * gutter;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, width, height);
+
+  const imgs = await Promise.all(panelImages.map(loadImage));
+  imgs.forEach((img, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+    const x = col * (panelSize + gutter);
+    const y = row * (panelSize + gutter);
+    ctx.drawImage(img, x, y, panelSize, panelSize);
+  });
+
+  ctx.strokeStyle = '#000';
+  ctx.lineWidth = border;
+  ctx.lineJoin = 'miter';
+
+  // Outer border.
+  ctx.strokeRect(border / 2, border / 2, width - border, height - border);
+
+  // Internal panel dividers. These are deterministic and never crop artwork.
+  for (let c = 1; c < cols; c++) {
+    const x = c * panelSize + (c - 0.5) * gutter;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, height);
+    ctx.stroke();
+  }
+  for (let r = 1; r < rows; r++) {
+    const y = r * panelSize + (r - 0.5) * gutter;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(width, y);
+    ctx.stroke();
+  }
+
+  return canvas.toDataURL('image/png');
 }
 
 function showSelected() {
@@ -188,7 +253,7 @@ async function drawStep() {
 
   busy = true;
   updateButtons();
-  setStatus('Drawing comic…', false, true);
+  setStatus('Drawing panels…', false, true);
 
   try {
     const resp = await fetch(`${WORKER_URL}/generate`, {
@@ -199,7 +264,20 @@ async function drawStep() {
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
 
-    generations.push({ image: data.image, prompt: data.prompt, script: data.script });
+    let image = data.image;
+    if (data.panelImages?.length) {
+      setStatus('Stitching panels…', false, true);
+      image = await stitchPanelImages(data.panelImages, data.stitch);
+    }
+
+    generations.push({
+      image,
+      prompt: data.prompt,
+      script: data.script,
+      panelImages: data.panelImages || [],
+      panelPrompts: data.panelPrompts || [],
+      stitch: data.stitch || null,
+    });
     selected = generations.length - 1;
     showSelected();
     renderGallery();
@@ -266,7 +344,7 @@ async function submit() {
   try {
     const g = generations[selected];
     const isUpload = !!g.uploaded;
-    setStatus(isUpload ? 'Uploading your image… 0%' : 'Re-rendering at high quality…', false, !isUpload);
+    setStatus(isUpload ? 'Uploading your image… 0%' : 'Uploading deterministic comic…', false, !isUpload);
 
     const aiVariants = generations.filter(x => !x.uploaded);
     const data = await submitXhr({
@@ -280,7 +358,7 @@ async function submit() {
       generations: isUpload ? [] : aiVariants,
     });
 
-    const tail = isUpload ? 'queued for review.' : 'high-quality re-render saved.';
+    const tail = isUpload ? 'queued for review.' : 'stitched comic saved.';
     setStatus(`Submitted! <a href="${data.url}" target="_blank" rel="noopener">Track it ›</a> — ${tail}`);
   } catch (err) {
     setStatus(err.message || 'Submission failed.', true);

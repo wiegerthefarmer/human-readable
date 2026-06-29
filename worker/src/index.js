@@ -3,14 +3,19 @@
  *
  * Endpoints (all POST + JSON unless noted):
  *
- *   /generate   { seed, format }
- *     GPT-4o writes a panel-by-panel script, then gpt-image-1 renders it.
- *     Returns { image, prompt, script }.
+ *   /write-script { seed, format }
+ *     GPT-4o writes a panel-by-panel script.
+ *     Returns { script }.
+ *
+ *   /generate   { seed, format, script }
+ *     GPT-4o writes/reuses a panel-by-panel script, then gpt-image-1 renders
+ *     each panel independently for multi-panel comics. The browser stitches the
+ *     returned panel images into a deterministic strip/page preview.
+ *     Returns { image, panelImages, prompt, panelPrompts, script, stitch }.
  *
  *   /submit     { image, prompt, title, seed, format, generations[] }
- *     Re-renders the chosen preview at high quality (same prompt + edits
- *     endpoint keeps composition intact), commits comic.png + all variant
- *     previews + variants.json + script.md + notes.md, opens a draft PR.
+ *     Commits the selected deterministic composite + all variant previews +
+ *     variants.json + script.md + notes.md, opens a draft PR.
  *     Returns { ok, url, number }.
  *
  * Secrets (wrangler secret put):
@@ -29,14 +34,31 @@ const STYLE_PREAMBLE = [
   "Hand-lettered text in plain speech bubbles and rectangular caption boxes. All text must be perfectly legible real English words — no garbled letters, no nonsense strings.",
   "Dry, observational, technically-aware humor; grounded rather than zany.",
   "Sparse backgrounds — props, labels, and small signs carry the context. Draw key props (whiteboards, mugs, labels) with enough detail to be recognizable.",
-  "Thick black panel borders separating each panel cleanly.",
-  "CRITICAL LAYOUT RULE: all content (figures, speech bubbles, text, props) must be centered within each panel with generous interior margins — at least 15% clear space from every panel edge. Nothing should touch or overlap a panel border.",
+  "Generous interior margins: all content must sit well inside the image, with at least 18% clear space from every outer edge. Nothing should touch or run off an edge.",
 ].join(" ");
 
 const FORMATS = {
-  "3-panel": { label: "3-panel strip",  size: "1536x1024", panels: 3, layout: "Arrange as a single horizontal row of 3 equal panels." },
-  "9-panel": { label: "9-panel page",   size: "1024x1536", panels: 9, layout: "Arrange as a 3×3 grid of 9 equal panels read left-to-right, top-to-bottom." },
-  "single":  { label: "single panel",   size: "1024x1024", panels: 1, layout: "A single panel." },
+  "3-panel": {
+    label: "3-panel strip",
+    size: "1024x1024",
+    panels: 3,
+    layout: "Render each panel independently. The browser will stitch the 3 finished panels into one horizontal strip.",
+    stitch: { cols: 3, rows: 1, panelSize: 1024, gutter: 0, border: 10 },
+  },
+  "9-panel": {
+    label: "9-panel page",
+    size: "1024x1024",
+    panels: 9,
+    layout: "Render each panel independently. The browser will stitch the 9 finished panels into a 3×3 page read left-to-right, top-to-bottom.",
+    stitch: { cols: 3, rows: 3, panelSize: 1024, gutter: 0, border: 10 },
+  },
+  "single": {
+    label: "single panel",
+    size: "1024x1024",
+    panels: 1,
+    layout: "A single panel.",
+    stitch: null,
+  },
 };
 
 const WRITER_SYSTEM = `\
@@ -125,6 +147,19 @@ function buildPromptFromScript(script, format) {
   ].join("\n\n");
 }
 
+function buildPanelPrompt(script, format, index) {
+  const f = FORMATS[format] || FORMATS["3-panel"];
+  const panel = script.panels?.[index] || {};
+  const txt = panel.text ? `Text to render exactly: "${panel.text}"` : "No text unless it is required by the visual description.";
+  return [
+    STYLE_PREAMBLE,
+    `This is panel ${index + 1} of a ${f.label}. Render ONLY this one panel as a complete square comic panel. Do not draw neighboring panels. Do not crop the scene.`,
+    "The browser will add the final strip/page borders later, so leave safe white margins around the art and text.",
+    `Visual: ${panel.visual || "simple stick-figure scene"}`,
+    txt,
+  ].join("\n\n");
+}
+
 // ---- CORS ---------------------------------------------------------------
 
 function corsHeaders(env) {
@@ -152,7 +187,7 @@ function b64ToBlob(b64, type = "image/png") {
   return new Blob([bytes], { type });
 }
 
-async function openaiGenerateRaw(env, prompt, fmt, quality = "low") {
+async function openaiGenerateRaw(env, prompt, fmt, quality = "low", sizeOverride = null) {
   const r = await fetch("https://api.openai.com/v1/images/generations", {
     method: "POST",
     headers: {
@@ -162,7 +197,7 @@ async function openaiGenerateRaw(env, prompt, fmt, quality = "low") {
     body: JSON.stringify({
       model: "gpt-image-1",
       prompt,
-      size: FORMATS[fmt]?.size || "1536x1024",
+      size: sizeOverride || FORMATS[fmt]?.size || "1024x1024",
       quality,
       n: 1,
     }),
@@ -171,32 +206,6 @@ async function openaiGenerateRaw(env, prompt, fmt, quality = "low") {
   const data = await r.json();
   const b64 = data?.data?.[0]?.b64_json;
   if (!b64) throw new Error("No image data in OpenAI response.");
-  return b64;
-}
-
-async function openaiEditRaw(env, b64Image, prompt, fmt) {
-  // Use the edits endpoint so the composition is preserved; only clarity/resolution improves.
-  const form = new FormData();
-  form.append("image", b64ToBlob(b64Image), "comic.png");
-  form.append("model", "gpt-image-1");
-  form.append("prompt",
-    prompt +
-    "\n\nEnhance quality and linework clarity. " +
-    "Keep the exact same composition, panel layout, characters, text, and visual beats."
-  );
-  form.append("size", FORMATS[fmt]?.size || "1536x1024");
-  form.append("quality", "high");
-  form.append("n", "1");
-
-  const r = await fetch("https://api.openai.com/v1/images/edits", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${env.OPENAI_API_KEY}` },
-    body: form,
-  });
-  if (!r.ok) throw new Error(`OpenAI edit failed (${r.status}): ${await r.text()}`);
-  const data = await r.json();
-  const b64 = data?.data?.[0]?.b64_json;
-  if (!b64) throw new Error("No image data in OpenAI edit response.");
   return b64;
 }
 
@@ -220,6 +229,7 @@ async function generate(req, env) {
   const { seed, format, script: providedScript } = await req.json();
   if (!seed || !seed.trim()) return json({ error: "Please enter an idea first." }, env, 400);
   const fmt = FORMATS[format] ? format : "3-panel";
+  const f = FORMATS[fmt];
 
   let script;
   if (providedScript?.panels?.length) {
@@ -234,8 +244,21 @@ async function generate(req, env) {
 
   const prompt = buildPromptFromScript(script, fmt);
   try {
-    const b64 = await openaiGenerateRaw(env, prompt, fmt, "high");
-    return json({ image: `data:image/png;base64,${b64}`, prompt, script }, env);
+    if (f.panels === 1) {
+      const b64 = await openaiGenerateRaw(env, prompt, fmt, "high");
+      return json({ image: `data:image/png;base64,${b64}`, prompt, script }, env);
+    }
+
+    const panelPrompts = [];
+    const panelImages = [];
+    for (let i = 0; i < f.panels; i++) {
+      const panelPrompt = buildPanelPrompt(script, fmt, i);
+      panelPrompts.push(panelPrompt);
+      const b64 = await openaiGenerateRaw(env, panelPrompt, fmt, "high", f.size);
+      panelImages.push(`data:image/png;base64,${b64}`);
+    }
+
+    return json({ image: null, panelImages, prompt, panelPrompts, script, stitch: f.stitch }, env);
   } catch (e) {
     return json({ error: e.message }, env, 502);
   }
@@ -314,21 +337,12 @@ async function submit(req, env) {
 
   const fmt = FORMATS[format] ? format : "3-panel";
   const fmtLabel = FORMATS[fmt].label;
-  // Treat as upload if mode says so OR if there is no AI prompt to work with.
   const isUpload = mode === "upload" || !prompt?.trim();
   const chosenB64 = image.replace(/^data:image\/[^;]+;base64,/, "");
 
-  let hqB64;
-  if (isUpload) {
-    // Uploaded art goes through unchanged — zero AI involvement.
-    hqB64 = chosenB64;
-  } else {
-    try {
-      hqB64 = await openaiEditRaw(env, chosenB64, prompt, fmt);
-    } catch (e) {
-      return json({ error: `Re-render failed: ${e.message}` }, env, 502);
-    }
-  }
+  // Generated multi-panel art is now a deterministic browser-side composite.
+  // Do not send it back through image edits; that can re-crop/recompose the strip.
+  const hqB64 = chosenB64;
 
   // Scaffold folder and branch.
   const n = await nextNumber(env);
@@ -348,20 +362,17 @@ async function submit(req, env) {
 
   let variantCount = 0;
   try {
-    // comic.png — high-quality re-render (generated) or the uploaded art as-is.
     await ghPut(env, `${dir}/comic.png`, hqB64, branch, `Add ${dir}/comic.png`);
 
-    // Variant previews are only saved for AI-generated submissions.
     if (!isUpload) {
       const allGens = [...generations];
-      const pickedB64 = image.replace(/^data:image\/[^;]+;base64,/, "");
       const alreadyIncluded = allGens.some(g =>
-        (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === pickedB64
+        (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === chosenB64
       );
       if (!alreadyIncluded) allGens.push({ image, prompt });
 
       const selectedIdx = allGens.findIndex(g =>
-        (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === pickedB64
+        (g.image || "").replace(/^data:image\/[^;]+;base64,/, "") === chosenB64
       );
 
       const variantMeta = [];
@@ -373,6 +384,7 @@ async function submit(req, env) {
         variantMeta.push({
           file: fname,
           prompt: allGens[i].prompt || prompt,
+          panelPrompts: allGens[i].panelPrompts || [],
           seed: seed || "",
           selected: i === selectedIdx,
         });
@@ -387,7 +399,6 @@ async function submit(req, env) {
       );
     }
 
-    // script.md — use the GPT-4o script if available, otherwise placeholder.
     let scriptMd = `# ${title.trim()}\n\n**Format:** ${fmtLabel}\n\n`;
     if (!isUpload && script?.concept) {
       scriptMd += `**Concept:** ${script.concept}\n\n`;
@@ -404,18 +415,15 @@ async function submit(req, env) {
     }
     await ghPut(env, `${dir}/script.md`, b64utf8(scriptMd), branch, `Add ${dir}/script.md`);
 
-    // notes.md — description plus, for generated comics, prompt provenance.
     let notesMd = `${seed ? seed.trim() : "_Notes pending review._"}\n`;
     if (!isUpload) {
-      notesMd += `\n---\n\n_Generated image. Prompt used:_\n\n` +
-        `> ${(prompt || "").replace(/\n/g, "\n> ")}\n`;
+      notesMd += `\n---\n\n_Generated image. Final comic is a deterministic stitched composite of independently rendered panels._\n\n` +
+        `_Composite prompt provenance:_\n\n> ${(prompt || "").replace(/\n/g, "\n> ")}\n`;
     } else {
       notesMd += `\n---\n\n_Uploaded artwork._\n`;
     }
     await ghPut(env, `${dir}/notes.md`, b64utf8(notesMd), branch, `Add ${dir}/notes.md`);
 
-    // Per-comic share page: static HTML with OG tags so social previews work.
-    // Crawlers see the OG image; browsers are instantly redirected to the reader.
     const siteBase = ghPagesBase(env);
     const ogTitle = escHtml(title.trim());
     const ogDesc  = escHtml((seed ? seed.trim() : `A Human-Readable comic.`).slice(0, 300));
@@ -456,7 +464,7 @@ async function submit(req, env) {
     : `Generated via the create page.\n\n` +
       `**Idea:** ${seed ? seed.trim() : "(none)"}\n` +
       `**Variants generated:** ${variantCount}\n\n` +
-      `comic.png is a high-quality re-render of the chosen preview.\n` +
+      `comic.png is a deterministic composite stitched from independently rendered panels.\n` +
       `All previews are saved in \`variants/\` with prompt provenance in \`variants.json\`.\n\n` +
       `Review the image and tidy \`script.md\` / \`notes.md\` before merging.`;
 
@@ -476,8 +484,6 @@ async function submit(req, env) {
     const prData = await pr.json();
     prUrl = prData.html_url;
   } catch (e) {
-    // Files are safely on the branch — return a compare URL so the submitter
-    // can still track their work even if PR creation threw.
     prUrl = `https://github.com/${env.REPO}/compare/${branch}`;
   }
 
@@ -501,5 +507,3 @@ export default {
     }
   },
 };
-
-

@@ -123,11 +123,13 @@ main {
   padding: 1rem;
   margin-bottom: 0.6rem;
   min-height: 120px;
+  overflow: hidden;
 }
 
 .comic-frame img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
 }
 
@@ -198,7 +200,8 @@ footer a:hover {
 .variant-thumb {
   width: 52px;
   height: 52px;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--white);
   border: 1px solid var(--border);
   cursor: pointer;
   opacity: 0.55;
@@ -428,7 +431,8 @@ html.amber .create-status.error {
 .gallery img {
   width: 64px;
   height: 64px;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--white);
   border: 1px solid var(--border);
   cursor: pointer;
   opacity: 0.6;
@@ -517,61 +521,3 @@ html.amber .create-status.error {
 }
 
 /* ---- Archive grid ---- */
-
-.archive-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.2rem;
-  margin-top: 1.2rem;
-}
-
-.archive-item {
-  display: block;
-  text-decoration: none;
-  color: var(--ink);
-  border: 1px solid var(--border);
-  background: var(--white);
-  transition: border-color 0.12s;
-}
-
-.archive-item:hover {
-  border-color: var(--ink);
-}
-
-.archive-item img {
-  display: block;
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-
-.archive-item-meta {
-  padding: 0.45rem 0.6rem;
-  border-top: 1px solid var(--border);
-}
-
-.archive-item-num {
-  font-size: 0.72rem;
-  color: var(--faint);
-}
-
-.archive-item-title {
-  font-size: 0.82rem;
-  font-weight: bold;
-  margin-top: 0.1rem;
-}
-
-@media (max-width: 600px) {
-  body {
-    padding: 1.5rem 0.75rem 1rem;
-  }
-
-  .site-title {
-    font-size: 1.15rem;
-  }
-
-  .comic-nav button {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.8rem;
-  }
-}
