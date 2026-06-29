@@ -223,6 +223,31 @@ async function writeScriptEndpoint(req, env) {
   }
 }
 
+// ---- /quick-preview -----------------------------------------------------
+
+async function quickPreview(req, env) {
+  const { seed, format, script: providedScript } = await req.json();
+  if (!seed?.trim()) return json({ error: "Please enter an idea first." }, env, 400);
+  const fmt = FORMATS[format] ? format : "3-panel";
+
+  let script = providedScript?.panels?.length ? providedScript : null;
+  if (!script) {
+    try {
+      script = await writeScript(env, seed, fmt);
+    } catch (e) {
+      return json({ error: `Script failed: ${e.message}` }, env, 502);
+    }
+  }
+
+  try {
+    const prompt = buildPromptFromScript(script, fmt);
+    const b64 = await openaiGenerateRaw(env, prompt, fmt, "low");
+    return json({ image: `data:image/png;base64,${b64}`, script }, env);
+  } catch (e) {
+    return json({ error: e.message }, env, 502);
+  }
+}
+
 // ---- /generate ----------------------------------------------------------
 
 async function generate(req, env) {
@@ -497,8 +522,9 @@ export default {
     if (req.method !== "POST") return json({ error: "POST only." }, env, 405);
     const { pathname } = new URL(req.url);
     try {
-      if (pathname === "/write-script") return await writeScriptEndpoint(req, env);
-      if (pathname === "/generate") return await generate(req, env);
+      if (pathname === "/write-script")   return await writeScriptEndpoint(req, env);
+      if (pathname === "/quick-preview")  return await quickPreview(req, env);
+      if (pathname === "/generate")       return await generate(req, env);
       if (pathname === "/submit")   return await submit(req, env);
       return json({ error: "Not found." }, env, 404);
     } catch (e) {

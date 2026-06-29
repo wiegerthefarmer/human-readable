@@ -78,9 +78,19 @@ function setStatus(msg, isError = false, spinner = false) {
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = () => resolve(img);
     img.onerror = () => reject(new Error('Could not load a generated panel.'));
-    img.src = src;
+    if (src.startsWith('data:')) {
+      // iOS Safari fails on large data URLs as img.src; use a Blob URL instead.
+      const comma = src.indexOf(',');
+      const mime = src.slice(5, src.indexOf(';')) || 'image/png';
+      const bytes = Uint8Array.from(atob(src.slice(comma + 1)), c => c.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: mime }));
+      img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+      img.src = url;
+    } else {
+      img.onload = () => resolve(img);
+      img.src = src;
+    }
   });
 }
 
@@ -253,14 +263,44 @@ async function drawStep() {
 
   busy = true;
   updateButtons();
-  setStatus('Drawing panels…', false, true);
+  setStatus('Drawing…', false, true);
 
+  const body = JSON.stringify({ seed, format: els.format.value, script: pendingScript });
+  const fetchOpts = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body };
+
+  // Fire quick preview and full panel generation in parallel.
+  const quickPromise = fetch(`${WORKER_URL}/quick-preview`, fetchOpts);
+  const fullPromise  = fetch(`${WORKER_URL}/generate`, fetchOpts);
+
+  let quickIdx = -1;
+
+  // Show quick preview as soon as it arrives.
   try {
-    const resp = await fetch(`${WORKER_URL}/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ seed, format: els.format.value, script: pendingScript }),
+    const qResp = await quickPromise;
+    const qData = await qResp.json();
+    if (!qResp.ok) throw new Error(qData.error || `Quick preview failed (${qResp.status})`);
+    generations.push({
+      image: qData.image,
+      prompt: '',
+      script: qData.script || pendingScript,
+      panelImages: [],
+      panelPrompts: [],
+      stitch: null,
+      isQuickPreview: true,
     });
+    quickIdx = generations.length - 1;
+    selected = quickIdx;
+    showSelected();
+    renderGallery();
+    updateButtons();
+    setStatus('Preview ready — upgrading to full quality…', false, true);
+  } catch (err) {
+    setStatus(`Quick preview: ${err.message} — still rendering full quality…`, false, true);
+  }
+
+  // Wait for full quality panels, then stitch and replace the preview.
+  try {
+    const resp = await fullPromise;
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.error || `Request failed (${resp.status})`);
 
@@ -270,20 +310,26 @@ async function drawStep() {
       image = await stitchPanelImages(data.panelImages, data.stitch);
     }
 
-    generations.push({
+    const gen = {
       image,
       prompt: data.prompt,
       script: data.script,
       panelImages: data.panelImages || [],
       panelPrompts: data.panelPrompts || [],
       stitch: data.stitch || null,
-    });
-    selected = generations.length - 1;
+    };
+
+    if (quickIdx >= 0) {
+      generations[quickIdx] = gen;
+    } else {
+      generations.push(gen);
+      selected = generations.length - 1;
+    }
     showSelected();
     renderGallery();
-    setStatus(`Generation ${generations.length} ready. Refresh to redraw, or submit.`);
+    setStatus(`Generation ${quickIdx >= 0 ? quickIdx + 1 : generations.length} ready. Refresh to redraw, or submit.`);
   } catch (err) {
-    setStatus(err.message || 'Generation failed.', true);
+    setStatus(err.message || 'Full generation failed.', true);
   } finally {
     busy = false;
     updateButtons();
