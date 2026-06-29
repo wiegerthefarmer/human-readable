@@ -34,7 +34,8 @@ const STYLE_PREAMBLE = [
   "Bold black ink linework on a plain white background. No color. Use hatching and cross-hatching to convey shadows, depth, and material texture.",
   "Hand-lettered text in plain speech bubbles and rectangular caption boxes. All text must be perfectly legible real English words — no garbled letters, no nonsense strings.",
   "Dry, witty, technically-aware humor.",
-  "Sparse backgrounds — props, labels, and small signs carry the context and the jokes. Every mug, whiteboard, label, badge, sticky note, or piece of paraphernalia must display a short readable dry-wit slogan directly related to the scene (e.g. 'git blame', 'works on my machine', 'sudo make coffee', 'undefined behaviour', '404: sleep not found'). Draw props with enough detail for the text to be legible.",
+  "Sparse backgrounds — props carry the context.",
+  "MANDATORY PROP RULE: every mug, cup, whiteboard, monitor, badge, sticky note, t-shirt, or any object in the scene MUST display clearly legible hand-lettered text — a dry, witty slogan tied to the joke (examples: 'git blame', 'works on my machine', 'sudo make coffee', 'undefined behaviour', '404: sleep not found', 'have you tried turning it off and on again'). A blank mug or empty whiteboard is a failure. Draw every prop large enough that its text can be read.",
   "Generous interior margins: all content must sit well inside the image, with at least 18% clear space from every outer edge. Nothing should touch or run off an edge.",
 ].join(" ");
 
@@ -160,6 +161,7 @@ function buildPanelPrompt(script, format, index) {
     "The browser will add the final strip/page borders later, so leave safe white margins around the art and text.",
     `Visual: ${panel.visual || "simple stick-figure scene"}`,
     txt,
+    "REMINDER: every prop in this panel (mug, whiteboard, screen, sign, badge) MUST have a legible witty label. Do not leave any object blank.",
   ].join("\n\n");
 }
 
