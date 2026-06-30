@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """
-Push newly-merged comics to Printful as sync products.
+Push newly-merged comics to Printful as sync products and link to Etsy.
 
 For each comic folder that has a comic.png but no printful.json, this script
-creates four Printful products (poster, mug, tshirt, mousepad) and writes
-printful.json with the resulting product page URLs.
+creates four Printful products (poster, mug, tshirt, mousepad), waits for
+Printful to sync them to your connected Etsy shop, then writes printful.json
+with the resulting Etsy listing URLs.
+
+Prerequisites:
+  Connect your Etsy shop to Printful once in the Printful dashboard
+  (Stores → Connect store → Etsy). After that, products created via the
+  Printful API automatically appear as Etsy listings.
 
 Required env / GitHub secrets:
   PRINTFUL_API_KEY       Printful API key
@@ -13,9 +19,7 @@ Required env / GitHub secrets:
                          Used to build the source image URL sent to Printful.
 
 Required GitHub repo variables:
-  PRINTFUL_STORE_BASE_URL  Your Printful storefront base URL
-                           (e.g. https://your-store.printful.me)
-                           Product links are built as {base}/products/{id}.
+  ETSY_SHOP_NAME         Your Etsy shop name (used as fallback URL if sync is slow)
 
 Catalog variant IDs:
   These are Printful's internal variant IDs. If a product variant is
@@ -101,12 +105,25 @@ def create_sync_product(title, product_key, image_url):
     return result["result"]["id"]
 
 
-def product_url(product_id):
-    store_base = os.environ.get("PRINTFUL_STORE_BASE_URL", "").rstrip("/")
-    if not store_base:
-        print("  warning: PRINTFUL_STORE_BASE_URL not set — product URL will be empty", file=sys.stderr)
-        return None
-    return f"{store_base}/products/{product_id}"
+def etsy_listing_url(printful_product_id, retries=12, delay=30):
+    """Poll Printful until the Etsy listing ID appears, then return the URL.
+
+    Printful syncs products to Etsy asynchronously — typically within
+    1–3 minutes. We poll up to retries×delay seconds (default ~6 min).
+    Returns None if the listing ID never appears in time.
+    """
+    for attempt in range(retries):
+        try:
+            result = api("GET", f"/store/products/{printful_product_id}")
+            ext_id = result.get("result", {}).get("external_id")
+            if ext_id:
+                return f"https://www.etsy.com/listing/{ext_id}"
+        except RuntimeError:
+            pass
+        if attempt < retries - 1:
+            print(f"      waiting for Etsy sync… ({attempt + 1}/{retries})")
+            time.sleep(delay)
+    return None
 
 
 def process_comic(folder, path):
@@ -134,15 +151,23 @@ def process_comic(folder, path):
                     title = line[2:].strip()
                     break
 
+    shop_name = os.environ.get("ETSY_SHOP_NAME", "")
+    shop_fallback = f"https://www.etsy.com/shop/{shop_name}" if shop_name else "https://www.etsy.com"
+
     print(f"  {folder}: creating Printful products for \"{title}\" …")
     products = {}
     for key in PRODUCT_CONFIGS:
         try:
             pid = create_sync_product(title, key, image_url)
-            url = product_url(pid)
+            print(f"    {key}: product #{pid} created, waiting for Etsy sync…")
+            url = etsy_listing_url(pid)
+            if url:
+                print(f"    {key}: → {url}")
+            else:
+                url = shop_fallback
+                print(f"    {key}: Etsy sync timed out — using shop fallback {url}", file=sys.stderr)
             products[key] = {"id": pid, "url": url}
-            print(f"    {key}: product #{pid} → {url or '(no store URL set)'}")
-            time.sleep(1)  # gentle rate-limit between products
+            time.sleep(1)
         except RuntimeError as e:
             print(f"    {key}: FAILED — {e}", file=sys.stderr)
             products[key] = {"id": None, "url": None, "error": str(e)}
