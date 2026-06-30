@@ -4,23 +4,23 @@ Push newly-merged comics to Printful as sync products.
 
 For each comic folder that has a comic.png but no printful.json, this script
 creates four Printful products (poster, mug, tshirt, mousepad) and writes
-printful.json with the resulting product URLs.
+printful.json with the resulting product page URLs.
 
-Required secrets / env vars:
+Required env / GitHub secrets:
   PRINTFUL_API_KEY       Printful API key
   PRINTFUL_STORE_ID      Printful store ID (numeric)
   SITE_BASE_URL          Public site URL, e.g. https://wiegerthefarmer.github.io/human-readable
                          Used to build the source image URL sent to Printful.
 
-Optional:
-  PRINTFUL_STORE_BASE_URL  Your store's public base URL (e.g. https://your-store.com).
-                           Product page URLs are built as {base}/products/{product_id}.
-                           Defaults to https://www.printful.com if not set.
+Required GitHub repo variables:
+  PRINTFUL_STORE_BASE_URL  Your Printful storefront base URL
+                           (e.g. https://your-store.printful.me)
+                           Product links are built as {base}/products/{id}.
 
 Catalog variant IDs:
-  These are Printful's internal variant IDs. If a product variant is unavailable
-  in your store, Printful returns a 400 — update the ID from your store's catalog
-  (dashboard → Products → catalog, or GET /store/variants).
+  These are Printful's internal variant IDs. If a product variant is
+  unavailable, Printful returns a 400 — update the ID from the Printful
+  catalog dashboard or GET /store/variants.
 """
 
 import json
@@ -34,16 +34,11 @@ import urllib.error
 
 API_BASE = "https://api.printful.com"
 
-# Printful catalog variant IDs per product type.
-# Each entry maps to one or more Printful catalog variant IDs.
-# For multi-variant products (t-shirts), list one per size — Printful creates
-# a single sync product with multiple variants.
 PRODUCT_CONFIGS = {
     "poster": {
         "name_suffix": "Poster",
         # 18×12" Enhanced Matte Paper Poster
         "variant_ids": [12701],
-        # Placement key recognised by Printful for this product type.
         "placement": "default",
     },
     "mug": {
@@ -54,7 +49,7 @@ PRODUCT_CONFIGS = {
     },
     "tshirt": {
         "name_suffix": "T-Shirt",
-        # Bella+Canvas 3001 unisex tee — S, M, L, XL, 2XL in White
+        # Bella+Canvas 3001 unisex — S, M, L, XL, 2XL in White
         "variant_ids": [4011, 4012, 4013, 4014, 4015],
         "placement": "front",
     },
@@ -68,7 +63,6 @@ PRODUCT_CONFIGS = {
 
 
 def api(method, path, body=None):
-    """Make a Printful API call; return parsed JSON result dict."""
     api_key = os.environ["PRINTFUL_API_KEY"]
     store_id = os.environ["PRINTFUL_STORE_ID"]
     url = f"{API_BASE}{path}"
@@ -92,45 +86,27 @@ def api(method, path, body=None):
 
 
 def create_sync_product(title, product_key, image_url):
-    """Create a Printful sync product; return the product ID."""
     cfg = PRODUCT_CONFIGS[product_key]
     name = f"{title} — {cfg['name_suffix']}"
     variants = []
     for vid in cfg["variant_ids"]:
         variants.append({
             "variant_id": vid,
-            "files": [
-                {
-                    "placement": cfg["placement"],
-                    "url": image_url,
-                }
-            ],
+            "files": [{"placement": cfg["placement"], "url": image_url}],
         })
-    payload = {
+    result = api("POST", "/store/products", {
         "sync_product": {"name": name},
         "sync_variants": variants,
-    }
-    result = api("POST", "/store/products", payload)
+    })
     return result["result"]["id"]
 
 
-def etsy_listing_url(printful_product_id, retries=4, delay=5):
-    """Fetch a Printful sync product and return the Etsy listing URL.
-
-    Printful syncs to Etsy asynchronously, so external_id may not be
-    populated immediately. Retry a few times before giving up.
-    """
-    for attempt in range(retries):
-        try:
-            result = api("GET", f"/store/products/{printful_product_id}")
-            ext_id = result.get("result", {}).get("external_id")
-            if ext_id:
-                return f"https://www.etsy.com/listing/{ext_id}"
-        except RuntimeError:
-            pass
-        if attempt < retries - 1:
-            time.sleep(delay)
-    return None
+def product_url(product_id):
+    store_base = os.environ.get("PRINTFUL_STORE_BASE_URL", "").rstrip("/")
+    if not store_base:
+        print("  warning: PRINTFUL_STORE_BASE_URL not set — product URL will be empty", file=sys.stderr)
+        return None
+    return f"{store_base}/products/{product_id}"
 
 
 def process_comic(folder, path):
@@ -143,16 +119,14 @@ def process_comic(folder, path):
     if not os.path.exists(image_path):
         return False
 
-    # Build the public image URL (GitHub Pages CDN).
     site_base = os.environ.get("SITE_BASE_URL", "").rstrip("/")
-    image_url = f"{site_base}/comics/{folder}/comic.png" if site_base else None
-    if not image_url:
+    if not site_base:
         print(f"  {folder}: SITE_BASE_URL not set, skipping.", file=sys.stderr)
         return False
+    image_url = f"{site_base}/comics/{folder}/comic.png"
 
-    # Read title from script.md if present.
-    script_path = os.path.join(path, "script.md")
     title = folder
+    script_path = os.path.join(path, "script.md")
     if os.path.exists(script_path):
         with open(script_path, encoding="utf-8") as f:
             for line in f:
@@ -160,19 +134,14 @@ def process_comic(folder, path):
                     title = line[2:].strip()
                     break
 
-    print(f"  {folder}: creating Printful products for "{title}" …")
+    print(f"  {folder}: creating Printful products for \"{title}\" …")
     products = {}
     for key in PRODUCT_CONFIGS:
         try:
             pid = create_sync_product(title, key, image_url)
-            # Printful syncs to Etsy asynchronously; poll for the Etsy listing ID.
-            url = etsy_listing_url(pid)
-            if not url:
-                # Etsy listing ID not yet available — link to shop root as fallback.
-                shop = os.environ.get("ETSY_SHOP_NAME", "")
-                url = f"https://www.etsy.com/shop/{shop}" if shop else "https://www.etsy.com"
+            url = product_url(pid)
             products[key] = {"id": pid, "url": url}
-            print(f"    {key}: product #{pid} → {url}")
+            print(f"    {key}: product #{pid} → {url or '(no store URL set)'}")
             time.sleep(1)  # gentle rate-limit between products
         except RuntimeError as e:
             print(f"    {key}: FAILED — {e}", file=sys.stderr)
