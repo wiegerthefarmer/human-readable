@@ -67,10 +67,20 @@ function render() {
 
   history.replaceState(null, '', `${SITE_BASE}/${comic.id}`);
   document.title = `${comic.title} — Human-Readable`;
+  trackView(comic.id, comic.title);
 
   renderVariantsStrip(comic);
   preloadNeighbor(current + 1);
   preloadNeighbor(current - 1);
+}
+
+// GoatCounter auto-onload is disabled (see index.html) because this is a
+// single-page app — the URL changes via history.replaceState, not a real
+// navigation, so each comic view is recorded as its own virtual pageview.
+function trackView(path, title) {
+  if (window.goatcounter && window.goatcounter.count) {
+    window.goatcounter.count({ path, title });
+  }
 }
 
 function setMainImage(src, alt) {
