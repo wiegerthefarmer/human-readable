@@ -1,12 +1,17 @@
 let comics = [];
 let current = 0;
 let variantIndex = -1; // -1 = canonical comic.png
+let livingStoryboard = null;
+let livingIndex = 0;
+let livingRequest = 0;
 
 const els = {
   number:       document.getElementById('comic-number'),
   title:        document.getElementById('comic-title'),
   img:          document.getElementById('comic-img'),
   empty:        document.getElementById('comic-empty'),
+  frame:        document.getElementById('comic-frame'),
+  nav:          document.getElementById('comic-nav'),
   first:        document.getElementById('btn-first'),
   prev:         document.getElementById('btn-prev'),
   random:       document.getElementById('btn-random'),
@@ -18,7 +23,27 @@ const els = {
   lbImg:        document.getElementById('lb-img'),
   lbClose:      document.getElementById('lb-close'),
   lbDownload:   document.getElementById('lb-download'),
+  livingEntry:  document.getElementById('living-entry'),
+  livingOpen:   document.getElementById('btn-living'),
+  livingClose:  document.getElementById('btn-living-close'),
+  publishedLiving: document.getElementById('published-living'),
+  publishedStoryTitle: document.getElementById('published-story-title'),
+  publishedStoryTheme: document.getElementById('published-story-theme'),
+  publishedSceneStage: document.getElementById('published-scene-stage'),
+  publishedSceneDots: document.getElementById('published-scene-dots'),
+  publishedScenePrev: document.getElementById('published-scene-prev'),
+  publishedSceneNext: document.getElementById('published-scene-next'),
+  publishedPropInspector: document.getElementById('published-prop-inspector'),
+  publishedPropClose: document.getElementById('published-prop-close'),
+  publishedPropKind: document.getElementById('published-prop-kind'),
+  publishedPropTitle: document.getElementById('published-prop-title'),
+  publishedPropDetail: document.getElementById('published-prop-detail'),
+  publishedPropLink: document.getElementById('published-prop-link'),
 };
+
+function clearElement(element) {
+  while (element.firstChild) element.firstChild.remove();
+}
 
 // ---- Init ---------------------------------------------------------------
 
@@ -49,6 +74,14 @@ function render() {
   if (!comic) { showEmpty(); return; }
 
   variantIndex = -1;
+  livingRequest++;
+  livingStoryboard = null;
+  livingIndex = 0;
+  els.frame.hidden = false;
+  els.nav.hidden = false;
+  els.publishedLiving.hidden = true;
+  els.publishedPropInspector.hidden = true;
+  els.livingEntry.hidden = !comic.storyboard;
 
   els.number.textContent = `#${comic.id}`;
   els.title.textContent = comic.title;
@@ -133,6 +166,8 @@ function showEmpty() {
   els.img.hidden  = true;
   els.empty.hidden = false;
   els.variantsStrip.hidden = true;
+  els.livingEntry.hidden = true;
+  els.publishedLiving.hidden = true;
   [els.first, els.prev, els.random, els.next, els.last].forEach(b => { b.disabled = true; });
 }
 
@@ -162,6 +197,12 @@ window.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeLightbox();
     return;
   }
+  if (!els.publishedLiving.hidden) {
+    if (e.key === 'Escape') closePublishedLiving();
+    if (e.key === 'ArrowLeft') goToLivingScene(livingIndex - 1);
+    if (e.key === 'ArrowRight') goToLivingScene(livingIndex + 1);
+    return;
+  }
   if (e.key === 'ArrowLeft')        goTo(current - 1);
   if (e.key === 'ArrowRight')       goTo(current + 1);
   if (e.key.toLowerCase() === 'r')  els.random.click();
@@ -172,6 +213,161 @@ window.addEventListener('hashchange', () => {
   const idx  = comics.findIndex(c => c.id === hash || c.slug === hash);
   if (idx >= 0 && idx !== current) { current = idx; render(); }
 });
+
+// ---- Published Living Comic --------------------------------------------
+
+function publishedSceneUrl(comic, filename) {
+  if (!/^[a-zA-Z0-9._-]+$/.test(filename || '')) return '';
+  const base = comic.image.split('/').slice(0, -1).join('/');
+  return `${base}/scenes/${filename}`;
+}
+
+function publishedPlaceholder(message, spinner = false) {
+  clearElement(els.publishedSceneStage);
+  const placeholder = document.createElement('div');
+  placeholder.className = 'scene-placeholder';
+  if (spinner) {
+    const icon = document.createElement('span');
+    icon.className = 'spinner';
+    placeholder.appendChild(icon);
+  }
+  placeholder.appendChild(document.createTextNode(message));
+  els.publishedSceneStage.appendChild(placeholder);
+}
+
+async function openPublishedLiving() {
+  const comic = comics[current];
+  if (!comic?.storyboard) return;
+  const requestId = ++livingRequest;
+  livingStoryboard = null;
+  livingIndex = 0;
+  els.frame.hidden = true;
+  els.nav.hidden = true;
+  els.variantsStrip.hidden = true;
+  els.livingEntry.hidden = true;
+  els.publishedLiving.hidden = false;
+  els.publishedStoryTitle.textContent = comic.title;
+  els.publishedStoryTheme.textContent = '';
+  publishedPlaceholder('Opening the scene archive…', true);
+
+  try {
+    const response = await fetch(comic.storyboard, { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`Unable to load storyboard (${response.status})`);
+    const data = await response.json();
+    if (requestId !== livingRequest) return;
+    const scenes = Array.isArray(data.scenes)
+      ? data.scenes.filter(scene => scene && publishedSceneUrl(comic, scene.file))
+      : [];
+    if (!scenes.length) throw new Error('This Living Comic has no readable scenes.');
+    livingStoryboard = { ...data, scenes };
+    els.publishedStoryTitle.textContent = data.title || comic.title;
+    els.publishedStoryTheme.textContent = data.theme || '';
+    renderPublishedScene();
+  } catch (error) {
+    if (requestId !== livingRequest) return;
+    publishedPlaceholder(error.message || 'The Living Comic could not be loaded.');
+  }
+}
+
+function closePublishedLiving() {
+  livingRequest++;
+  livingStoryboard = null;
+  livingIndex = 0;
+  els.publishedLiving.hidden = true;
+  els.publishedPropInspector.hidden = true;
+  els.frame.hidden = false;
+  els.nav.hidden = false;
+  const comic = comics[current];
+  if (comic) {
+    els.livingEntry.hidden = !comic.storyboard;
+    renderVariantsStrip(comic);
+  }
+}
+
+function showPublishedProp(prop) {
+  els.publishedPropKind.textContent = prop.kind || 'object';
+  els.publishedPropTitle.textContent = prop.label || 'Unlabelled prop';
+  els.publishedPropDetail.textContent = prop.interaction_detail || prop.description || '';
+  els.publishedPropLink.hidden = true;
+  try {
+    const url = new URL(prop.purchase_url);
+    if (url.protocol === 'https:') {
+      els.publishedPropLink.href = url.href;
+      els.publishedPropLink.textContent = prop.interaction_label || 'view item';
+      els.publishedPropLink.hidden = false;
+    }
+  } catch {
+    // Empty and invalid links remain an in-world detail instead.
+  }
+  els.publishedPropInspector.hidden = false;
+}
+
+function renderPublishedScene() {
+  const comic = comics[current];
+  const scene = livingStoryboard?.scenes?.[livingIndex];
+  if (!comic || !scene) return;
+  clearElement(els.publishedSceneStage);
+  els.publishedPropInspector.hidden = true;
+
+  const figure = document.createElement('figure');
+  figure.className = 'scene-figure';
+  const image = new Image();
+  image.src = publishedSceneUrl(comic, scene.file);
+  image.alt = scene.description || `Scene ${livingIndex + 1}`;
+  figure.appendChild(image);
+
+  const caption = document.createElement('figcaption');
+  const shot = document.createElement('span');
+  shot.className = 'eyebrow';
+  shot.textContent = `scene ${scene.id || livingIndex + 1} · ${scene.shot || 'shot'} · ${scene.location || ''}`;
+  caption.appendChild(shot);
+  const description = document.createElement('p');
+  description.textContent = scene.description || '';
+  caption.appendChild(description);
+
+  const props = Array.isArray(scene.props) ? scene.props : [];
+  if (props.length) {
+    const propRow = document.createElement('div');
+    propRow.className = 'scene-props';
+    props.forEach(prop => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'prop-chip';
+      button.textContent = `+ ${prop.label || prop.id}`;
+      button.title = prop.interaction_label || 'inspect';
+      button.onclick = () => showPublishedProp(prop);
+      propRow.appendChild(button);
+    });
+    caption.appendChild(propRow);
+  }
+  figure.appendChild(caption);
+  els.publishedSceneStage.appendChild(figure);
+
+  clearElement(els.publishedSceneDots);
+  livingStoryboard.scenes.forEach((item, index) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'scene-dot ready' + (index === livingIndex ? ' active' : '');
+    dot.setAttribute('aria-label', `Scene ${index + 1}`);
+    dot.setAttribute('aria-current', index === livingIndex ? 'step' : 'false');
+    dot.onclick = () => goToLivingScene(index);
+    els.publishedSceneDots.appendChild(dot);
+  });
+  els.publishedScenePrev.disabled = livingIndex === 0;
+  els.publishedSceneNext.disabled = livingIndex === livingStoryboard.scenes.length - 1;
+}
+
+function goToLivingScene(index) {
+  if (!livingStoryboard || index < 0 || index >= livingStoryboard.scenes.length || index === livingIndex) return;
+  livingIndex = index;
+  renderPublishedScene();
+}
+
+els.livingOpen.onclick = openPublishedLiving;
+els.livingClose.onclick = closePublishedLiving;
+els.publishedScenePrev.onclick = () => goToLivingScene(livingIndex - 1);
+els.publishedSceneNext.onclick = () => goToLivingScene(livingIndex + 1);
+els.publishedPropClose.onclick = () => { els.publishedPropInspector.hidden = true; };
 
 // ---- Lightbox -----------------------------------------------------------
 

@@ -34,6 +34,18 @@ comics/
     └── notes.md
 ```
 
+## Generation Modes
+
+- **Sunday Comic** generates a complete page in one pass for the archive and
+  print.
+- **Living Comic (Beta)** first creates a structured storyboard, then renders
+  independent cinematic scenes two at a time. Scenes share a protagonist
+  anchor and persistent prop IDs, can expose interactive details, and can be
+  assembled in the browser as a 3×3 page, Sunday spread, or 9:16 edition.
+
+Living Comic submissions retain every scene and their `storyboard.json`, so the
+same source can support print and interactive editions.
+
 ## Submitting a Comic
 
 Anyone can submit a comic via the [**Submit a comic**](https://github.com/wiegerthefarmer/human-readable/issues/new?template=comic-submission.yml) form (also in the site footer). A bot scaffolds the comic folder and opens a draft pull request for a maintainer to review and merge. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for details.

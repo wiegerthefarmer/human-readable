@@ -70,6 +70,9 @@ for folder in sorted(os.listdir(comics_dir)):
         except (json.JSONDecodeError, OSError):
             pass
 
+    storyboard_path = os.path.join(path, 'storyboard.json')
+    storyboard = f'{path}/storyboard.json' if os.path.exists(storyboard_path) else ''
+
     comics.append({
         'id': comic_id,
         'slug': folder,
@@ -77,6 +80,7 @@ for folder in sorted(os.listdir(comics_dir)):
         'image': f'{path}/comic.png',
         'alt': alt,
         'variants': variants,
+        'storyboard': storyboard,
     })
 
 with open('comics.json', 'w', encoding='utf-8') as f:
