@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'worker/**'
+      - '.github/workflows/deploy-worker.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -14,7 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npx wrangler@3 deploy
+      # --config is explicit so Wrangler can never pick up the unrelated
+      # wrangler.jsonc at the repo root (a stray static-assets config that
+      # would otherwise get preferred and try to upload the whole repo,
+      # including .git/, as Worker assets).
+      - run: npx wrangler@3 deploy --config wrangler.toml
         working-directory: worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
