@@ -7,7 +7,8 @@
       "image": "comics/0001-dhcp-friday/comic.png",
       "alt": "A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin \u2014 now in sunglasses, watching 192.168.1.1 go DOWN \u2014 remains unbothered. He has simply moved beyond fear.",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0002",
@@ -16,7 +17,8 @@
       "image": "comics/0002-bring-your-own-jar/comic.png",
       "alt": "A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right.",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0003",
@@ -25,7 +27,8 @@
       "image": "comics/0003-uuid-art-hash/comic.png",
       "alt": "UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji \u2014 deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it.",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0004",
@@ -34,7 +37,8 @@
       "image": "comics/0004-613-get-help/comic.png",
       "alt": "An emergency runbook for the server room: don't panic, just call Aaron. A flowchart determines whether Aaron is on vacation or already fixing it. Either way, you don't need to do anything. The Cool Sysadmin is already in the server room, feet up, unbothered.",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0005",
@@ -43,7 +47,8 @@
       "image": "comics/0005-floomp/comic.png",
       "alt": "A stick figure goes to see Epic Space Saga, buys a large popcorn, then encounters a giant overstuffed recliner seat in the theater. They sit down with a FLOOMP and sink progressively deeper into the cushions until nearly swallowed. The film plays while the character is barely visible above the upholstery. Afterwards, standing outside, they reflect that it was fine but they're not a fan of the oversized seats. A lobby poster advertises the next upgrade: Even More Cushion \u2014 MAX.",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0006",
@@ -59,7 +64,8 @@
           "selected": true
         }
       ],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0007",
@@ -68,7 +74,8 @@
       "image": "comics/0007-free/comic.png",
       "alt": "A sidewalk sign reads FREE SPIDER PLANTS. A passerby takes one \u2014 they're easy, hard to kill. The owner explains that once you have one spider plant, it inevitably becomes dozens, then overwhelms the home entirely. The owner, lost in a jungle of spider plants, desperately tries to give them away and eventually sets up their own FREE SPIDER PLANTS sign. The circle of chlorophyll. You can check out any time, but you can never leaf.",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0008",
@@ -84,7 +91,8 @@
           "selected": true
         }
       ],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0009",
@@ -93,7 +101,8 @@
       "image": "comics/0009-the-only-good-thing/comic.png",
       "alt": "_Notes pending review._",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0010",
@@ -102,7 +111,8 @@
       "image": "comics/0010-strong-and-free/comic.png",
       "alt": "_Notes pending review._",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0011",
@@ -111,7 +121,8 @@
       "image": "comics/0011-the-real-simplification/comic.png",
       "alt": "_Notes pending review._",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0012",
@@ -120,7 +131,8 @@
       "image": "comics/0012-in-coffee-we-trust/comic.png",
       "alt": "_Notes pending review._",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0013",
@@ -129,7 +141,8 @@
       "image": "comics/0013-timex/comic.png",
       "alt": "_Notes pending review._",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     },
     {
       "id": "0014",
@@ -138,7 +151,8 @@
       "image": "comics/0014-in-case-you-forgot/comic.png",
       "alt": "_Notes pending review._",
       "variants": [],
-      "printfulProducts": {}
+      "printfulProducts": {},
+      "storyboard": ""
     }
   ]
 }

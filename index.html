@@ -30,12 +30,12 @@
       <h1 class="comic-title" id="comic-title">Loading...</h1>
     </div>
 
-    <div class="comic-frame">
+    <div class="comic-frame" id="comic-frame">
       <img id="comic-img" src="" alt="" />
       <div id="comic-empty" class="comic-empty" hidden>No comics yet. Check back soon.</div>
     </div>
 
-    <nav class="comic-nav" aria-label="Comic navigation">
+    <nav class="comic-nav" id="comic-nav" aria-label="Comic navigation">
       <button id="btn-first" title="First comic">|&lt;</button>
       <button id="btn-prev" title="Previous comic">&lt; prev</button>
       <button id="btn-random" title="Random comic">random</button>
@@ -44,6 +44,36 @@
     </nav>
 
     <div id="variants-strip" class="variants-strip" hidden></div>
+
+    <div id="living-entry" class="living-entry" hidden>
+      <button type="button" id="btn-living">enter living edition →</button>
+    </div>
+
+    <section id="published-living" class="living-view published-living" hidden>
+      <div class="living-heading">
+        <div>
+          <span class="eyebrow">living edition</span>
+          <h2 id="published-story-title"></h2>
+          <p id="published-story-theme"></p>
+        </div>
+        <button type="button" id="btn-living-close">back to page</button>
+      </div>
+      <div class="scene-viewer">
+        <div id="published-scene-stage" class="scene-stage"></div>
+        <div class="scene-toolbar">
+          <button type="button" id="published-scene-prev" aria-label="Previous scene">&lt; previous</button>
+          <div id="published-scene-dots" class="scene-dots" aria-label="Scene navigation"></div>
+          <button type="button" id="published-scene-next" aria-label="Next scene">next &gt;</button>
+        </div>
+      </div>
+      <div id="published-prop-inspector" class="prop-inspector" hidden>
+        <button type="button" id="published-prop-close" class="prop-close" aria-label="Close prop details">&times;</button>
+        <span id="published-prop-kind" class="eyebrow"></span>
+        <h3 id="published-prop-title"></h3>
+        <p id="published-prop-detail"></p>
+        <a id="published-prop-link" href="#" target="_blank" rel="noopener" hidden>view item</a>
+      </div>
+    </section>
   </main>
 
   <!-- Lightbox -->
@@ -54,7 +84,12 @@
       <img id="lb-img" src="" alt="" class="lightbox-img" />
       <div class="lightbox-bar">
         <a id="lb-download" class="lb-btn" download="comic.png">download</a>
-        <!-- order links hidden until Printful/Etsy integration is ready -->
+        <span class="footer-sep">·</span>
+        <span class="lb-label">order on</span>
+        <a class="lb-btn lb-order" data-product="poster"   href="#" target="_blank" rel="noopener">poster</a>
+        <a class="lb-btn lb-order" data-product="mug"      href="#" target="_blank" rel="noopener">mug</a>
+        <a class="lb-btn lb-order" data-product="tshirt"   href="#" target="_blank" rel="noopener">t-shirt</a>
+        <a class="lb-btn lb-order" data-product="mousepad" href="#" target="_blank" rel="noopener">mousepad</a>
       </div>
     </div>
   </div>
@@ -63,6 +98,8 @@
     <a href="archive.html">archive</a>
     <span class="footer-sep">·</span>
     <a href="create.html">create a comic</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/wiegerthefarmer/human-readable/issues/new?template=comic-submission.yml">submit a comic</a>
     <span class="footer-sep">·</span>
     <a href="https://github.com/wiegerthefarmer/human-readable">source</a>
     <span class="footer-sep">·</span>

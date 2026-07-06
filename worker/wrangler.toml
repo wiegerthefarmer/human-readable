@@ -9,6 +9,26 @@ workers_dev = true
 [vars]
 REPO = "wiegerthefarmer/human-readable"
 ALLOWED_ORIGIN = "https://wiegerthefarmer.github.io"
+STORY_MODEL = "gpt-5.4-mini"
+IMAGE_MODEL = "gpt-image-2"
+
+# Enough for one full nine-scene Living Comic per minute, with room for the
+# storyboard request and a retry. Counters are per visitor and Cloudflare colo.
+[[ratelimits]]
+name = "GENERATION_RATE_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60
+
+[[ratelimits]]
+name = "SUBMISSION_RATE_LIMITER"
+namespace_id = "1002"
+
+  [ratelimits.simple]
+  limit = 3
+  period = 60
 
 # Secrets are NOT stored here. Set them once with:
 #   wrangler secret put OPENAI_API_KEY

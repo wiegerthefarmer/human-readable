@@ -12,4 +12,3 @@
 **Panel 2:** The genie, a vague humanoid form in the smoke, pauses and looks puzzled.
 
 **Panel 3:** A pop-up appears out of thin air: 'Error: Wish Syntax Invalid.'
-

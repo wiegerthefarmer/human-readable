@@ -20,24 +20,21 @@
       <h1 class="comic-title">Create a comic</h1>
     </div>
 
-    <div class="mode-toggle">
-      <button id="btn-mode-generate" class="mode-btn active">Generate from prompt</button>
-      <button id="btn-mode-upload" class="mode-btn">Upload artwork</button>
+    <p class="create-intro">
+      Type an idea — a sentence is enough — then choose a finished Sunday page
+      or watch a Living Comic build itself one scene at a time. Submissions open
+      a draft pull request for review; nothing publishes automatically.
+    </p>
+
+    <div class="mode-tabs" role="tablist" aria-label="Generation mode">
+      <button type="button" id="mode-sunday" class="active" role="tab" aria-selected="true">Sunday Comic</button>
+      <button type="button" id="mode-living" role="tab" aria-selected="false">Living Comic <span class="beta-tag">beta</span></button>
     </div>
 
-    <p class="create-intro" id="intro-generate">
-      Type an idea, write a script, then draw it. Rewrite or redraw until
-      you like one. Pick the best version and submit — nothing publishes
-      automatically.
-    </p>
-    <p class="create-intro" id="intro-upload" hidden>
-      Upload your finished artwork as PNG or JPG. Add an optional description
-      and a title, then submit. Your image is committed unchanged — no AI
-      processing. Queued for maintainer review before publishing.
-    </p>
+    <p id="mode-description" class="mode-description">Generate a complete, print-ready comic composition.</p>
 
-    <div class="field" id="seed-field">
-      <label for="seed" id="seed-label">Idea / description</label>
+    <div class="field">
+      <label for="seed">Idea</label>
       <textarea id="seed" placeholder="e.g. a sysadmin explains to a cat why the server room is not a bed"></textarea>
     </div>
 
@@ -46,7 +43,7 @@
       <input id="title" type="text" placeholder="Short title for the comic">
     </div>
 
-    <div class="field" id="format-field">
+    <div class="field" id="sunday-format-field">
       <label for="format">Format</label>
       <select id="format">
         <option value="3-panel">3-panel strip</option>
@@ -55,41 +52,105 @@
       </select>
     </div>
 
+    <div class="field" id="living-scenes-field" hidden>
+      <label for="scene-count">Story length</label>
+      <select id="scene-count">
+        <option value="4">4 scenes · quick</option>
+        <option value="6" selected>6 scenes · standard</option>
+        <option value="9">9 scenes · full page</option>
+      </select>
+    </div>
+
     <div class="create-actions">
-      <button id="btn-generate" class="btn-primary">Write script</button>
-      <button id="btn-draw" class="btn-primary" hidden>Draw</button>
-      <button id="btn-rewrite" hidden>New script</button>
-      <button id="btn-upload" hidden>Upload image</button>
-      <input id="file-input" type="file" accept="image/png,image/jpeg" hidden>
-      <button id="btn-submit" disabled>Submit</button>
-    </div>
-
-    <div id="script-preview" class="script-preview" hidden>
-      <div id="script-concept" class="script-concept"></div>
-      <ol id="script-panels" class="script-panels"></ol>
-    </div>
-
-    <div class="field" id="tweaks-field" hidden>
-      <label for="tweaks">Adjustments</label>
-      <textarea id="tweaks" placeholder="e.g. panel 2 should have a silent empty speech bubble; mug in panel 1 should say 'git blame'"></textarea>
+      <button id="btn-generate" class="btn-primary">Generate page</button>
+      <button id="btn-refresh" disabled>Refresh</button>
+      <button id="btn-submit" disabled>Submit pick</button>
     </div>
 
     <div id="status" class="create-status"></div>
 
-    <div class="comic-frame">
-      <img id="preview" src="" alt="" hidden />
-      <div id="preview-empty" class="comic-empty">Your generated comic will appear here.</div>
+    <div id="sunday-view">
+      <div class="comic-frame">
+        <img id="preview" src="" alt="" hidden />
+        <div id="preview-empty" class="comic-empty">Your generated comic will appear here.</div>
+      </div>
+
+      <div id="gallery" class="gallery"></div>
     </div>
 
-    <div id="gallery" class="gallery"></div>
+    <section id="living-view" class="living-view" hidden aria-live="polite">
+      <div class="living-heading">
+        <div>
+          <span class="eyebrow">living comic</span>
+          <h2 id="story-title">Building story…</h2>
+          <p id="story-theme"></p>
+        </div>
+        <span id="scene-progress" class="scene-progress">0 / 0 scenes</span>
+      </div>
+
+      <div class="scene-viewer">
+        <div id="scene-stage" class="scene-stage">
+          <div class="scene-placeholder">
+            <span class="spinner"></span>
+            <span>Waiting for the storyboard…</span>
+          </div>
+        </div>
+
+        <div class="scene-toolbar">
+          <button type="button" id="scene-prev" disabled aria-label="Previous scene">&lt; previous</button>
+          <div id="scene-dots" class="scene-dots" aria-label="Scene queue"></div>
+          <button type="button" id="scene-next" disabled aria-label="Next scene">next &gt;</button>
+        </div>
+      </div>
+
+      <div id="prop-inspector" class="prop-inspector" hidden>
+        <button type="button" id="prop-close" class="prop-close" aria-label="Close prop details">&times;</button>
+        <span id="prop-kind" class="eyebrow"></span>
+        <h3 id="prop-title"></h3>
+        <p id="prop-detail"></p>
+        <a id="prop-link" href="#" target="_blank" rel="noopener" hidden>view item</a>
+      </div>
+
+      <div id="assembly" class="assembly" hidden>
+        <div class="assembly-header">
+          <div>
+            <span class="eyebrow">final assembly</span>
+            <h2>Same story, new shape</h2>
+          </div>
+          <div class="assembly-actions">
+            <label for="assembly-layout">Layout</label>
+            <select id="assembly-layout">
+              <option value="grid">3×3 page</option>
+              <option value="spread">Sunday spread</option>
+              <option value="vertical">9:16 vertical</option>
+            </select>
+            <button type="button" id="btn-download-assembly">download PNG</button>
+            <button type="button" id="btn-print-assembly">print / PDF</button>
+          </div>
+        </div>
+        <div class="comic-frame assembly-frame">
+          <img id="assembly-preview" src="" alt="Assembled Living Comic" />
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
-    <a href="/">read comics</a>
+    <a href="/human-readable/">read comics</a>
+    <span class="footer-sep">·</span>
+    <a href="archive.html">archive</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/wiegerthefarmer/human-readable/issues/new?template=comic-submission.yml">upload finished art</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com/wiegerthefarmer/human-readable">source</a>
     <span class="footer-sep">·</span>
     <button id="btn-theme" title="Switch theme">light</button>
   </footer>
 
+  <script>
+    // Paste the deployed Worker URL here, with no trailing slash.
+    window.HUMAN_READABLE_WORKER_URL = '';
+  </script>
   <script src="create.js"></script>
 </body>
 </html>
