@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Human-Readable</title>
+    <link>https://wiegerthefarmer.github.io/human-readable/</link>
+    <description>Notes from the interface between people and computers.</description>
+    <language>en</language>
+    <atom:link href="https://wiegerthefarmer.github.io/human-readable/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Free!</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0007</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0007</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0007-free/comic.png" alt="A sidewalk sign reads FREE SPIDER PLANTS. A passerby takes one — they're easy, hard to kill. The owner explains that once you have one spider plant, it inevitably becomes dozens, then overwhelms the home entirely. The owner, lost in a jungle of spider plants, desperately tries to give them away and eventually sets up their own FREE SPIDER PLANTS sign. The circle of chlorophyll. You can check out any time, but you can never leaf."><br>A sidewalk sign reads FREE SPIDER PLANTS. A passerby takes one — they're easy, hard to kill. The owner explains that once you have one spider plant, it inevitably becomes dozens, then overwhelms the home entirely. The owner, lost in a jungle of spider plants, desperately tries to give them away and eventually sets up their own FREE SPIDER PLANTS sign. The circle of chlorophyll. You can check out any time, but you can never leaf.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0007-free/comic.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>Worth it</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0006</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0006</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0006-worth-it/comic.png" alt="A presenter proposes a simple expected-value calculation: take a one-in-three chance of ending human existence in exchange for a two-thirds chance of dramatically raising living standards by a factor of fifty-five. The math is laid out on a whiteboard with bureaucratic calm. The committee votes to roll the cosmic dice. The joke is that existential annihilation has been compressed into tidy optimization math."><br>A presenter proposes a simple expected-value calculation: take a one-in-three chance of ending human existence in exchange for a two-thirds chance of dramatically raising living standards by a factor of fifty-five. The math is laid out on a whiteboard with bureaucratic calm. The committee votes to roll the cosmic dice. The joke is that existential annihilation has been compressed into tidy optimization math.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0006-worth-it/comic.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>FLOOMP</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0005</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0005</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0005-floomp/comic.png" alt="A stick figure goes to see Epic Space Saga, buys a large popcorn, then encounters a giant overstuffed recliner seat in the theater. They sit down with a FLOOMP and sink progressively deeper into the cushions until nearly swallowed. The film plays while the character is barely visible above the upholstery. Afterwards, standing outside, they reflect that it was fine but they're not a fan of the oversized seats. A lobby poster advertises the next upgrade: Even More Cushion — MAX."><br>A stick figure goes to see Epic Space Saga, buys a large popcorn, then encounters a giant overstuffed recliner seat in the theater. They sit down with a FLOOMP and sink progressively deeper into the cushions until nearly swallowed. The film plays while the character is barely visible above the upholstery. Afterwards, standing outside, they reflect that it was fine but they're not a fan of the oversized seats. A lobby poster advertises the next upgrade: Even More Cushion — MAX.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0005-floomp/comic.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>613-GET-HELP</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0004</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0004</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0004-613-get-help/comic.png" alt="An emergency runbook for the server room: don't panic, just call Aaron. A flowchart determines whether Aaron is on vacation or already fixing it. Either way, you don't need to do anything. The Cool Sysadmin is already in the server room, feet up, unbothered."><br>An emergency runbook for the server room: don't panic, just call Aaron. A flowchart determines whether Aaron is on vacation or already fixing it. Either way, you don't need to do anything. The Cool Sysadmin is already in the server room, feet up, unbothered.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0004-613-get-help/comic.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>The Alphanumeric Shishkebab</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0003</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0003</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0003-uuid-art-hash/comic.png" alt="UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji — deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it."><br>UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji — deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0003-uuid-art-hash/comic.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>Bring Your Own Jar</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0002</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0002</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0002-bring-your-own-jar/comic.png" alt="A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right."><br>A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0002-bring-your-own-jar/comic.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>DHCP Friday</title>
+      <link>https://wiegerthefarmer.github.io/human-readable/0001</link>
+      <guid isPermaLink="true">https://wiegerthefarmer.github.io/human-readable/0001</guid>
+      <description><![CDATA[<img src="https://wiegerthefarmer.github.io/human-readable/comics/0001-dhcp-friday/comic.png" alt="A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin — now in sunglasses, watching 192.168.1.1 go DOWN — remains unbothered. He has simply moved beyond fear."><br>A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin — now in sunglasses, watching 192.168.1.1 go DOWN — remains unbothered. He has simply moved beyond fear.]]></description>
+      <enclosure url="https://wiegerthefarmer.github.io/human-readable/comics/0001-dhcp-friday/comic.png" type="image/png" length="0"/>
+    </item>
+  </channel>
+</rss>

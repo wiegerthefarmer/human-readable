@@ -7,6 +7,7 @@
       "image": "comics/0001-dhcp-friday/comic.png",
       "alt": "A sysadmin contemplates making a DHCP change on a Friday afternoon. Ten minutes later, every device loses connectivity. The sysadmin \u2014 now in sunglasses, watching 192.168.1.1 go DOWN \u2014 remains unbothered. He has simply moved beyond fear.",
       "variants": [],
+      "printfulProducts": {},
       "storyboard": ""
     },
     {
@@ -16,6 +17,7 @@
       "image": "comics/0002-bring-your-own-jar/comic.png",
       "alt": "A person correctly predicts that any event requiring you to bring your own jar will be a good time. They attend Fermentation Fun Night. They were right.",
       "variants": [],
+      "printfulProducts": {},
       "storyboard": ""
     },
     {
@@ -25,6 +27,7 @@
       "image": "comics/0003-uuid-art-hash/comic.png",
       "alt": "UUIDs are technically correct but illegible to humans. A Pictographic Art Hash (PAH) maps any identifier to a short sequence of emoji \u2014 deterministic, compact, and scannable at a glance. The Cool Sysadmin closes the case: UUIDs for computers, art hashes for humans. Ship it.",
       "variants": [],
+      "printfulProducts": {},
       "storyboard": ""
     },
     {
@@ -34,6 +37,7 @@
       "image": "comics/0004-613-get-help/comic.png",
       "alt": "An emergency runbook for the server room: don't panic, just call Aaron. A flowchart determines whether Aaron is on vacation or already fixing it. Either way, you don't need to do anything. The Cool Sysadmin is already in the server room, feet up, unbothered.",
       "variants": [],
+      "printfulProducts": {},
       "storyboard": ""
     },
     {
@@ -43,6 +47,111 @@
       "image": "comics/0005-floomp/comic.png",
       "alt": "A stick figure goes to see Epic Space Saga, buys a large popcorn, then encounters a giant overstuffed recliner seat in the theater. They sit down with a FLOOMP and sink progressively deeper into the cushions until nearly swallowed. The film plays while the character is barely visible above the upholstery. Afterwards, standing outside, they reflect that it was fine but they're not a fan of the oversized seats. A lobby poster advertises the next upgrade: Even More Cushion \u2014 MAX.",
       "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0006",
+      "slug": "0006-worth-it",
+      "title": "Worth it",
+      "image": "comics/0006-worth-it/comic.png",
+      "alt": "A presenter proposes a simple expected-value calculation: take a one-in-three chance of ending human existence in exchange for a two-thirds chance of dramatically raising living standards by a factor of fifty-five. The math is laid out on a whiteboard with bureaucratic calm. The committee votes to roll the cosmic dice. The joke is that existential annihilation has been compressed into tidy optimization math.",
+      "variants": [
+        {
+          "image": "comics/0006-worth-it/variants/v01.png",
+          "prompt": "",
+          "seed": "\"It is optimal to take a 1 in 3 chance of ending human existence in exchange\nfor a 2/3 chance of dramatically raising living standards by a factor of 55\"",
+          "selected": true
+        }
+      ],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0007",
+      "slug": "0007-free",
+      "title": "Free!",
+      "image": "comics/0007-free/comic.png",
+      "alt": "A sidewalk sign reads FREE SPIDER PLANTS. A passerby takes one \u2014 they're easy, hard to kill. The owner explains that once you have one spider plant, it inevitably becomes dozens, then overwhelms the home entirely. The owner, lost in a jungle of spider plants, desperately tries to give them away and eventually sets up their own FREE SPIDER PLANTS sign. The circle of chlorophyll. You can check out any time, but you can never leaf.",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0008",
+      "slug": "0008-unconventional",
+      "title": "Unconventional",
+      "image": "comics/0008-unconventional/comic.png",
+      "alt": "I would like to wish for less wishes.",
+      "variants": [
+        {
+          "image": "comics/0008-unconventional/variants/v01.png",
+          "prompt": "Black-and-white webcomic in a minimalist hand-drawn style. Simple stick figures: a circle for the head connected to a vertical line for the body, with straight lines for arms and legs. No filled bodies, no clothing, no shading on characters. Bold, consistent ink line weight throughout \u2014 lines should be clearly visible, not faint. Every stick figure head must have a face: two small dot eyes and a simple curved mouth showing the character's expression (smile, frown, flat line, raised eyebrow). Faces are mandatory \u2014 never draw a blank circle for a head. Bold black ink linework on a plain white background. No color. Use hatching and cross-hatching to convey shadows, depth, and material texture. Hand-lettered text in plain speech bubbles and rectangular caption boxes. All text must be perfectly legible real English words \u2014 no garbled letters, no nonsense strings. Dry, witty, technically-aware humor. Sparse backgrounds \u2014 props, labels, and small signs carry the context and the jokes. Every mug, whiteboard, label, badge, sticky note, or piece of paraphernalia must display a short readable dry-wit slogan directly related to the scene (e.g. 'git blame', 'works on my machine', 'sudo make coffee', 'undefined behaviour', '404: sleep not found'). Draw props with enough detail for the text to be legible. Generous interior margins: all content must sit well inside the image, with at least 18% clear space from every outer edge. Nothing should touch or run off an edge.\n\nRender each panel independently. The browser will stitch the 3 finished panels into one horizontal strip.\n\nDraw each panel exactly as described below. All text must be perfectly legible.\n\nPanel 1: A stick figure holding a stereotypical magic lamp, a cloud of smoke emerging from the spout. Text: \"Oh powerful genie, I wish for less wishes.\"\nPanel 2: The genie, a vague humanoid form in the smoke, pauses and looks puzzled.\nPanel 3: A pop-up appears out of thin air: 'Error: Wish Syntax Invalid.'",
+          "seed": "I would like to wish for less wishes.",
+          "selected": true
+        }
+      ],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0009",
+      "slug": "0009-the-only-good-thing",
+      "title": "The only good thing?",
+      "image": "comics/0009-the-only-good-thing/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0010",
+      "slug": "0010-strong-and-free",
+      "title": "Strong and free",
+      "image": "comics/0010-strong-and-free/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0011",
+      "slug": "0011-the-real-simplification",
+      "title": "The real simplification",
+      "image": "comics/0011-the-real-simplification/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0012",
+      "slug": "0012-in-coffee-we-trust",
+      "title": "In coffee we trust",
+      "image": "comics/0012-in-coffee-we-trust/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0013",
+      "slug": "0013-timex",
+      "title": "Timex!",
+      "image": "comics/0013-timex/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": ""
+    },
+    {
+      "id": "0014",
+      "slug": "0014-in-case-you-forgot",
+      "title": "In case you forgot",
+      "image": "comics/0014-in-case-you-forgot/comic.png",
+      "alt": "_Notes pending review._",
+      "variants": [],
+      "printfulProducts": {},
       "storyboard": ""
     }
   ]

@@ -5,6 +5,9 @@ let livingStoryboard = null;
 let livingIndex = 0;
 let livingRequest = 0;
 
+// Base path (e.g. '/human-readable') used to build per-comic share URLs.
+const SITE_BASE = window.location.pathname.replace(/\/\d+\/?$/, '').replace(/\/$/, '');
+
 const els = {
   number:       document.getElementById('comic-number'),
   title:        document.getElementById('comic-title'),
@@ -60,8 +63,9 @@ async function init() {
 
   if (comics.length === 0) { showEmpty(); return; }
 
-  const hash = window.location.hash.slice(1);
-  const idx = hash ? comics.findIndex(c => c.id === hash || c.slug === hash) : -1;
+  const pathMatch = window.location.pathname.match(/\/(\d+)\/?$/);
+  const requestedId = pathMatch ? pathMatch[1].padStart(4, '0') : window.location.hash.slice(1);
+  const idx = requestedId ? comics.findIndex(c => c.id === requestedId || c.slug === requestedId) : -1;
   current = idx >= 0 ? idx : comics.length - 1;
 
   render();
@@ -93,8 +97,9 @@ function render() {
   els.next.disabled   = current === comics.length - 1;
   els.last.disabled   = current === comics.length - 1;
 
-  history.replaceState(null, '', `#${comic.id}`);
+  history.replaceState(null, '', `${SITE_BASE}/${comic.id}`);
   document.title = `${comic.title} — Human-Readable`;
+  trackView(comic.id, comic.title);
 
   renderVariantsStrip(comic);
   preloadNeighbor(current + 1);
@@ -106,6 +111,15 @@ function setMainImage(src, alt) {
   els.img.alt = alt || '';
   els.img.hidden = false;
   els.empty.hidden = true;
+}
+
+// GoatCounter auto-onload is disabled (see index.html) because this is a
+// single-page app — the URL changes via history.replaceState, not a real
+// navigation, so each comic view is recorded as its own virtual pageview.
+function trackView(path, title) {
+  if (window.goatcounter && window.goatcounter.count) {
+    window.goatcounter.count({ path, title });
+  }
 }
 
 function renderVariantsStrip(comic) {
@@ -397,11 +411,11 @@ function closeLightbox() {
 }
 
 function printfulOrderUrl(product, imageUrl, title) {
-  // Placeholder until Printful integration is wired up.
-  // Returns a URL to the Printful store; replace with real product links or
-  // a Worker endpoint once the Printful API key is added.
-  const base = 'https://www.printful.com';
-  return `${base}`; // TODO: replace per product once store is configured
+  const comic = comics[current];
+  const stored = comic?.printfulProducts?.[product];
+  if (stored) return stored;
+  // Printful store not yet configured for this comic — link to the store root.
+  return 'https://www.printful.com';
 }
 
 els.img.style.cursor = 'zoom-in';

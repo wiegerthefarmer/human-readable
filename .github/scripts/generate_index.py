@@ -70,6 +70,19 @@ for folder in sorted(os.listdir(comics_dir)):
         except (json.JSONDecodeError, OSError):
             pass
 
+    # Load printful.json if present (written by printful_push.py).
+    printful_products = {}
+    printful_path = os.path.join(path, 'printful.json')
+    if os.path.exists(printful_path):
+        try:
+            with open(printful_path, encoding='utf-8') as pf:
+                pdata = json.load(pf)
+            for key, val in pdata.get('products', {}).items():
+                if val.get('url'):
+                    printful_products[key] = val['url']
+        except (json.JSONDecodeError, OSError):
+            pass
+
     storyboard_path = os.path.join(path, 'storyboard.json')
     storyboard = f'{path}/storyboard.json' if os.path.exists(storyboard_path) else ''
 
@@ -80,6 +93,7 @@ for folder in sorted(os.listdir(comics_dir)):
         'image': f'{path}/comic.png',
         'alt': alt,
         'variants': variants,
+        'printfulProducts': printful_products,
         'storyboard': storyboard,
     })
 

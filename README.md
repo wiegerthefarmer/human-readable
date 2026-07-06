@@ -48,7 +48,7 @@ same source can support print and interactive editions.
 
 ## Submitting a Comic
 
-Anyone can submit a comic via the [**Submit a comic**](https://github.com/wiegerthefarmer/human-readable/issues/new?template=comic-submission.yml) form (also in the site footer). A bot scaffolds the comic folder and opens a draft pull request for a maintainer to review and merge. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for details.
+Anyone can submit a comic from the **Create a comic** page on the site (linked in the footer). Generate one from an idea in the house style, or upload your own finished art — either way it opens a draft pull request for a maintainer to review and merge. Nothing publishes automatically. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for details.
 
 ## Current Comic Seeds
 
