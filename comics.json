@@ -153,6 +153,16 @@
       "variants": [],
       "printfulProducts": {},
       "storyboard": ""
+    },
+    {
+      "id": "0015",
+      "slug": "0015-headscale-and-coudflare-overlap",
+      "title": "Headscale and Coudflare Overlap",
+      "image": "comics/0015-headscale-and-coudflare-overlap/comic.png",
+      "alt": "Headscale and Cloudflare overlap",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": "comics/0015-headscale-and-coudflare-overlap/storyboard.json"
     }
   ]
 }
