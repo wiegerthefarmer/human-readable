@@ -163,6 +163,16 @@
       "variants": [],
       "printfulProducts": {},
       "storyboard": "comics/0015-headscale-and-coudflare-overlap/storyboard.json"
+    },
+    {
+      "id": "0016",
+      "slug": "0016-lobot-tui-the-terminal-that-notices-everything",
+      "title": "lobot-tui: The Terminal That Notices Everything",
+      "image": "comics/0016-lobot-tui-the-terminal-that-notices-everything/comic.png",
+      "alt": "![Lobot Cluster Management TUI](https://raw.githubusercontent.com/Queens-School-of-Computing/Lobot/main/assets/images/lobottuibanner.png)",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": "comics/0016-lobot-tui-the-terminal-that-notices-everything/storyboard.json"
     }
   ]
 }
