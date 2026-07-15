@@ -183,6 +183,16 @@
       "variants": [],
       "printfulProducts": {},
       "storyboard": "comics/0017-extra-hours-lost-in-smoke/storyboard.json"
+    },
+    {
+      "id": "0018",
+      "slug": "0018-one-port-many-consequences",
+      "title": "One Port, Many Consequences",
+      "image": "comics/0018-one-port-many-consequences/comic.png",
+      "alt": "A public site that previously needed exceptions on both the campus external",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": "comics/0018-one-port-many-consequences/storyboard.json"
     }
   ]
 }
