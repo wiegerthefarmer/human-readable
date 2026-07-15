@@ -173,6 +173,16 @@
       "variants": [],
       "printfulProducts": {},
       "storyboard": "comics/0016-lobot-tui-the-terminal-that-notices-everything/storyboard.json"
+    },
+    {
+      "id": "0017",
+      "slug": "0017-extra-hours-lost-in-smoke",
+      "title": "Extra Hours, Lost in Smoke",
+      "image": "comics/0017-extra-hours-lost-in-smoke/comic.png",
+      "alt": "We only get a few extra hours of sun in the summer. Sucks that we have national forest fires blocking the sky. Not technical. Human observations and complaints.",
+      "variants": [],
+      "printfulProducts": {},
+      "storyboard": "comics/0017-extra-hours-lost-in-smoke/storyboard.json"
     }
   ]
 }
