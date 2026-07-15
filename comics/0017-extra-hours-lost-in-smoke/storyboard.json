@@ -1,0 +1,218 @@
+{
+  "title": "Extra Hours, Lost in Smoke",
+  "theme": "A small summer complaint told through a sky that keeps getting edited down.",
+  "style": "Human-Readable",
+  "style_anchor": "observational urban realism with muted colors, crisp edges, and dry documentary timing",
+  "accent": "hazy amber light with soot-gray shadows",
+  "protagonist": {
+    "id": "protagonist_01",
+    "description": "A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates.",
+    "silhouette": "slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky"
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "file": "scene-01.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nobservational urban realism with muted colors, crisp edges, and dry documentary timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: wide.\n\nLocation: community park lawn with a view of the skyline. Scene: A neighborhood park at late afternoon: the sun is still high enough to be annoying, yet the light looks filtered through dirty glass. People linger on benches, all looking upward like they expected a better performance from the day.\n\nRecurring protagonist (protagonist_01): A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates. Silhouette: slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: hazy amber light with soot-gray shadows.\n\nVisible prop continuity:\n- park_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; stationary park fixture; appears in this scene only\n- smoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; environmental condition; persists across all scenes as the same smoky weather pattern\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\npark_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; continuity: stationary park fixture; appears in this scene only\nsmoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; continuity: environmental condition; persists across all scenes as the same smoky weather pattern\nphone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; continuity: held by protagonist in this scene only\nlemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; continuity: background prop unique to this scene\nfolding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; continuity: rooftop seating; not reused elsewhere\nsun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; continuity: same sun event as scenes 1, 2, 4, 5, and 6\nthermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; continuity: window fixture unique to this scene\nhouseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; continuity: indoor plant unique to this scene\nwhiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; continuity: meeting-room fixture unique to this scene\ndry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; continuity: used for the whiteboard in this scene only\nstreetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; continuity: nightfall fixture unique to this scene\npaper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; continuity: held by a neighbor in this scene only\n\nDialogue to reproduce exactly and legibly:\n- \"We get a few extra hours of sun and somehow the sky still comes with a disclaimer.\"\n- \"I was promised summer. This feels like a beta version.\"\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "wide",
+      "description": "A neighborhood park at late afternoon: the sun is still high enough to be annoying, yet the light looks filtered through dirty glass. People linger on benches, all looking upward like they expected a better performance from the day.",
+      "location": "community park lawn with a view of the skyline",
+      "dialogue": [
+        "\"We get a few extra hours of sun and somehow the sky still comes with a disclaimer.\"",
+        "\"I was promised summer. This feels like a beta version.\""
+      ],
+      "props": [
+        {
+          "id": "park_bench_01",
+          "label": "bench edge",
+          "kind": "bench",
+          "description": "A weathered wooden bench with a metal armrest warmed unevenly by the sun.",
+          "continuity": "stationary park fixture; appears in this scene only",
+          "interaction_label": "sit down",
+          "interaction_detail": "The paint has worn smooth exactly where tired people rest their hands while making the same complaint.",
+          "purchase_url": ""
+        },
+        {
+          "id": "smoke_haze_01",
+          "label": "haze layer",
+          "kind": "atmospheric",
+          "description": "A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.",
+          "continuity": "environmental condition; persists across all scenes as the same smoky weather pattern",
+          "interaction_label": "squint at",
+          "interaction_detail": "Looking through it makes distant trees seem painted in the wrong layer, as if the sky skipped a step.",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "file": "scene-02.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nobservational urban realism with muted colors, crisp edges, and dry documentary timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: medium.\n\nLocation: downtown sidewalk near a shuttered street vendor. Scene: On a sidewalk, the protagonist stands beside a closed lemonade cart, checking the time as if daylight can be negotiated back by schedule.\n\nRecurring protagonist (protagonist_01): A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates. Silhouette: slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: hazy amber light with soot-gray shadows.\n\nVisible prop continuity:\n- phone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; held by protagonist in this scene only\n- lemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; background prop unique to this scene\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\npark_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; continuity: stationary park fixture; appears in this scene only\nsmoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; continuity: environmental condition; persists across all scenes as the same smoky weather pattern\nphone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; continuity: held by protagonist in this scene only\nlemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; continuity: background prop unique to this scene\nfolding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; continuity: rooftop seating; not reused elsewhere\nsun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; continuity: same sun event as scenes 1, 2, 4, 5, and 6\nthermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; continuity: window fixture unique to this scene\nhouseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; continuity: indoor plant unique to this scene\nwhiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; continuity: meeting-room fixture unique to this scene\ndry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; continuity: used for the whiteboard in this scene only\nstreetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; continuity: nightfall fixture unique to this scene\npaper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; continuity: held by a neighbor in this scene only\n\nDialogue to reproduce exactly and legibly:\n- \"It’s still summer daylight, technically.\"\n- \"Technically is doing a lot of work here.\"\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "medium",
+      "description": "On a sidewalk, the protagonist stands beside a closed lemonade cart, checking the time as if daylight can be negotiated back by schedule.",
+      "location": "downtown sidewalk near a shuttered street vendor",
+      "dialogue": [
+        "\"It’s still summer daylight, technically.\"",
+        "\"Technically is doing a lot of work here.\""
+      ],
+      "props": [
+        {
+          "id": "phone_01",
+          "label": "time display",
+          "kind": "phone",
+          "description": "A scratched phone showing the late-afternoon hour and an aggressively bright weather app.",
+          "continuity": "held by protagonist in this scene only",
+          "interaction_label": "check the clock",
+          "interaction_detail": "The screen glare is strong enough to be its own weather event.",
+          "purchase_url": ""
+        },
+        {
+          "id": "lemonade_cart_01",
+          "label": "closed cart latch",
+          "kind": "street cart",
+          "description": "A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’",
+          "continuity": "background prop unique to this scene",
+          "interaction_label": "read sign",
+          "interaction_detail": "The sign is taped crookedly, which somehow makes it feel more honest.",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "file": "scene-03.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nobservational urban realism with muted colors, crisp edges, and dry documentary timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: over-the-shoulder.\n\nLocation: apartment rooftop overlooking tree-lined streets. Scene: From behind the protagonist, a rooftop view shows the sun dropping behind a curtain of smoke. A neighbor points with the kind of energy usually reserved for bad news and potholes.\n\nRecurring protagonist (protagonist_01): A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates. Silhouette: slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: hazy amber light with soot-gray shadows.\n\nVisible prop continuity:\n- folding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; rooftop seating; not reused elsewhere\n- sun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; same sun event as scenes 1, 2, 4, 5, and 6\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\npark_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; continuity: stationary park fixture; appears in this scene only\nsmoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; continuity: environmental condition; persists across all scenes as the same smoky weather pattern\nphone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; continuity: held by protagonist in this scene only\nlemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; continuity: background prop unique to this scene\nfolding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; continuity: rooftop seating; not reused elsewhere\nsun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; continuity: same sun event as scenes 1, 2, 4, 5, and 6\nthermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; continuity: window fixture unique to this scene\nhouseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; continuity: indoor plant unique to this scene\nwhiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; continuity: meeting-room fixture unique to this scene\ndry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; continuity: used for the whiteboard in this scene only\nstreetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; continuity: nightfall fixture unique to this scene\npaper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; continuity: held by a neighbor in this scene only\n\nDialogue to reproduce exactly and legibly:\n- \"We’d get another hour if the sky wasn’t renting space to smoke.\"\n- \"That’s not a sunset. That’s a warning label.\"\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "over-the-shoulder",
+      "description": "From behind the protagonist, a rooftop view shows the sun dropping behind a curtain of smoke. A neighbor points with the kind of energy usually reserved for bad news and potholes.",
+      "location": "apartment rooftop overlooking tree-lined streets",
+      "dialogue": [
+        "\"We’d get another hour if the sky wasn’t renting space to smoke.\"",
+        "\"That’s not a sunset. That’s a warning label.\""
+      ],
+      "props": [
+        {
+          "id": "folding_chair_01",
+          "label": "chair creak",
+          "kind": "chair",
+          "description": "A mismatched folding chair with one leg wrapped in bright tape.",
+          "continuity": "rooftop seating; not reused elsewhere",
+          "interaction_label": "lean back",
+          "interaction_detail": "The taped leg adds a tiny, sincere optimism to a structurally dubious evening.",
+          "purchase_url": ""
+        },
+        {
+          "id": "sun_disk_01",
+          "label": "sun disk",
+          "kind": "solar disc",
+          "description": "A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.",
+          "continuity": "same sun event as scenes 1, 2, 4, 5, and 6",
+          "interaction_label": "watch set",
+          "interaction_detail": "It sinks slowly, with the bureaucratic patience of a system that will not be rushed.",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "file": "scene-04.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nobservational urban realism with muted colors, crisp edges, and dry documentary timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: close-up.\n\nLocation: apartment kitchen window. Scene: The protagonist’s hand hovers over a windowsill thermometer, then points out the light falling across a houseplant that has clearly also noticed the problem.\n\nRecurring protagonist (protagonist_01): A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates. Silhouette: slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: hazy amber light with soot-gray shadows.\n\nVisible prop continuity:\n- thermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; window fixture unique to this scene\n- houseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; indoor plant unique to this scene\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\npark_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; continuity: stationary park fixture; appears in this scene only\nsmoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; continuity: environmental condition; persists across all scenes as the same smoky weather pattern\nphone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; continuity: held by protagonist in this scene only\nlemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; continuity: background prop unique to this scene\nfolding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; continuity: rooftop seating; not reused elsewhere\nsun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; continuity: same sun event as scenes 1, 2, 4, 5, and 6\nthermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; continuity: window fixture unique to this scene\nhouseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; continuity: indoor plant unique to this scene\nwhiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; continuity: meeting-room fixture unique to this scene\ndry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; continuity: used for the whiteboard in this scene only\nstreetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; continuity: nightfall fixture unique to this scene\npaper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; continuity: held by a neighbor in this scene only\n\nDialogue to reproduce exactly and legibly:\n- \"Look at that. Even the plant is getting shortchanged.\"\n- \"We’re all just losing our bonus sunlight to bureaucracy and smoke.\"\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "close-up",
+      "description": "The protagonist’s hand hovers over a windowsill thermometer, then points out the light falling across a houseplant that has clearly also noticed the problem.",
+      "location": "apartment kitchen window",
+      "dialogue": [
+        "\"Look at that. Even the plant is getting shortchanged.\"",
+        "\"We’re all just losing our bonus sunlight to bureaucracy and smoke.\""
+      ],
+      "props": [
+        {
+          "id": "thermometer_01",
+          "label": "temperature gauge",
+          "kind": "thermometer",
+          "description": "An old glass thermometer stuck to the window, reading a little too warmly for the mood.",
+          "continuity": "window fixture unique to this scene",
+          "interaction_label": "tap glass",
+          "interaction_detail": "The tiny mercury line looks smugly stable, which feels unfair.",
+          "purchase_url": ""
+        },
+        {
+          "id": "houseplant_01",
+          "label": "leaf shine",
+          "kind": "houseplant",
+          "description": "A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.",
+          "continuity": "indoor plant unique to this scene",
+          "interaction_label": "tilt pot",
+          "interaction_detail": "It rotates toward the light by a few degrees, doing what everyone else wishes the weather would do.",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "file": "scene-05.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nobservational urban realism with muted colors, crisp edges, and dry documentary timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: whiteboard.\n\nLocation: community center meeting room. Scene: A community room whiteboard lists casual summer plans that now read like abandoned ambitions: long walks, porch sitting, and ‘maybe sunset.’ Someone has crossed out ‘clear sky’ and replaced it with ‘air quality pending.’\n\nRecurring protagonist (protagonist_01): A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates. Silhouette: slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: hazy amber light with soot-gray shadows.\n\nVisible prop continuity:\n- whiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; meeting-room fixture unique to this scene\n- dry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; used for the whiteboard in this scene only\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\npark_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; continuity: stationary park fixture; appears in this scene only\nsmoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; continuity: environmental condition; persists across all scenes as the same smoky weather pattern\nphone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; continuity: held by protagonist in this scene only\nlemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; continuity: background prop unique to this scene\nfolding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; continuity: rooftop seating; not reused elsewhere\nsun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; continuity: same sun event as scenes 1, 2, 4, 5, and 6\nthermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; continuity: window fixture unique to this scene\nhouseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; continuity: indoor plant unique to this scene\nwhiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; continuity: meeting-room fixture unique to this scene\ndry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; continuity: used for the whiteboard in this scene only\nstreetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; continuity: nightfall fixture unique to this scene\npaper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; continuity: held by a neighbor in this scene only\n\nDialogue to reproduce exactly and legibly:\n- \"We were supposed to have those long golden evenings.\"\n- \"Now we have long gray evenings, which is not the same genre.\"\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "whiteboard",
+      "description": "A community room whiteboard lists casual summer plans that now read like abandoned ambitions: long walks, porch sitting, and ‘maybe sunset.’ Someone has crossed out ‘clear sky’ and replaced it with ‘air quality pending.’",
+      "location": "community center meeting room",
+      "dialogue": [
+        "\"We were supposed to have those long golden evenings.\"",
+        "\"Now we have long gray evenings, which is not the same genre.\""
+      ],
+      "props": [
+        {
+          "id": "whiteboard_01",
+          "label": "marker note",
+          "kind": "whiteboard",
+          "description": "A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.",
+          "continuity": "meeting-room fixture unique to this scene",
+          "interaction_label": "read notes",
+          "interaction_detail": "The handwriting gets smaller as the optimism runs out, which is its own kind of weather report.",
+          "purchase_url": ""
+        },
+        {
+          "id": "dry_erase_marker_01",
+          "label": "marker cap",
+          "kind": "marker",
+          "description": "A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.",
+          "continuity": "used for the whiteboard in this scene only",
+          "interaction_label": "pick up marker",
+          "interaction_detail": "The cap is stuck on the back end, where markers always pretend they belong.",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "file": "scene-06.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nobservational urban realism with muted colors, crisp edges, and dry documentary timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: medium.\n\nLocation: street corner beneath a row of street trees. Scene: Back outside at dusk, the protagonist and a few neighbors stand in the half-light, not exactly hopeful, but stubbornly present. The sun is nearly gone behind the smoke, yet the group keeps looking west as if collective annoyance might improve atmospheric policy.\n\nRecurring protagonist (protagonist_01): A tired city resident in a wrinkled short-sleeve shirt, practical sneakers, and a face that has already accepted too many weather updates. Silhouette: slouched figure with a coffee-cup shoulder and a hand raised to squint at the sky\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: hazy amber light with soot-gray shadows.\n\nVisible prop continuity:\n- streetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; nightfall fixture unique to this scene\n- paper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; held by a neighbor in this scene only\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\npark_bench_01: bench edge; A weathered wooden bench with a metal armrest warmed unevenly by the sun.; continuity: stationary park fixture; appears in this scene only\nsmoke_haze_01: haze layer; A visible amber-gray haze softening the skyline and turning the sunlight into a reluctant suggestion.; continuity: environmental condition; persists across all scenes as the same smoky weather pattern\nphone_01: time display; A scratched phone showing the late-afternoon hour and an aggressively bright weather app.; continuity: held by protagonist in this scene only\nlemonade_cart_01: closed cart latch; A faded lemonade cart with its metal shutter pulled halfway down and a handwritten sign that says ‘back when the air improves.’; continuity: background prop unique to this scene\nfolding_chair_01: chair creak; A mismatched folding chair with one leg wrapped in bright tape.; continuity: rooftop seating; not reused elsewhere\nsun_disk_01: sun disk; A pale orange sun reduced to a flattened coin by the haze, still bright enough to refuse dignity.; continuity: same sun event as scenes 1, 2, 4, 5, and 6\nthermometer_01: temperature gauge; An old glass thermometer stuck to the window, reading a little too warmly for the mood.; continuity: window fixture unique to this scene\nhouseplant_01: leaf shine; A dust-speckled pothos leaning toward the window with one leaf curled like it has a complaint pending.; continuity: indoor plant unique to this scene\nwhiteboard_01: marker note; A slightly smudged whiteboard covered in optimistic plans, crossed-out doodles of clouds, and one very determined sun sketch.; continuity: meeting-room fixture unique to this scene\ndry_erase_marker_01: marker cap; A blue dry-erase marker left uncapped, staining one fingertip and everyone’s sense of preparedness.; continuity: used for the whiteboard in this scene only\nstreetlight_01: lamp glow; A streetlight flickering on before it should have to, because the day gave up early.; continuity: nightfall fixture unique to this scene\npaper_cup_01: coffee cup; A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.; continuity: held by a neighbor in this scene only\n\nDialogue to reproduce exactly and legibly:\n- \"Well. That was our extra hour.\"\n- \"Nature really said: best I can do is grievance.\"\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "medium",
+      "description": "Back outside at dusk, the protagonist and a few neighbors stand in the half-light, not exactly hopeful, but stubbornly present. The sun is nearly gone behind the smoke, yet the group keeps looking west as if collective annoyance might improve atmospheric policy.",
+      "location": "street corner beneath a row of street trees",
+      "dialogue": [
+        "\"Well. That was our extra hour.\"",
+        "\"Nature really said: best I can do is grievance.\""
+      ],
+      "props": [
+        {
+          "id": "streetlight_01",
+          "label": "lamp glow",
+          "kind": "streetlight",
+          "description": "A streetlight flickering on before it should have to, because the day gave up early.",
+          "continuity": "nightfall fixture unique to this scene",
+          "interaction_label": "stand under",
+          "interaction_detail": "Its light makes everyone look slightly more resolved and slightly more tired.",
+          "purchase_url": ""
+        },
+        {
+          "id": "paper_cup_01",
+          "label": "coffee cup",
+          "kind": "cup",
+          "description": "A plain paper cup with a lid, nearly empty and warm enough to be comforting by accident.",
+          "continuity": "held by a neighbor in this scene only",
+          "interaction_label": "sip slowly",
+          "interaction_detail": "The cup has gone lukewarm, which seems on theme.",
+          "purchase_url": ""
+        }
+      ]
+    }
+  ]
+}
