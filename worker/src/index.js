@@ -483,6 +483,52 @@ function stripPngDataUrl(value) {
   return match?.[1] || "";
 }
 
+function ghPagesBase(env) {
+  const [owner, repo] = (env.REPO || "/").split("/");
+  return `https://${owner}.github.io/${repo}`;
+}
+
+function escHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+// GitHub Pages only serves real files, so a direct/shared link to
+// /human-readable/000N needs its own index.html — otherwise it 404s and
+// only the client-side router at the site root can resolve that comic.
+async function writeShareStub(env, submission, title, description) {
+  const base = ghPagesBase(env);
+  const ogTitle = escHtml(`${title} — Human-Readable`);
+  const ogDesc = escHtml((description || "A Human-Readable comic.").slice(0, 300));
+  const ogImage = `${base}/${submission.dir}/comic.png`;
+  const ogUrl = `${base}/${submission.nid}`;
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${ogTitle}</title>
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Human-Readable" />
+  <meta property="og:title" content="${ogTitle}" />
+  <meta property="og:description" content="${ogDesc}" />
+  <meta property="og:image" content="${ogImage}" />
+  <meta property="og:url" content="${ogUrl}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${ogTitle}" />
+  <meta name="twitter:description" content="${ogDesc}" />
+  <meta name="twitter:image" content="${ogImage}" />
+</head>
+<body>
+  <script>location.replace('../#${submission.nid}');<\/script>
+</body>
+</html>`;
+  await ghPut(env, `${submission.nid}/index.html`, b64utf8(html), submission.branch, `Add ${submission.nid}/index.html (share page)`);
+}
+
 async function nextNumber(env) {
   const r = await gh(env, "/contents/comics?ref=main");
   if (!r.ok) throw new Error("Could not inspect the comics directory.");
@@ -576,6 +622,7 @@ async function submitLiving(req, env, body) {
     ).join("\n\n");
     await ghPut(env, `${submission.dir}/script.md`, b64utf8(`# ${title}\n\n**Format:** Living Comic (${story.scenes.length} scenes)\n\n---\n\n${script}\n`), submission.branch, `Add ${submission.dir}/script.md`);
     await ghPut(env, `${submission.dir}/notes.md`, b64utf8(`${seed || story.theme}\n\n---\n\nTheme: ${story.theme}\nAccent: ${story.accent}\n`), submission.branch, `Add ${submission.dir}/notes.md`);
+    await writeShareStub(env, submission, title, seed || story.theme);
 
     const pr = await openDraftPr(env, submission, title,
       `Generated via Living Comic (Beta).\n\n**Idea:** ${seed || "(none)"}\n` +
@@ -640,6 +687,7 @@ async function submitSunday(req, env, body) {
     await ghPut(env, `${submission.dir}/script.md`, b64utf8(`# ${title}\n\n**Format:** ${formatLabel}\n\n---\n\n_Script pending review._\n`), submission.branch, `Add ${submission.dir}/script.md`);
     const notes = `${seed || "_Notes pending review._"}\n\n---\n\n_Generated image. Prompt used:_\n\n> ${prompt.replace(/\n/g, "\n> ")}\n`;
     await ghPut(env, `${submission.dir}/notes.md`, b64utf8(notes), submission.branch, `Add ${submission.dir}/notes.md`);
+    await writeShareStub(env, submission, title, seed);
 
     const pr = await openDraftPr(env, submission, title,
       `Generated via the Sunday Comic create page.\n\n**Idea:** ${seed || "(none)"}\n` +
