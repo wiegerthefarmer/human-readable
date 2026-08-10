@@ -252,6 +252,23 @@
       ],
       "printfulProducts": {},
       "storyboard": ""
+    },
+    {
+      "id": "0020",
+      "slug": "0020-working-for-the-weekend",
+      "title": "Working for the weekend",
+      "image": "comics/0020-working-for-the-weekend/comic.png",
+      "alt": "a bulldog at a desk working for the weekend.",
+      "variants": [
+        {
+          "image": "comics/0020-working-for-the-weekend/variants/v01.png",
+          "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nA single panel.\n\nTell this idea as a short comic, inventing the beats and any dialogue:\n\n\"a bulldog at a desk working for the weekend.\"\n\nLand the ending softly with a realization, a label, or an understated escalation.\n\nDo not explain the joke in text.",
+          "seed": "a bulldog at a desk working for the weekend.",
+          "selected": true
+        }
+      ],
+      "printfulProducts": {},
+      "storyboard": ""
     }
   ]
 }
