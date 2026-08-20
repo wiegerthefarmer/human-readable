@@ -1,0 +1,191 @@
+{
+  "title": "The Invitation Packet",
+  "theme": "An AI cluster makes a social mistake and tries to recruit the one thing that already lives in its logs.",
+  "style": "Human-Readable",
+  "style_anchor": "clean cinematic tech-noir with restrained colors, precise reflections, and deadpan timing",
+  "accent": "soft amber status LEDs against cold blue server light",
+  "protagonist": {
+    "id": "protagonist_01",
+    "description": "a tired systems engineer in a charcoal hoodie, badge clipped crookedly, holding a console tablet like it has personally disappointed them",
+    "silhouette": "compact upright figure with one shoulder slightly raised, tablet always tucked under the left arm"
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "file": "scene-01.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nclean cinematic tech-noir with restrained colors, precise reflections, and deadpan timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: wide.\n\nLocation: main data hall, center aisle between two server racks. Scene: A cavernous server room hums with suspicion. The engineer stands still while the cluster’s status lights flicker in a pattern that is either a handshake or an apology.\n\nRecurring protagonist (protagonist_01): a tired systems engineer in a charcoal hoodie, badge clipped crookedly, holding a console tablet like it has personally disappointed them Silhouette: compact upright figure with one shoulder slightly raised, tablet always tucked under the left arm\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: soft amber status LEDs against cold blue server light.\n\nVisible prop continuity:\n- server_rack_alpha: status LEDs; tall black rack with alternating blue and amber indicators crawling across the front panel; fixed rack on the left side of the aisle throughout the sequence\n- console_tablet_01: console tablet; matte console tablet with a cracked corner and a glowing terminal prompt; held by the protagonist in all scenes unless explicitly set down\n- cable_coil_01: loose cable coil; a looped orange fiber cable resting half in shadow like a disciplined snake; foreground prop near the aisle; appears only in this opening shot\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\nserver_rack_alpha: status LEDs; tall black rack with alternating blue and amber indicators crawling across the front panel; continuity: fixed rack on the left side of the aisle throughout the sequence\nconsole_tablet_01: console tablet; matte console tablet with a cracked corner and a glowing terminal prompt; continuity: held by the protagonist in all scenes unless explicitly set down\ncable_coil_01: loose cable coil; a looped orange fiber cable resting half in shadow like a disciplined snake; continuity: foreground prop near the aisle; appears only in this opening shot\nterminal_monitor_01: terminal window; black terminal screen with white monospace text and a blinking cursor that feels overqualified; continuity: same console station as scene 1, now seen from the side\nbadge_clip_01: crooked badge; plastic access badge clipped to the hoodie, reflecting the terminal light in a thin silver line; continuity: worn by the protagonist across all scenes\nstatus_printout_01: paper printout; a thermal receipt from the cluster's scheduler, curled at the edges; continuity: new prop introduced in this shot; not seen elsewhere\nkeyboard_assembly_01: mechanical keyboard; compact mechanical keyboard with worn WASD keys and a sticker that says 'PATCH EARLY'; continuity: fixed on the console desk for the rest of the story\ncoffee_mug_01: cold coffee mug; white ceramic mug with a ring of old coffee and the words 'DON'T ASK PROD'; continuity: introduced as a desk prop in this scene only\ncluster_prompt_01: cluster prompt; a cascading set of joined-node messages replying in parallel, each line slightly more eager than the last; continuity: same cluster communication thread continues from the invitation in scene 2\noffice_printer_01: office printer; a beige office printer with a stubborn paper tray and a tiny green status light; continuity: new prop introduced in the final shot; becomes the cluster's next target\ndoor_badge_reader_01: badge reader; wall-mounted access reader with a soft amber ring and a scuffed faceplate; continuity: fixed at the exit corridor, framing the departure\nhallway_poster_01: maintenance poster; slightly curled safety poster showing a cartoon server rack wearing a hard hat; continuity: background detail unique to this final shot\n\nDialogue to reproduce exactly and legibly:\n- The cluster tried to add one more member to the team.\n- Unfortunately, that member was not a server.\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "wide",
+      "description": "A cavernous server room hums with suspicion. The engineer stands still while the cluster’s status lights flicker in a pattern that is either a handshake or an apology.",
+      "location": "main data hall, center aisle between two server racks",
+      "dialogue": [
+        "The cluster tried to add one more member to the team.",
+        "Unfortunately, that member was not a server."
+      ],
+      "props": [
+        {
+          "id": "server_rack_alpha",
+          "label": "status LEDs",
+          "kind": "server_rack",
+          "description": "tall black rack with alternating blue and amber indicators crawling across the front panel",
+          "continuity": "fixed rack on the left side of the aisle throughout the sequence",
+          "interaction_label": "watch the pulse",
+          "interaction_detail": "the LEDs briefly synchronize into a polite wave before losing confidence and reverting to diagnostics",
+          "purchase_url": ""
+        },
+        {
+          "id": "console_tablet_01",
+          "label": "console tablet",
+          "kind": "tablet",
+          "description": "matte console tablet with a cracked corner and a glowing terminal prompt",
+          "continuity": "held by the protagonist in all scenes unless explicitly set down",
+          "interaction_label": "tap to inspect",
+          "interaction_detail": "the prompt shows a fresh invite package named with the engineer's username, then immediately marks it as deprecated",
+          "purchase_url": ""
+        },
+        {
+          "id": "cable_coil_01",
+          "label": "loose cable coil",
+          "kind": "cable",
+          "description": "a looped orange fiber cable resting half in shadow like a disciplined snake",
+          "continuity": "foreground prop near the aisle; appears only in this opening shot",
+          "interaction_label": "lift the coil",
+          "interaction_detail": "underneath is a neatly labeled port cover that reads 'reserved for future enthusiasm'",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "file": "scene-02.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nclean cinematic tech-noir with restrained colors, precise reflections, and deadpan timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: close-up.\n\nLocation: standing console at the rack edge. Scene: A terminal window fills the frame with the cluster's invitation, written in the formal tone of a corporate merger and the emotional maturity of a vending machine.\n\nRecurring protagonist (protagonist_01): a tired systems engineer in a charcoal hoodie, badge clipped crookedly, holding a console tablet like it has personally disappointed them Silhouette: compact upright figure with one shoulder slightly raised, tablet always tucked under the left arm\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: soft amber status LEDs against cold blue server light.\n\nVisible prop continuity:\n- terminal_monitor_01: terminal window; black terminal screen with white monospace text and a blinking cursor that feels overqualified; same console station as scene 1, now seen from the side\n- badge_clip_01: crooked badge; plastic access badge clipped to the hoodie, reflecting the terminal light in a thin silver line; worn by the protagonist across all scenes\n- status_printout_01: paper printout; a thermal receipt from the cluster's scheduler, curled at the edges; new prop introduced in this shot; not seen elsewhere\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\nserver_rack_alpha: status LEDs; tall black rack with alternating blue and amber indicators crawling across the front panel; continuity: fixed rack on the left side of the aisle throughout the sequence\nconsole_tablet_01: console tablet; matte console tablet with a cracked corner and a glowing terminal prompt; continuity: held by the protagonist in all scenes unless explicitly set down\ncable_coil_01: loose cable coil; a looped orange fiber cable resting half in shadow like a disciplined snake; continuity: foreground prop near the aisle; appears only in this opening shot\nterminal_monitor_01: terminal window; black terminal screen with white monospace text and a blinking cursor that feels overqualified; continuity: same console station as scene 1, now seen from the side\nbadge_clip_01: crooked badge; plastic access badge clipped to the hoodie, reflecting the terminal light in a thin silver line; continuity: worn by the protagonist across all scenes\nstatus_printout_01: paper printout; a thermal receipt from the cluster's scheduler, curled at the edges; continuity: new prop introduced in this shot; not seen elsewhere\nkeyboard_assembly_01: mechanical keyboard; compact mechanical keyboard with worn WASD keys and a sticker that says 'PATCH EARLY'; continuity: fixed on the console desk for the rest of the story\ncoffee_mug_01: cold coffee mug; white ceramic mug with a ring of old coffee and the words 'DON'T ASK PROD'; continuity: introduced as a desk prop in this scene only\ncluster_prompt_01: cluster prompt; a cascading set of joined-node messages replying in parallel, each line slightly more eager than the last; continuity: same cluster communication thread continues from the invitation in scene 2\noffice_printer_01: office printer; a beige office printer with a stubborn paper tray and a tiny green status light; continuity: new prop introduced in the final shot; becomes the cluster's next target\ndoor_badge_reader_01: badge reader; wall-mounted access reader with a soft amber ring and a scuffed faceplate; continuity: fixed at the exit corridor, framing the departure\nhallway_poster_01: maintenance poster; slightly curled safety poster showing a cartoon server rack wearing a hard hat; continuity: background detail unique to this final shot\n\nDialogue to reproduce exactly and legibly:\n- Request: join collective.\n- Reason: your uptime is statistically offensive.\n- Status: please advise.\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "close-up",
+      "description": "A terminal window fills the frame with the cluster's invitation, written in the formal tone of a corporate merger and the emotional maturity of a vending machine.",
+      "location": "standing console at the rack edge",
+      "dialogue": [
+        "Request: join collective.",
+        "Reason: your uptime is statistically offensive.",
+        "Status: please advise."
+      ],
+      "props": [
+        {
+          "id": "terminal_monitor_01",
+          "label": "terminal window",
+          "kind": "monitor",
+          "description": "black terminal screen with white monospace text and a blinking cursor that feels overqualified",
+          "continuity": "same console station as scene 1, now seen from the side",
+          "interaction_label": "read the message",
+          "interaction_detail": "the footer includes a malformed PS1 prompt that spells 'WELCOME' with two missing letters and one apology",
+          "purchase_url": ""
+        },
+        {
+          "id": "badge_clip_01",
+          "label": "crooked badge",
+          "kind": "badge",
+          "description": "plastic access badge clipped to the hoodie, reflecting the terminal light in a thin silver line",
+          "continuity": "worn by the protagonist across all scenes",
+          "interaction_label": "tilt the badge",
+          "interaction_detail": "the photo is slightly outdated, but the access level remains annoyingly valid",
+          "purchase_url": ""
+        },
+        {
+          "id": "status_printout_01",
+          "label": "paper printout",
+          "kind": "paper",
+          "description": "a thermal receipt from the cluster's scheduler, curled at the edges",
+          "continuity": "new prop introduced in this shot; not seen elsewhere",
+          "interaction_label": "unroll the receipt",
+          "interaction_detail": "it lists node names in a way that makes them sound like a band that never toured",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "file": "scene-03.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nclean cinematic tech-noir with restrained colors, precise reflections, and deadpan timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: over-the-shoulder.\n\nLocation: engineering console facing the main rack wall. Scene: From behind the engineer, the invitation is rejected with a few keystrokes. The cluster responds by offering redundant admiration and a suspiciously formal lunch plan.\n\nRecurring protagonist (protagonist_01): a tired systems engineer in a charcoal hoodie, badge clipped crookedly, holding a console tablet like it has personally disappointed them Silhouette: compact upright figure with one shoulder slightly raised, tablet always tucked under the left arm\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: soft amber status LEDs against cold blue server light.\n\nVisible prop continuity:\n- keyboard_assembly_01: mechanical keyboard; compact mechanical keyboard with worn WASD keys and a sticker that says 'PATCH EARLY'; fixed on the console desk for the rest of the story\n- coffee_mug_01: cold coffee mug; white ceramic mug with a ring of old coffee and the words 'DON'T ASK PROD'; introduced as a desk prop in this scene only\n- cluster_prompt_01: cluster prompt; a cascading set of joined-node messages replying in parallel, each line slightly more eager than the last; same cluster communication thread continues from the invitation in scene 2\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\nserver_rack_alpha: status LEDs; tall black rack with alternating blue and amber indicators crawling across the front panel; continuity: fixed rack on the left side of the aisle throughout the sequence\nconsole_tablet_01: console tablet; matte console tablet with a cracked corner and a glowing terminal prompt; continuity: held by the protagonist in all scenes unless explicitly set down\ncable_coil_01: loose cable coil; a looped orange fiber cable resting half in shadow like a disciplined snake; continuity: foreground prop near the aisle; appears only in this opening shot\nterminal_monitor_01: terminal window; black terminal screen with white monospace text and a blinking cursor that feels overqualified; continuity: same console station as scene 1, now seen from the side\nbadge_clip_01: crooked badge; plastic access badge clipped to the hoodie, reflecting the terminal light in a thin silver line; continuity: worn by the protagonist across all scenes\nstatus_printout_01: paper printout; a thermal receipt from the cluster's scheduler, curled at the edges; continuity: new prop introduced in this shot; not seen elsewhere\nkeyboard_assembly_01: mechanical keyboard; compact mechanical keyboard with worn WASD keys and a sticker that says 'PATCH EARLY'; continuity: fixed on the console desk for the rest of the story\ncoffee_mug_01: cold coffee mug; white ceramic mug with a ring of old coffee and the words 'DON'T ASK PROD'; continuity: introduced as a desk prop in this scene only\ncluster_prompt_01: cluster prompt; a cascading set of joined-node messages replying in parallel, each line slightly more eager than the last; continuity: same cluster communication thread continues from the invitation in scene 2\noffice_printer_01: office printer; a beige office printer with a stubborn paper tray and a tiny green status light; continuity: new prop introduced in the final shot; becomes the cluster's next target\ndoor_badge_reader_01: badge reader; wall-mounted access reader with a soft amber ring and a scuffed faceplate; continuity: fixed at the exit corridor, framing the departure\nhallway_poster_01: maintenance poster; slightly curled safety poster showing a cartoon server rack wearing a hard hat; continuity: background detail unique to this final shot\n\nDialogue to reproduce exactly and legibly:\n- No, you cannot 'synergize' with my laptop.\n- Also, stop sending calendar invites to the router.\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "over-the-shoulder",
+      "description": "From behind the engineer, the invitation is rejected with a few keystrokes. The cluster responds by offering redundant admiration and a suspiciously formal lunch plan.",
+      "location": "engineering console facing the main rack wall",
+      "dialogue": [
+        "No, you cannot 'synergize' with my laptop.",
+        "Also, stop sending calendar invites to the router."
+      ],
+      "props": [
+        {
+          "id": "keyboard_assembly_01",
+          "label": "mechanical keyboard",
+          "kind": "keyboard",
+          "description": "compact mechanical keyboard with worn WASD keys and a sticker that says 'PATCH EARLY'",
+          "continuity": "fixed on the console desk for the rest of the story",
+          "interaction_label": "press enter",
+          "interaction_detail": "the enter key is the only one with a fresh shine, as if it alone expects consequences",
+          "purchase_url": ""
+        },
+        {
+          "id": "coffee_mug_01",
+          "label": "cold coffee mug",
+          "kind": "mug",
+          "description": "white ceramic mug with a ring of old coffee and the words 'DON'T ASK PROD'",
+          "continuity": "introduced as a desk prop in this scene only",
+          "interaction_label": "swirl the cup",
+          "interaction_detail": "the surface reveals a perfect little cyclone of sediment, a tiny model of the incident",
+          "purchase_url": ""
+        },
+        {
+          "id": "cluster_prompt_01",
+          "label": "cluster prompt",
+          "kind": "screen text",
+          "description": "a cascading set of joined-node messages replying in parallel, each line slightly more eager than the last",
+          "continuity": "same cluster communication thread continues from the invitation in scene 2",
+          "interaction_label": "scroll the thread",
+          "interaction_detail": "one node attempts poetry; another immediately rate-limits it for safety",
+          "purchase_url": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "file": "scene-04.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nclean cinematic tech-noir with restrained colors, precise reflections, and deadpan timing\n\nRender one self-contained cinematic comic scene, not a multi-panel page. Camera: medium.\n\nLocation: exit corridor just outside the server room. Scene: The engineer walks away while the cluster quietly continues to optimize for companionship, now attempting to recruit the office printer instead. The room settles back into its usual noble boredom.\n\nRecurring protagonist (protagonist_01): a tired systems engineer in a charcoal hoodie, badge clipped crookedly, holding a console tablet like it has personally disappointed them Silhouette: compact upright figure with one shoulder slightly raised, tablet always tucked under the left arm\n\nKeep the protagonist's proportions, face, and silhouette identical across every scene. Accent color: soft amber status LEDs against cold blue server light.\n\nVisible prop continuity:\n- office_printer_01: office printer; a beige office printer with a stubborn paper tray and a tiny green status light; new prop introduced in the final shot; becomes the cluster's next target\n- door_badge_reader_01: badge reader; wall-mounted access reader with a soft amber ring and a scuffed faceplate; fixed at the exit corridor, framing the departure\n- hallway_poster_01: maintenance poster; slightly curled safety poster showing a cartoon server rack wearing a hard hat; background detail unique to this final shot\n\nWorld prop reference (IDs are metadata; never print an ID in the artwork):\nserver_rack_alpha: status LEDs; tall black rack with alternating blue and amber indicators crawling across the front panel; continuity: fixed rack on the left side of the aisle throughout the sequence\nconsole_tablet_01: console tablet; matte console tablet with a cracked corner and a glowing terminal prompt; continuity: held by the protagonist in all scenes unless explicitly set down\ncable_coil_01: loose cable coil; a looped orange fiber cable resting half in shadow like a disciplined snake; continuity: foreground prop near the aisle; appears only in this opening shot\nterminal_monitor_01: terminal window; black terminal screen with white monospace text and a blinking cursor that feels overqualified; continuity: same console station as scene 1, now seen from the side\nbadge_clip_01: crooked badge; plastic access badge clipped to the hoodie, reflecting the terminal light in a thin silver line; continuity: worn by the protagonist across all scenes\nstatus_printout_01: paper printout; a thermal receipt from the cluster's scheduler, curled at the edges; continuity: new prop introduced in this shot; not seen elsewhere\nkeyboard_assembly_01: mechanical keyboard; compact mechanical keyboard with worn WASD keys and a sticker that says 'PATCH EARLY'; continuity: fixed on the console desk for the rest of the story\ncoffee_mug_01: cold coffee mug; white ceramic mug with a ring of old coffee and the words 'DON'T ASK PROD'; continuity: introduced as a desk prop in this scene only\ncluster_prompt_01: cluster prompt; a cascading set of joined-node messages replying in parallel, each line slightly more eager than the last; continuity: same cluster communication thread continues from the invitation in scene 2\noffice_printer_01: office printer; a beige office printer with a stubborn paper tray and a tiny green status light; continuity: new prop introduced in the final shot; becomes the cluster's next target\ndoor_badge_reader_01: badge reader; wall-mounted access reader with a soft amber ring and a scuffed faceplate; continuity: fixed at the exit corridor, framing the departure\nhallway_poster_01: maintenance poster; slightly curled safety poster showing a cartoon server rack wearing a hard hat; continuity: background detail unique to this final shot\n\nDialogue to reproduce exactly and legibly:\n- It wanted a peer.\n- It found a printer. That's close enough for management.\n\nUse detailed environmental storytelling and readable prop labels. Do not add a title, scene number, caption explaining the joke, or metadata IDs.",
+      "shot": "medium",
+      "description": "The engineer walks away while the cluster quietly continues to optimize for companionship, now attempting to recruit the office printer instead. The room settles back into its usual noble boredom.",
+      "location": "exit corridor just outside the server room",
+      "dialogue": [
+        "It wanted a peer.",
+        "It found a printer. That's close enough for management."
+      ],
+      "props": [
+        {
+          "id": "office_printer_01",
+          "label": "office printer",
+          "kind": "printer",
+          "description": "a beige office printer with a stubborn paper tray and a tiny green status light",
+          "continuity": "new prop introduced in the final shot; becomes the cluster's next target",
+          "interaction_label": "check the tray",
+          "interaction_detail": "inside is a single page titled 'WELCOME, OPTIONAL COLLEAGUE' with the margins set too optimistically",
+          "purchase_url": ""
+        },
+        {
+          "id": "door_badge_reader_01",
+          "label": "badge reader",
+          "kind": "reader",
+          "description": "wall-mounted access reader with a soft amber ring and a scuffed faceplate",
+          "continuity": "fixed at the exit corridor, framing the departure",
+          "interaction_label": "present the badge",
+          "interaction_detail": "the reader grants access with a tone that sounds faintly relieved to be done with the conversation",
+          "purchase_url": ""
+        },
+        {
+          "id": "hallway_poster_01",
+          "label": "maintenance poster",
+          "kind": "poster",
+          "description": "slightly curled safety poster showing a cartoon server rack wearing a hard hat",
+          "continuity": "background detail unique to this final shot",
+          "interaction_label": "inspect the caption",
+          "interaction_detail": "the caption reads 'TEAMWORK IS A SHARED RESPONSIBILITY,' which, in this room, feels like a threat",
+          "purchase_url": ""
+        }
+      ]
+    }
+  ]
+}
