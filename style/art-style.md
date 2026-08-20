@@ -51,16 +51,26 @@ For full-page comics:
 
 Potential recurring elements:
 
-- whiteboards
-- coffee mugs
-- terminals
-- network diagrams
-- sticky notes
-- status dashboards
-- server racks
+- whiteboards and chalkboards
+- coffee mugs and thermoses
+- terminals and monitors
+- handwritten notes and sticky notes
+- overheard quotes treated like field notes
 - cats sitting in the wrong place
 - tiny labels that are almost too specific
-- overheard quotes treated like field notes
+- reference manuals, binders, or printouts
+- hand-drawn diagrams on paper
+- tools, cables, or objects labeled for a purpose they no longer serve
+
+Settings are not limited to offices or server rooms. Comics may be set in:
+
+- home offices and kitchens
+- university departments and labs
+- maker spaces and workshops
+- garden sheds and garages
+- community radio stations or small venues
+- libraries or archive rooms
+- the outdoors, with technology present
 
 ## AI Character Rule
 

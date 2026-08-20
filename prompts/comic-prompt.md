@@ -46,5 +46,6 @@ Important constraints:
 - Keep the final beat understated.
 - Prefer human/system mismatch over generic tech humor.
 - Make invisible assumptions or technical culture visible.
-- Whiteboards, terminals, diagrams, and labels may be used when helpful.
+- Visual props (whiteboards, terminals, tools, diagrams) should fit the scene naturally — do not default to an office or server room.
+- Settings can include homes, workshops, labs, libraries, the outdoors, or anywhere the seed sentence plausibly comes from.
 - AI characters should appear only if AI is part of the seed sentence, prompt, or scene.
