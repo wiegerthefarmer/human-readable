@@ -1,0 +1,28 @@
+{
+  "variants": [
+    {
+      "file": "v01.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nA single panel.\n\nTell this idea as a short comic, inventing the beats and any dialogue:\n\n\"\"and its not fun. we went from thinkers and potential to just reviewing code all day long with pressure on us all the time. reviewing code has always been the word part of the job. On top of that, when anything goes wrong its the enginer, when anything goes right or a clever solution is devleoped the ai gets the credit. It's lose lose.\"\n\n\"Ya'll need to unionize\"\n\n\"Too late, the AI has a better union now.\"\n\n\"Claude is my union rep.\"\"\n\nLand the ending softly with a realization, a label, or an understated escalation.\n\nDo not explain the joke in text.",
+      "seed": "Too late, the AI has a better union now.",
+      "selected": false
+    },
+    {
+      "file": "v02.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nArrange as a single horizontal row of 3 equal panels.\n\nTell this idea as a short comic, inventing the beats and any dialogue:\n\n\"\"and its not fun. we went from thinkers and potential to just reviewing code all day long with pressure on us all the time. reviewing code has always been the word part of the job. On top of that, when anything goes wrong its the enginer, when anything goes right or a clever solution is devleoped the ai gets the credit. It's lose lose.\"\n\n\"Ya'll need to unionize\"\n\n\"Too late, the AI has a better union now.\"\n\n\"Claude is my union rep.\"\"\n\nLand the ending softly with a realization, a label, or an understated escalation.\n\nDo not explain the joke in text.",
+      "seed": "Too late, the AI has a better union now.",
+      "selected": false
+    },
+    {
+      "file": "v03.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nA single panel.\n\nTell this idea as a short comic, inventing the beats and any dialogue:\n\n\"Conversation between several people. Take the idea, not the exact words.\n\n...And its not fun. we went from thinkers and potential to just reviewing code all day long with pressure on us all the time. reviewing code has always been the word part of the job. On top of that, when anything goes wrong its the enginer, when anything goes right or a clever solution is devleoped the ai gets the credit. It's lose lose.\n\nYa'll need to unionize\n\nToo late, the AI has a better union now.\n\nClaude is my union rep.\"\n\nLand the ending softly with a realization, a label, or an understated escalation.\n\nDo not explain the joke in text.",
+      "seed": "Too late, the AI has a better union now.",
+      "selected": false
+    },
+    {
+      "file": "v04.png",
+      "prompt": "Human-Readable house style: a mostly monochrome, hand-drawn editorial webcomic. The recurring protagonist is a minimalist stick figure with a round head, dot eyes, and a consistent silhouette. Backgrounds are detailed and grounded; characters remain deliberately simple. Use clean black ink, restrained hatching, and at most one warm orange accent color. Dialogue is short, legible, and hand-lettered in plain speech bubbles. The humor is dry, observational, technically aware, and never explained.\n\nA single panel.\n\nTell this idea as a short comic, inventing the beats and any dialogue:\n\n\"Too late, the AI has a better union now.\"\n\nLand the ending softly with a realization, a label, or an understated escalation.\n\nDo not explain the joke in text.",
+      "seed": "Too late, the AI has a better union now.",
+      "selected": true
+    }
+  ]
+}
