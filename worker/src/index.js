@@ -20,6 +20,7 @@ const STYLE_PREAMBLE = [
   "Use clean black ink, restrained hatching, and at most one warm orange accent color.",
   "Dialogue is short, legible, and hand-lettered in plain speech bubbles.",
   "The humor is dry, observational, technically aware, and never explained.",
+  "Every piece of lettering, including small background details like mug or sign text, must render as real, correctly spelled words — never warped, misshapen, or nonsense characters. If a background label would be too small to render cleanly, simplify or shorten it rather than risk illegible lettering.",
 ].join(" ");
 
 const FORMATS = {
@@ -329,7 +330,7 @@ async function openaiEditRaw(env, b64Image, prompt, fmt) {
   form.append("image", b64ToBlob(b64Image), "comic.png");
   form.append("model", env.IMAGE_MODEL || "gpt-image-2");
   form.append("prompt",
-    `${prompt}\n\nEnhance quality and linework clarity. Keep the exact same composition, panel layout, characters, text, and visual beats.`
+    `${prompt}\n\nEnhance quality and linework clarity. Keep the exact same composition, panel layout, characters, and visual beats — but redraw every piece of text cleanly so it is correctly spelled and fully legible, rather than preserving any warped or garbled lettering from the source image.`
   );
   form.append("size", FORMATS[fmt]?.size || "1536x1024");
   form.append("quality", "high");
